@@ -15,42 +15,9 @@ public class Comentario {
 
     private int id_comentario;
     private String comentario;
-    private Date data_comentario;
+    private Date data_comentario; //Data de quando foi feito o comentário
+    private Pessoa nome_remetente; // Nome de quem escreveu o comentário
+    
 
-    /*Método construtor*/
-    public Comentario(int id_comentario, String comentario, Date data_comentario) {
-        this.id_comentario = id_comentario;
-        this.comentario = comentario;
-        this.data_comentario = data_comentario;
-    }
-
-    /*Método construtor vazio*/
-    public Comentario() {
-
-    }
-
-    public int getId_comentario() {
-        return id_comentario;
-    }
-
-    public void setId_comentario(int id_comentario) {
-        this.id_comentario = id_comentario;
-    }
-
-    public String getComentario() {
-        return comentario;
-    }
-
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
-
-    public Date getData_comentario() {
-        return data_comentario;
-    }
-
-    public void setData_comentario(Date data_comentario) {
-        this.data_comentario = data_comentario;
-    }
 
 }
