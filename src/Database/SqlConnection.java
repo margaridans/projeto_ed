@@ -1,5 +1,6 @@
 package Database;
 
+import Classes.Pessoa;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -54,8 +55,8 @@ public class SqlConnection {
         try {
             stm = connection.createStatement();
             String sqlTable = "CREATE TABLE " + TABELA_PESSOA
-                    + " (EMAIL VARCHAR(50) PRIMARY KEY NOT NULL,"
-                    + "NOME_USER VARCHAR(50) NOT NULL,"
+                    + " (USER_EMAIL VARCHAR(50) PRIMARY KEY NOT NULL,"
+                    + "USER_NOME VARCHAR(50) NOT NULL,"
                     + "PASSWORD VARCHAR(50) NOT NULL)";
 
             stm.executeUpdate(sqlTable);
@@ -71,11 +72,13 @@ public class SqlConnection {
             stm = connection.createStatement();
             stm.execute("PRAGMA foreign_keys = ON");
             String sqlTable = "CREATE TABLE " + TABELA_MENSAGEM
-                    + " (ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "CONTEUDO VARCHAR(100) NOT NULL,"
-                    + "DATA TEXT NOT NULL,"
+                    + " (ID_MENSAGEM INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "CONTEUDO_MSG VARCHAR(100) NOT NULL,"
+                    + "DATA_PUBLICACAO TEXT NOT NULL,"
                     + "USER_EMAIL VARCHAR(50) NOT NULL,"
-                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Person(EMAIL))";
+                    + "ID_TIPO_MENSAGEM INTEGER NOT NULL,"
+                    + "FOREIGN KEY(ID_TIPO_MENSAGEM) REFERENCES TipoMensagem(ID_TIPO_MENSAGEM),"
+                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Pessoa(EMAIL))";
 
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
@@ -90,15 +93,17 @@ public class SqlConnection {
             stm = connection.createStatement();
             stm.execute("PRAGMA foreign_keys = ON");
             String sqlTable = "CREATE TABLE " + TABELA_COMENTARIO
-                    + " (ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "CONTEUDO VARCHAR(100) NOT NULL,"
-                    + "DATA TEXT NOT NULL,"
+                    + " (ID_COMENTARIO INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "CONTEUDO_COMENT VARCHAR(100) NOT NULL,"
+                    + "DATA_COMENT TEXT NOT NULL,"
                     + "USER_EMAIL VARCHAR(50) NOT NULL,"
-                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Person(EMAIL))";
+                    + "ID_MENSAGEM INTEGER NOT NULL,"
+                    + "FOREIGN KEY(ID_MENSAGEM) REFERENCES Comentario(ID_COMENTARIO),"
+                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Pessoa(EMAIL))";
 
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
-            System.out.println("A tabela 'Comentário' já existe!");
+            System.out.println("A tabela 'Comentario' já existe!");
         }
     }
 
@@ -109,12 +114,8 @@ public class SqlConnection {
             stm = connection.createStatement();
             stm.execute("PRAGMA foreign_keys = ON");
             String sqlTable = "CREATE TABLE " + TABELA_TIPO_MENSAGEM
-                    + " (ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "CONTEUDO VARCHAR(100) NOT NULL,"
-                    + "DATA TEXT NOT NULL,"
-                    + "USER_EMAIL VARCHAR(50) NOT NULL,"
-                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Person(EMAIL))";
-
+                    + " (ID_TIPO_MENSAGEM INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "TIPO_MENSAGEM VARCHAR(50) NOT NULL";
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
             System.out.println("A tabela 'Tipo Mensagem' já existe!");
@@ -127,11 +128,8 @@ public class SqlConnection {
             stm = connection.createStatement();
             stm.execute("PRAGMA foreign_keys = ON");
             String sqlTable = "CREATE TABLE " + TABELA_AMIZADE
-                    + " (ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "CONTEUDO VARCHAR(100) NOT NULL,"
-                    + "DATA TEXT NOT NULL,"
-                    + "USER_EMAIL VARCHAR(50) NOT NULL,"
-                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Person(EMAIL))";
+                    + " (USER_EMAIL VARCHAR(50) PRIMARY KEY NOT NULL,"
+                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Pessoa(USER_EMAIL))";
 
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
@@ -139,128 +137,32 @@ public class SqlConnection {
         }
     }
 
-//
-//    /**
-//     * Inserir edges na tabela de Edges
-//     *
-//     * @param edge ligação entre dois pontos na Network
-//     * @param id número de identificação d Edge na base de dados
-//     */
-//    public void insertToEdgeTable(Edge edge, int id) {
-//        Statement statement = null;
-//
-//        try {
-//            connection.setAutoCommit(false);
-//            statement = connection.createStatement();
-//            String insert = "INSERT INTO " + TABLE_NAME_EDGES
-//                    + "(ID,ORIGIN,DESTINATION,TIME,DISTANCE) " + "VALUES (" + id + ","
-//                    + edge.getOrigin() + ","
-//                    + edge.getDestination() + ","
-//                    + edge.getTime() + ","
-//                    + edge.getDistance() + ");";
-//
-//            statement.executeUpdate(insert);
-//            connection.commit();
-//            statement.close();
-//
-//        } catch (SQLException ex) {
-//            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-//        }
-//    }
-//
-//    /**
-//     * Executar uma consulta à base de dados obter uma lista de Edges a partir
-//     * de um ficheiro de base de dados
-//     *
-//     * @param whereCondition filtro de consulta para distância inferiores a um
-//     * valor
-//     * @return LinkedUnorderedList com referências a uma lista de edges
-//     */
-//    public LinkedUnorderedList<Edge> selectFromEdges(String whereCondition) {
-//        boolean tableExists = false;
-//        Edge edge;
-//        Statement statement;
-//        LinkedUnorderedList<Edge> edgeList = new LinkedUnorderedList();
-//        String select = "SELECT ORIGIN,DESTINATION,TIME,DISTANCE FROM " + TABLE_NAME_EDGES + whereCondition;
-//        try {
-//            statement = connection.createStatement();
-//            try (ResultSet result = statement.executeQuery(select)) {
-//                while (result.next()) {
-//                    tableExists = true;
-//                    edge = new Edge();
-//                    edge.setOrigin(result.getString("ORIGIN"));
-//                    edge.setDestination(result.getString("DESTINATION"));
-//                    edge.setTime(result.getDouble("TIME"));
-//                    edge.setDistance(result.getDouble("DISTANCE"));
-//                    edgeList.addToRear(edge);
-//
-//                }
-//            }
-//            if (!tableExists) {
-//                return null;
-//            }
-//            statement.close();
-//        } catch (SQLException ex) {
-//            return null;
-//        }
-//        return edgeList;
-//    }
-//
-//    /**
-//     * Executar uma consulta à base de dados e obter um Edge de acordo com o seu
-//     * ponto de origem e seu ponto de destino
-//     *
-//     * @param origin ponto de origem do Edge
-//     * @param destination ponto de destino do Edge
-//     * @return Edge caso exista na base de dados, null se não existir
-//     */
-//    public Edge selectEdgeFromEdges(String origin, String destination) {
-//        String whereCondition = " WHERE '" + origin + "' = ORIGIN " + "AND '" + destination + "' = DESTINATION;";
-//        boolean tableExists = false;
-//        Edge edge = null;
-//        Statement statement;
-//        String select = "SELECT ORIGIN,DESTINATION,TIME,DISTANCE FROM " + TABLE_NAME_EDGES + whereCondition;
-//        try {
-//            statement = connection.createStatement();
-//            try (ResultSet result = statement.executeQuery(select)) {
-//                tableExists = true;
-//                edge = new Edge();
-//                edge.setOrigin(result.getString("ORIGIN"));
-//                edge.setDestination(result.getString("DESTINATION"));
-//                edge.setTime(result.getDouble("TIME"));
-//                edge.setDistance(result.getDouble("DISTANCE"));
-//            }
-//            if (!tableExists) {
-//                return null;
-//            }
-//            statement.close();
-//        } catch (SQLException ex) {
-//            return null;
-//        }
-//        return edge;
-//    }
-//
-//    /**
-//     * Executar uma query à base de dados para consultar o número de ligações
-//     * armazenadas na base de dados
-//     *
-//     * @return número de Edges armazenados na base de dados
-//     */
-//    public int selectNumRows() {
-//        Statement statement = null;
-//        String select = "SELECT COUNT(ID) AS i FROM " + TABLE_NAME_EDGES;
-//        ResultSet result;
-//        int num = 0;
-//        try {
-//            statement = connection.createStatement();
-//            result = statement.executeQuery(select);
-//            num = result.getInt("i");
-//            statement.close();
-//        } catch (SQLException ex) {
-//            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-//        }
-//        return num;
-//    }
+
+    /**
+     * Inserir utilizadores na tabela Pessoas
+     *
+     * @param user - nó num grafo que representa uma pessoa
+     */
+    public void inserirPessoa(Pessoa user) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String insert = "INSERT INTO " + TABELA_PESSOA
+                    + "(USER_EMAIL, USER_NOME, PASSWORD) " + "VALUES ( " + user.getUser_email() + ","
+                    + user.getUser_nome()+ ","
+                    + user.getPassword()+  ");";
+
+            statement.executeUpdate(insert);
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
+
     /**
      * Fechar a connexão à base de dados
      */
