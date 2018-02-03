@@ -13,14 +13,24 @@ public class Pessoa {
 
     private String user_nome, user_email, password;
 
-    /*Método construtor*/
+    /**
+     * Método construtor que permite a criação de uma nova instância de
+     * {@link Pessoa}
+     *
+     * @param user_nome nome do utilizador
+     * @param user_email email do utlizador
+     * @param password password do utilizador
+     */
     public Pessoa(String user_nome, String user_email, String password) {
         this.user_nome = user_nome;
         this.user_email = user_email;
         this.password = password;
     }
 
-    /*Método construtor vazio*/
+    /**
+     * Método construtor que permite a criação de uma instância de
+     * {@link Pessoa} vazia
+     */
     public Pessoa() {
     }
 

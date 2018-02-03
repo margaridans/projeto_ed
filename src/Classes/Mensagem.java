@@ -15,8 +15,8 @@ import java.util.Date;
 public class Mensagem {
 
     private int id_mensagem;
-    private String conteudo_msg; // Descrição da mensagem
-    private Date data_publicacao; // 
+    private String conteudo_msg; 
+    private Date data_publicacao; 
     private TipoMensagem tipoMensagem;
     private Pessoa email_user;
 
@@ -37,8 +37,8 @@ public class Mensagem {
         this.tipoMensagem = tipoMensagem;
         this.email_user = email_user;
     }
-    
-        /**
+
+    /**
      * Método construtor que permite a criação de uma nova instância de
      * {@link Mensagem}
      *
@@ -55,7 +55,8 @@ public class Mensagem {
     }
 
     /**
-     * Método construtor que permite a criação de uma instância de {@link Mensagem} vazia
+     * Método construtor que permite a criação de uma instância de
+     * {@link Mensagem} vazia
      */
     public Mensagem() {
     }

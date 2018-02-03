@@ -15,11 +15,20 @@ public class Comentario {
 
     private int id_comentario;
     private String comentario;
-    private Date data_comentario; //Data de quando foi feito o comentário
-    private Pessoa email_user; // Email de quem escreveu o comentário
-    private Mensagem id_mensagem; // Id da mensagem associada ao comentário
+    private Date data_comentario;
+    private Pessoa email_user;
+    private Mensagem id_mensagem;
 
-    /*Método construtor*/
+    /**
+     * Método construtor que permite a criação de uma nova instância de
+     * {@link Comentario}
+     *
+     * @param id_comentario id_comentario
+     * @param comentario conteudo do comentário
+     * @param data_comentario data de quando foi feito o comentário
+     * @param email_user email de quem escreveu o comentário
+     * @param id_mensagem id da mensagem associada ao comentário
+     */
     public Comentario(int id_comentario, String comentario, Date data_comentario, Pessoa email_user, Mensagem id_mensagem) {
         this.id_comentario = id_comentario;
         this.comentario = comentario;
@@ -28,14 +37,29 @@ public class Comentario {
         this.id_mensagem = id_mensagem;
     }
 
-    /*Método construtor vazio*/
+    /**
+     * Método construtor que permite a criação de uma nova instância de
+     * {@link Comentario}
+     *
+     * @param comentario conteudo do comentário
+     * @param data_comentario data de quando foi feito o comentário
+     * @param email_user email de quem escreveu o comentário
+     * @param id_mensagem id da mensagem associada ao comentário
+     */
+    public Comentario(String comentario, Date data_comentario, Pessoa email_user, Mensagem id_mensagem) {
+        this.comentario = comentario;
+        this.data_comentario = data_comentario;
+        this.email_user = email_user;
+        this.id_mensagem = id_mensagem;
+    }
+
+    /**
+     * Método construtor que permite a criação de uma instância de
+     * {@link Comentario} vazia
+     */
     public Comentario() {
     }
 
-    
-    
-    
-    
     public int getId_comentario() {
         return id_comentario;
     }
@@ -75,9 +99,5 @@ public class Comentario {
     public void setId_mensagem(Mensagem id_mensagem) {
         this.id_mensagem = id_mensagem;
     }
-    
-    
-    
-
 
 }
