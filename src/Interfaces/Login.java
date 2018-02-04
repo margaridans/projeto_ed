@@ -10,6 +10,7 @@ import Database.SqlConnection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import projeto_ed.Projeto_ed;
 
 /**
  *
@@ -166,8 +167,9 @@ public class Login extends javax.swing.JFrame {
         SqlConnection sql = new SqlConnection();
         try {
             if (sql.ifExisteLogin(textField3.getText(), jPasswordField1.getText()) == true) {
-                System.out.println("Entrou com sucesso");
 
+                System.out.println("Bem vindo " + textField3.getText());
+              
             } else {
                 System.out.println("Ainda não se encontra registado");
 
@@ -182,7 +184,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_textField3ActionPerformed
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-    dispose();
+        dispose();
     }//GEN-LAST:event_button2ActionPerformed
 
     /**
