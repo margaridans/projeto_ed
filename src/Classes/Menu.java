@@ -5,6 +5,7 @@
  */
 package Classes;
 
+import Classes.Enumeracoes.TipoMensagem;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -42,26 +43,36 @@ public class Menu {
 
             String lerMensagem = in.readLine();
             String mensagem_conteudo = lerMensagem;
-            System.out.println("Pretende guardar a mensagem? S/N");
+
+            System.out.println("\n \n");
+            System.out.println("A sua mensagem vai ser de que tipo: (1 - Privada/ 2 - Pública) ");
+           
+            String lerTipoMensagem = in.readLine();
+            if ("1".equals(lerTipoMensagem)) {
+
+            } else if ("2".equals(lerTipoMensagem)) {
+                System.out.println("O tipo da sua mensagem apenas pode ser pública ou privada");
+
+            }
+            if (" ".equals(mensagem_conteudo)) {
+                System.out.println("A sua mensagem está em branco, pretende guardar na mesma? S/N");
+                String lerOpcaoMensagem = in.readLine();
+
+            } else {
+                System.out.println("Pretende guardar a mensagem? S/N");
+                String lerOpcaoMensagem = in.readLine();
+
+            }
             String lerOpcaoMensagem = in.readLine();
             if ("S".equals(lerOpcaoMensagem)) {
-                System.out.println("A sua mensagem vai ser de que tipo: (privada/pública) ");
-                String lerTipoMensagem = in.readLine();
-
-                if ("Privada".equals(lerTipoMensagem) && "Publica".equals(lerTipoMensagem)) {
-                    String tipoMensagem = lerTipoMensagem;
-
-                } else {
-                    System.out.println("O tipo da sua mensagem apenas pode ser pública ou privada");
-
-                }
 
             } else if ("N".equals(lerOpcaoMensagem)) {
                 System.out.println("A sua mensagem não foi guardada");
 
             }
-        } else if ("2".equals(escolha)) {
+        } else if ("3".equals(escolha)) {
             System.out.println("A sua sessão foi terminada. Até à próxima");
+            user_logado = null;
             Projeto_ed inicio = new Projeto_ed();
         }
     }

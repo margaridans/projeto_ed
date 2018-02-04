@@ -44,6 +44,7 @@ public class SqlConnection {
                 criarTabelaComentario();
                 criarTabelaTipoMensagem();
                 criarTabelaAmizade();
+                inserirTipoMensagem();
             }
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -168,9 +169,9 @@ public class SqlConnection {
     }
 
     /**
-     * Inserir utilizadores na tabela Pessoas
+     * Inserir mensagens na tabela Mensagens
      *
-     * @param msg 
+     * @param msg
      */
     public void inserirMensagem(Mensagem msg) {
         Statement statement = null;
@@ -179,10 +180,10 @@ public class SqlConnection {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
             String insert = "INSERT INTO " + TABELA_MENSAGEM
-                    + "(CONTEUDO, DATA_PUBLICACAO, USER_EMAIL, ID_TIPO_MENSAGEM) " + "VALUES ( '" + msg.getConteudo_msg()+ "'" + ",'"
-                    + msg.getData_publicacao()+ "'" + ",'"
-                    + msg.getEmail_user()+ "'" + ",'"
-                    + msg.getTipoMensagem()+ "');";
+                    + "(CONTEUDO, DATA_PUBLICACAO, USER_EMAIL, ID_TIPO_MENSAGEM) " + "VALUES ( '" + msg.getConteudo_msg() + "'" + ",'"
+                    + msg.getData_publicacao() + "'" + ",'"
+                    + msg.getEmail_user() + "'" + ",'"
+                    + msg.getTipoMensagem() + "');";
 
             statement.executeUpdate(insert);
 
@@ -193,8 +194,32 @@ public class SqlConnection {
             System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
         }
     }
-    
 
+    /**
+     * Inserir tipos de mensagens na tabela Mensagens
+     *
+     * @param msg
+     */
+    public void inserirTipoMensagem() {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String insert = "INSERT INTO " + TABELA_TIPO_MENSAGEM
+                    + "(TIPO_MENSAGEM) " + "VALUES ('Pública')";
+            String insert1 = "INSERT INTO " + TABELA_TIPO_MENSAGEM
+                    + "(TIPO_MENSAGEM) " + "VALUES ('Privada')";
+            statement.executeUpdate(insert);
+            statement.executeUpdate(insert1);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
 
     public boolean ifExiste(String email) throws SQLException {
         connection.setAutoCommit(false);

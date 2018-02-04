@@ -176,6 +176,7 @@ public class Login extends javax.swing.JFrame {
 
             } else {
                 System.out.println("Ainda não se encontra registado");
+                Projeto_ed inicio = new Projeto_ed();
 
             }
         } catch (SQLException ex) {

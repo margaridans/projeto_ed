@@ -30,7 +30,7 @@ public class Registo extends javax.swing.JFrame {
         initComponents();
     }
 
-    private Registo() {
+    Registo() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
