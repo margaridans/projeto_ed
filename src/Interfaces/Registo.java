@@ -5,6 +5,8 @@
  */
 package Interfaces;
 
+import Classes.Pessoa;
+import Database.SqlConnection;
 import projeto_ed.Projeto_ed;
 
 /**
@@ -18,7 +20,7 @@ public class Registo extends javax.swing.JFrame {
     /**
      * Creates new form Registos
      */
- public Registo(Projeto_ed selected) {
+    public Registo(Projeto_ed selected) {
         super("Blog social");
         this.selected = selected;
         startWindow();
@@ -29,7 +31,7 @@ public class Registo extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-  /**
+    /**
      * Iniciar a interface de utilizador
      */
     private void startWindow() {
@@ -40,6 +42,7 @@ public class Registo extends javax.swing.JFrame {
             }
         });
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -181,17 +184,29 @@ public class Registo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*Botão registar*/
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        // TODO add your handling code here:
+        Pessoa user = new Pessoa(textField3.getText(), textField4.getText(), jPasswordField1.getText());
+        SqlConnection sql = new SqlConnection();
+
+        sql.inserirPessoa(user);
     }//GEN-LAST:event_button1ActionPerformed
 
+    /*Password*/
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
+    /*Confirmação password*/
     private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField2ActionPerformed
+
+    /*Email*/
+    private void jPasswordField3ActionPerformed(java.awt.event.ActionEvent evt) {
+    }
+
+    /*Nome utilizador*/
+    private void jPasswordField4ActionPerformed(java.awt.event.ActionEvent evt) {
+    }
 
     /**
      * @param args the command line arguments
