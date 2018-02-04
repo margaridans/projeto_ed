@@ -5,9 +5,8 @@
  */
 package projeto_ed;
 
-import Database.SqlConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import Interfaces.Registo;
+
 
 /**
  *
@@ -15,22 +14,17 @@ import java.util.Date;
  */
 public class Projeto_ed {
 
+    public Projeto_ed() {
+        new Registo(this);
+
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SqlConnection sql = new SqlConnection();
         
-        Date d = new Date();
-        
-        SimpleDateFormat ft = 
-      new SimpleDateFormat ("dd/MM/yyyy hh:mm");
-        
-        
-       
-        
-        
-
+        new Projeto_ed();
     }
-    
+
 }

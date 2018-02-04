@@ -4,51 +4,58 @@
  * and open the template in the editor.
  */
 package Classes;
+
 /**
  *
  * @author Marisa Machado
  */
 public class Pessoa {
 
-    private int id_pessoa;
-    private String nome, email;
+    private String user_nome, user_email, password;
 
-    /*Método construtor*/
-    public Pessoa(int id_pessoa, String nome, String email) {
-        this.id_pessoa = id_pessoa;
-        this.nome = nome;
-        this.email = email;
+    /**
+     * Método construtor que permite a criação de uma nova instância de
+     * {@link Pessoa}
+     *
+     * @param user_nome nome do utilizador
+     * @param user_email email do utlizador
+     * @param password password do utilizador
+     */
+    public Pessoa(String user_nome, String user_email, String password) {
+        this.user_nome = user_nome;
+        this.user_email = user_email;
+        this.password = password;
     }
 
-    /*Método construtor vazio*/
+    /**
+     * Método construtor que permite a criação de uma instância de
+     * {@link Pessoa} vazia
+     */
     public Pessoa() {
-
     }
 
-    public int getId_pessoa() {
-        return id_pessoa;
+    public String getUser_nome() {
+        return user_nome;
     }
 
-    public void setId_pessoa(int id_pessoa) {
-        this.id_pessoa = id_pessoa;
+    public void setUser_nome(String user_nome) {
+        this.user_nome = user_nome;
     }
 
-    public String getNome() {
-        return nome;
+    public String getUser_email() {
+        return user_email;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPassword() {
+        return password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPassword(String password) {
+        this.password = password;
     }
-    
-    
 
 }
