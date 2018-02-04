@@ -153,9 +153,9 @@ public class SqlConnection {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
             String insert = "INSERT INTO " + TABELA_PESSOA
-                    + "(USER_EMAIL, USER_NOME, PASSWORD) " + "VALUES ( " + user.getUser_email() + ","
-                    + user.getUser_nome()+ ","
-                    + user.getPassword()+  ");";
+                    + "(USER_EMAIL, USER_NOME, PASSWORD) " + "VALUES ( '" + user.getUser_email() + "'" + ",'"
+                    + user.getUser_nome()+ "'" + ",'"
+                    + user.getPassword()+  "');";
 
             statement.executeUpdate(insert);
 
