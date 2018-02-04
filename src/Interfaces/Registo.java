@@ -5,19 +5,31 @@
  */
 package Interfaces;
 
+import projeto_ed.Projeto_ed;
+
+
 /**
  *
- * @author Bernardino
+ * @author Marisa Machado
  */
-public class Registo extends javax.swing.JPanel {
+public class Registo extends javax.swing.JFrame {
+
+    private final Projeto_ed selected;
 
     /**
-     * Creates new form Registo1
+     * Creates new form Registo
+     * @param selected
      */
-    public Registo() {
+    public Registo(Projeto_ed selected) {
+        super("Blog social");
+        this.selected = selected;
+        startWindow();
         initComponents();
     }
 
+   
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -168,6 +180,18 @@ public class Registo extends javax.swing.JPanel {
     private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField2ActionPerformed
+
+       /**
+     * Iniciar a interface de utilizador
+     */
+    private void startWindow() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                setVisible(true);
+            }
+        });
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
