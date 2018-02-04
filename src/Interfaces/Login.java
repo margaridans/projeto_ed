@@ -10,7 +10,6 @@ import Database.SqlConnection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import projeto_ed.Projeto_ed;
 
 /**
  *
