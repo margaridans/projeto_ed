@@ -5,11 +5,14 @@
  */
 package Interfaces;
 
+import Classes.Menu;
 import Classes.Pessoa;
 import Database.SqlConnection;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import projeto_ed.Projeto_ed;
 
 /**
  *
@@ -166,14 +169,18 @@ public class Login extends javax.swing.JFrame {
         SqlConnection sql = new SqlConnection();
         try {
             if (sql.ifExisteLogin(textField3.getText(), jPasswordField1.getText()) == true) {
+                String nome_logado = textField3.getText();
+                setVisible(false);
+                Menu inicio = new Menu();
+                inicio.Menu(nome_logado);
 
-                System.out.println("Bem vindo " + textField3.getText());
-              
             } else {
                 System.out.println("Ainda não se encontra registado");
 
             }
         } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_button1ActionPerformed

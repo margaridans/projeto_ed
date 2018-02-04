@@ -1,5 +1,6 @@
 package Database;
 
+import Classes.Mensagem;
 import Classes.Pessoa;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -166,11 +167,40 @@ public class SqlConnection {
         }
     }
 
+    /**
+     * Inserir utilizadores na tabela Pessoas
+     *
+     * @param msg 
+     */
+    public void inserirMensagem(Mensagem msg) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String insert = "INSERT INTO " + TABELA_MENSAGEM
+                    + "(CONTEUDO, DATA_PUBLICACAO, USER_EMAIL, ID_TIPO_MENSAGEM) " + "VALUES ( '" + msg.getConteudo_msg()+ "'" + ",'"
+                    + msg.getData_publicacao()+ "'" + ",'"
+                    + msg.getEmail_user()+ "'" + ",'"
+                    + msg.getTipoMensagem()+ "');";
+
+            statement.executeUpdate(insert);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
+    
+
+
     public boolean ifExiste(String email) throws SQLException {
         connection.setAutoCommit(false);
         Pessoa user = null;
         boolean result = false;
-        String SQL = "SELECT * FROM Pessoa WHERE User_email  = '"+ email + "'";
+        String SQL = "SELECT * FROM Pessoa WHERE User_email  = '" + email + "'";
         connection.commit();
         // executa o SQL.
         Statement stmt = connection.createStatement();
@@ -182,12 +212,12 @@ public class SqlConnection {
         stmt.close();
         return result;
     }
-    
-     public boolean ifExisteLogin(String email, String password) throws SQLException {
+
+    public boolean ifExisteLogin(String email, String password) throws SQLException {
         connection.setAutoCommit(false);
         Pessoa user = null;
         boolean result = false;
-        String SQL = "SELECT * FROM Pessoa WHERE User_email  = '"+ email + "'" + "AND Password = '" + password + "'";
+        String SQL = "SELECT * FROM Pessoa WHERE User_email  = '" + email + "'" + "AND Password = '" + password + "'";
         connection.commit();
         // executa o SQL.
         Statement stmt = connection.createStatement();
@@ -199,7 +229,6 @@ public class SqlConnection {
         stmt.close();
         return result;
     }
-    
 
     /**
      * Fechar a connexão à base de dados
