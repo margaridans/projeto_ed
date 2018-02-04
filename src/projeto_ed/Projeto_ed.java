@@ -17,7 +17,7 @@ public class Projeto_ed {
     public static SqlConnection connection;
     
     public Projeto_ed() {
-        //new Registo(this);
+        new Registo(this);
         connection = new SqlConnection();
     }
 

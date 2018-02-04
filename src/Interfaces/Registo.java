@@ -92,7 +92,6 @@ public class Registo extends javax.swing.JFrame {
         label6.setText("Nome usuário");
 
         jPasswordField1.setForeground(new java.awt.Color(204, 204, 204));
-        jPasswordField1.setText("jPasswordField1");
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPasswordField1ActionPerformed(evt);
@@ -100,7 +99,6 @@ public class Registo extends javax.swing.JFrame {
         });
 
         jPasswordField2.setForeground(new java.awt.Color(204, 204, 204));
-        jPasswordField2.setText("jPasswordField1");
         jPasswordField2.setCaretColor(new java.awt.Color(204, 204, 204));
         jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,10 +184,13 @@ public class Registo extends javax.swing.JFrame {
 
     /*Botão registar*/
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        Pessoa user = new Pessoa(textField3.getText(), textField4.getText(), jPasswordField1.getText());
-        SqlConnection sql = new SqlConnection();
+ 
+            Pessoa user = new Pessoa(textField3.getText(), textField4.getText(), jPasswordField1.getText());
+            SqlConnection sql = new SqlConnection();
 
-        sql.inserirPessoa(user);
+            sql.inserirPessoa(user);
+        
+
     }//GEN-LAST:event_button1ActionPerformed
 
     /*Password*/
@@ -199,14 +200,6 @@ public class Registo extends javax.swing.JFrame {
     /*Confirmação password*/
     private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
     }//GEN-LAST:event_jPasswordField2ActionPerformed
-
-    /*Email*/
-    private void jPasswordField3ActionPerformed(java.awt.event.ActionEvent evt) {
-    }
-
-    /*Nome utilizador*/
-    private void jPasswordField4ActionPerformed(java.awt.event.ActionEvent evt) {
-    }
 
     /**
      * @param args the command line arguments

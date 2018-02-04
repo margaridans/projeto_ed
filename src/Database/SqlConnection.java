@@ -140,7 +140,7 @@ public class SqlConnection {
         }
     }
 
-
+       
     /**
      * Inserir utilizadores na tabela Pessoas
      *
@@ -158,6 +158,7 @@ public class SqlConnection {
                     + user.getPassword()+  ");";
 
             statement.executeUpdate(insert);
+
             connection.commit();
             statement.close();
 
