@@ -140,7 +140,6 @@ public class SqlConnection {
         }
     }
 
-       
     /**
      * Inserir utilizadores na tabela Pessoas
      *
@@ -154,8 +153,8 @@ public class SqlConnection {
             statement = connection.createStatement();
             String insert = "INSERT INTO " + TABELA_PESSOA
                     + "(USER_EMAIL, USER_NOME, PASSWORD) " + "VALUES ( '" + user.getUser_email() + "'" + ",'"
-                    + user.getUser_nome()+ "'" + ",'"
-                    + user.getPassword()+  "');";
+                    + user.getUser_nome() + "'" + ",'"
+                    + user.getPassword() + "');";
 
             statement.executeUpdate(insert);
 
@@ -166,6 +165,41 @@ public class SqlConnection {
             System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
         }
     }
+
+    public boolean ifExiste(String email) throws SQLException {
+        connection.setAutoCommit(false);
+        Pessoa user = null;
+        boolean result = false;
+        String SQL = "SELECT * FROM Pessoa WHERE User_email  = '"+ email + "'";
+        connection.commit();
+        // executa o SQL.
+        Statement stmt = connection.createStatement();
+        ResultSet resultado = stmt.executeQuery(SQL);
+
+        if (resultado.next()) {
+            result = true;
+        }
+        stmt.close();
+        return result;
+    }
+    
+     public boolean ifExisteLogin(String email, String password) throws SQLException {
+        connection.setAutoCommit(false);
+        Pessoa user = null;
+        boolean result = false;
+        String SQL = "SELECT * FROM Pessoa WHERE User_email  = '"+ email + "'" + "AND Password = '" + password + "'";
+        connection.commit();
+        // executa o SQL.
+        Statement stmt = connection.createStatement();
+        ResultSet resultado = stmt.executeQuery(SQL);
+
+        if (resultado.next()) {
+            result = true;
+        }
+        stmt.close();
+        return result;
+    }
+    
 
     /**
      * Fechar a connexão à base de dados
