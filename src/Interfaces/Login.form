@@ -121,6 +121,9 @@
       </Layout>
       <SubComponents>
         <Component class="java.awt.TextField" name="textField3">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textField3ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="java.awt.Label" name="label1">
           <Properties>

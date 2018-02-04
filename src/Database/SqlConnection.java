@@ -17,7 +17,7 @@ public class SqlConnection {
     private final String DRIVER = "org.sqlite.JDBC";
     private final String TABELA_PESSOA = "Pessoa";
     private final String TABELA_COMENTARIO = "Comentario";
-    private final String TABELA_MENSAGEM = "Messagem";
+    private final String TABELA_MENSAGEM = "Mensagem";
     private final String TABELA_TIPO_MENSAGEM = "TipoMensagem";
     private final String TABELA_AMIZADE = "Amizade";
     private final String SQL_LITE = "jdbc:sqlite:";
@@ -73,12 +73,12 @@ public class SqlConnection {
             stm.execute("PRAGMA foreign_keys = ON");
             String sqlTable = "CREATE TABLE " + TABELA_MENSAGEM
                     + " (ID_MENSAGEM INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "CONTEUDO_MSG VARCHAR(100) NOT NULL,"
+                    + "CONTEUDO_MSG VARCHAR(200) NOT NULL,"
                     + "DATA_PUBLICACAO TEXT NOT NULL,"
                     + "USER_EMAIL VARCHAR(50) NOT NULL,"
                     + "ID_TIPO_MENSAGEM INTEGER NOT NULL,"
                     + "FOREIGN KEY(ID_TIPO_MENSAGEM) REFERENCES TipoMensagem(ID_TIPO_MENSAGEM),"
-                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Pessoa(EMAIL))";
+                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Pessoa(USER_EMAIL))";
 
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
@@ -94,12 +94,12 @@ public class SqlConnection {
             stm.execute("PRAGMA foreign_keys = ON");
             String sqlTable = "CREATE TABLE " + TABELA_COMENTARIO
                     + " (ID_COMENTARIO INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "CONTEUDO_COMENT VARCHAR(100) NOT NULL,"
+                    + "CONTEUDO_COMENT VARCHAR(150) NOT NULL,"
                     + "DATA_COMENT TEXT NOT NULL,"
                     + "USER_EMAIL VARCHAR(50) NOT NULL,"
                     + "ID_MENSAGEM INTEGER NOT NULL,"
-                    + "FOREIGN KEY(ID_MENSAGEM) REFERENCES Comentario(ID_COMENTARIO),"
-                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Pessoa(EMAIL))";
+                    + "FOREIGN KEY(ID_MENSAGEM) REFERENCES Mensagem(ID_MENSAGEM),"
+                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Pessoa(USER_EMAIL))";
 
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
@@ -115,10 +115,10 @@ public class SqlConnection {
             stm.execute("PRAGMA foreign_keys = ON");
             String sqlTable = "CREATE TABLE " + TABELA_TIPO_MENSAGEM
                     + " (ID_TIPO_MENSAGEM INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "TIPO_MENSAGEM VARCHAR(50) NOT NULL";
+                    + "TIPO_MENSAGEM VARCHAR(50) NOT NULL)";
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
-            System.out.println("A tabela 'Tipo Mensagem' já existe!");
+            System.out.println(ex + " : A tabela 'Tipo Mensagem' já existe!");
         }
     }
 
@@ -128,8 +128,11 @@ public class SqlConnection {
             stm = connection.createStatement();
             stm.execute("PRAGMA foreign_keys = ON");
             String sqlTable = "CREATE TABLE " + TABELA_AMIZADE
-                    + " (USER_EMAIL VARCHAR(50) PRIMARY KEY NOT NULL,"
-                    + "FOREIGN KEY(USER_EMAIL) REFERENCES Pessoa(USER_EMAIL))";
+                    + " (ID_AMIZADE INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "USER_EMAIL1 VARCHAR(50) NOT NULL,"
+                    + "USER_EMAIL2 VARCHAR(50) NOT NULL,"
+                    + "FOREIGN KEY(USER_EMAIL1) REFERENCES Pessoa(USER_EMAIL),"
+                    + "FOREIGN KEY(USER_EMAIL2) REFERENCES Pessoa(USER_EMAIL))";
 
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
