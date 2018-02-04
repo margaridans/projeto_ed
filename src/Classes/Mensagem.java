@@ -53,6 +53,8 @@ public class Mensagem {
         this.tipoMensagem = tipoMensagem;
         this.email_user = email_user;
     }
+    
+  
 
     /**
      * Método construtor que permite a criação de uma instância de

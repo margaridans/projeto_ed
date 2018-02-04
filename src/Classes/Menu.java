@@ -6,6 +6,7 @@
 package Classes;
 
 import Classes.Enumeracoes.TipoMensagem;
+import Database.SqlConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -37,43 +38,50 @@ public class Menu {
         if ("1".equals(escolha)) {
             System.out.println("\n \n");
             System.out.println("* * * * * * * * * * Menu Mensagem * * * * * * * * * * ");
-            System.out.println("\n");
-            System.out.println("Escreva aqui a sua mensagem: ");
-            System.out.println(" /!\\ Esta sua mensagem irá aparecer na sua página inicial");
 
-            String lerMensagem = in.readLine();
-            String mensagem_conteudo = lerMensagem;
+            escreverMensagem();
 
             System.out.println("\n \n");
             System.out.println("A sua mensagem vai ser de que tipo: (1 - Privada/ 2 - Pública) ");
-           
-            String lerTipoMensagem = in.readLine();
-            if ("1".equals(lerTipoMensagem)) {
 
-            } else if ("2".equals(lerTipoMensagem)) {
-                System.out.println("O tipo da sua mensagem apenas pode ser pública ou privada");
+            SqlConnection sql = new SqlConnection();
 
+            int lerTipoMensagem = Integer.parseInt(in.readLine());
+
+            if (1 == lerTipoMensagem) {
+                sql.verTipoMensagem(TipoMensagem.PRIVADA.getDescricao());
+            } else if (2 == lerTipoMensagem) {
+                sql.verTipoMensagem(TipoMensagem.PUBLICA.getDescricao());
             }
-            if (" ".equals(mensagem_conteudo)) {
-                System.out.println("A sua mensagem está em branco, pretende guardar na mesma? S/N");
-                String lerOpcaoMensagem = in.readLine();
 
-            } else {
-                System.out.println("Pretende guardar a mensagem? S/N");
-                String lerOpcaoMensagem = in.readLine();
-
-            }
+            //FALTA GUARDAR O TIPO DE MENSAGEM
+            System.out.println("\n");
+            System.out.println("Pretende guardar a mensagem? S/N");
             String lerOpcaoMensagem = in.readLine();
+
             if ("S".equals(lerOpcaoMensagem)) {
 
+                //FALTA GUARDAR A MENSAGEM
+                System.out.println("Mensagem guardada");
             } else if ("N".equals(lerOpcaoMensagem)) {
                 System.out.println("A sua mensagem não foi guardada");
-
+                escreverMensagem();
             }
         } else if ("3".equals(escolha)) {
             System.out.println("A sua sessão foi terminada. Até à próxima");
             user_logado = null;
             Projeto_ed inicio = new Projeto_ed();
         }
+    }
+
+    public void escreverMensagem() throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("\n");
+        System.out.println("Escreva aqui a sua mensagem: ");
+        System.out.println(" /!\\ Esta sua mensagem irá aparecer na sua página inicial");
+        System.out.println("\n");
+        String lerMensagem = in.readLine();
+        String mensagem_conteudo = lerMensagem;
     }
 }

@@ -195,6 +195,23 @@ public class SqlConnection {
         }
     }
 
+    public void verTipoMensagem(String tipoMensagem) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String SQL = "SELECT ID_TIPO_MENSAGEM FROM TipoMensagem WHERE TIPO_MENSAGEM  = '" + tipoMensagem + "'";
+            statement.executeUpdate(SQL);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
+
     /**
      * Inserir tipos de mensagens na tabela Mensagens
      *

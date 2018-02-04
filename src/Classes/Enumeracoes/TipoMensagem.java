@@ -9,9 +9,9 @@ package Classes.Enumeracoes;
  *
  * @author Marisa Machado
  */
-public class TipoMensagem {
+public enum TipoMensagem {
 
-    enum tipoMens {
+
         PUBLICA, PRIVADA;
 
         public String getDescricao() {
@@ -23,7 +23,6 @@ public class TipoMensagem {
                 default:
                     return "";
             }
-        }
-
+      
     }
 }
