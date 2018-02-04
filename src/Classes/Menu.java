@@ -40,7 +40,7 @@ public class Menu {
             System.out.println("* * * * * * * * * * Menu Mensagem * * * * * * * * * * ");
 
             escreverMensagem();
-
+  
             System.out.println("\n \n");
             System.out.println("A sua mensagem vai ser de que tipo: (1 - Privada/ 2 - Pública) ");
 
@@ -56,16 +56,18 @@ public class Menu {
 
             //FALTA GUARDAR O TIPO DE MENSAGEM
             System.out.println("\n");
+
             System.out.println("Pretende guardar a mensagem? S/N");
             String lerOpcaoMensagem = in.readLine();
 
+            
             if ("S".equals(lerOpcaoMensagem)) {
-
                 //FALTA GUARDAR A MENSAGEM
                 System.out.println("Mensagem guardada");
             } else if ("N".equals(lerOpcaoMensagem)) {
                 System.out.println("A sua mensagem não foi guardada");
                 escreverMensagem();
+
             }
         } else if ("3".equals(escolha)) {
             System.out.println("A sua sessão foi terminada. Até à próxima");
