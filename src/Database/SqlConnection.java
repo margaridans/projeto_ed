@@ -66,6 +66,7 @@ public class SqlConnection {
             String sqlTable = "CREATE TABLE " + TABELA_PESSOA
                     + " (USER_EMAIL VARCHAR(50) PRIMARY KEY NOT NULL,"
                     + "USER_NOME VARCHAR(50) NOT NULL,"
+                    + "NR_CREDITOS INTEGER NOT NULL"
                     + "PASSWORD VARCHAR(50) NOT NULL)";
 
             stm.executeUpdate(sqlTable);
@@ -250,7 +251,7 @@ public class SqlConnection {
             String SQL = "SELECT * FROM Pessoa WHERE USER_EMAIL  = '" + email_user + "'";
             ResultSet r = statement.executeQuery(SQL);
             //valor = Integer.parseInt(r.getString("ID_TIPO_MENSAGEM"));
-            Pessoa tmp = new Pessoa(email_user,r.getString("USER_NOME"),r.getString("PASSWORD"));
+            Pessoa tmp = new Pessoa(email_user,r.getString("USER_NOME"),r.getString("PASSWORD"), r.getInt("NR_CREDITOS"));
             valor = tmp;
             connection.commit();
             statement.close();
@@ -354,7 +355,7 @@ public class SqlConnection {
             Boolean hasPessoa = false;
             while (r.next()) {
                 hasPessoa = true;
-                Pessoa tmpP = new Pessoa(r.getString("USER_EMAIL"),r.getString("USER_NOME"),null);
+                Pessoa tmpP = new Pessoa(r.getString("USER_EMAIL"),r.getString("USER_NOME"),null, r.getInt("NR_CREDITOS"));
                 valor.addToRear(tmpP);
                 
                 

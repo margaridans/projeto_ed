@@ -202,7 +202,7 @@ public class Registo extends javax.swing.JFrame {
             } else {
                 if (jPasswordField1.getText().equals(jPasswordField2.getText())) {
 
-                    Pessoa user = new Pessoa(textField3.getText(), textField4.getText(), jPasswordField1.getText());
+                    Pessoa user = new Pessoa(textField3.getText(), textField4.getText(), jPasswordField1.getText(), 10);
 
                     sql.inserirPessoa(user);
 

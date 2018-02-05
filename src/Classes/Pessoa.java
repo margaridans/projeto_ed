@@ -12,6 +12,7 @@ package Classes;
 public class Pessoa{
 
     private String user_nome, user_email, password;
+    private Integer nr_creditos;
 
     /**
      * Método construtor que permite a criação de uma nova instância de
@@ -21,11 +22,14 @@ public class Pessoa{
      * @param user_email email do utlizador
      * @param password password do utilizador
      */
-    public Pessoa(String user_email, String user_nome, String password) {
+    public Pessoa(String user_email, String user_nome, String password, Integer nr_creditos) {
         this.user_nome = user_nome;
         this.user_email = user_email;
         this.password = password;
+        this.nr_creditos= nr_creditos;
     }
+    
+
 
     /**
      * Método construtor que permite a criação de uma instância de
@@ -56,6 +60,14 @@ public class Pessoa{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getNr_creditos() {
+        return nr_creditos;
+    }
+
+    public void setNr_creditos(Integer nr_creditos) {
+        this.nr_creditos = nr_creditos;
     }
 
   
