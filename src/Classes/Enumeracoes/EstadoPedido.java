@@ -6,6 +6,11 @@
 package Classes.Enumeracoes;
 
 /**
+ * Esta enumeração enumera os estados dos pedidos de amizade, pois estes podem
+ * ser: Pendente enquanto que o utilizador (destino) não aceita o pedido; 
+ * Aceite quando o utilizador (destino) aceita o pedido de amizade;
+ * Recusado se o utilizador (destino) não aceita o pedido de amizade;
+ *
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
  */
