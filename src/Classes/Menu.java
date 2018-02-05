@@ -23,7 +23,6 @@ import projeto_ed.Projeto_ed;
 public class Menu {
 
     private SqlConnection sql = Projeto_ed.connection;
-    //Menu menu = this;
     private String utilizador_logado = null;
     private Network<Pessoa> grafoPessoas = new Network<>();
     
@@ -69,7 +68,6 @@ public class Menu {
                 IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PUBLICA.getDescricao());
             }
 
-            //FALTA GUARDAR O TIPO DE MENSAGEM
             System.out.println("\n");
 
             System.out.println("Pretende guardar a mensagem? S/N");
@@ -92,7 +90,6 @@ public class Menu {
             ArrayUnorderedList<Pessoa> p = new ArrayUnorderedList<>();
             p = sql.getAllPessoas(user_logado);
             if (p != null) {
-                //System.out.println("Existem " + p.size() + " pessoas");
                 printAllUsers(p);
                 Pessoa pEscolhida = escolherUser(p);
                 MenuPessoa(pEscolhida, this.utilizador_logado);
