@@ -1,11 +1,11 @@
-package linkedHeap;
+package LinkedHeap;
 
-import arrayList.ArrayUnorderedList;
-import exceptions.ElementNotFoundException;
-import exceptions.EmptyCollectionException;
-import exceptions.EmptyQueueException;
+import ArrayList.ArrayUnorderedList;
+import Exceptions.ElementNotFoundException;
+import Exceptions.EmptyCollectionException;
+import Exceptions.EmptyQueueException;
 import interfaces.BinaryTreeADT;
-import linkedQueue.LinkedQueue;
+import LinkedQueue.LinkedQueue;
 
 import java.util.Iterator;
 

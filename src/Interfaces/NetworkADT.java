@@ -1,8 +1,8 @@
 package interfaces;
 
-import exceptions.EmptyCollectionException;
-import exceptions.EmptyQueueException;
-import exceptions.EmptyStackException;
+import Exceptions.EmptyCollectionException;
+import Exceptions.EmptyQueueException;
+import Exceptions.EmptyStackException;
 
 /**
  * NetworkADT defines the interface to a network

@@ -1,4 +1,4 @@
-package linkedHeap;
+package LinkedHeap;
 
 /**
  * HeapNode creates a binary tree node with a parent pointer for use in heaps.

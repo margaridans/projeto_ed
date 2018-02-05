@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import org.sqlite.SQLiteConfig;
-import arrayList.ArrayUnorderedList;
+import ArrayList.ArrayUnorderedList;
 
 /**
  * @author Margarida Sousa - 8140092

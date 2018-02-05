@@ -7,13 +7,13 @@ package Classes;
 
 import Classes.Enumeracoes.TipoMensagem;
 import Database.SqlConnection;
-import arrayList.ArrayUnorderedList;
-import iterator.ArrayIterator;
+import ArrayList.ArrayUnorderedList;
+import Iterator.ArrayIterator;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
-import network.Network;
+import GrafoPesado.Network;
 import projeto_ed.Projeto_ed;
 
 /**

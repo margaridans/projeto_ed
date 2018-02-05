@@ -1,6 +1,6 @@
 package interfaces;
 
-import exceptions.ElementNotFoundException;
+import Exceptions.ElementNotFoundException;
 
 /**
  * @param <T> T element

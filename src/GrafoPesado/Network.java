@@ -1,22 +1,23 @@
-package network;
+package GrafoPesado;
 
 import Classes.Edge;
 import Classes.Pessoa;
 import Database.SqlConnection;
-import arrayList.ArrayUnorderedList;
-import exceptions.EmptyCollectionException;
-import exceptions.EmptyQueueException;
-import exceptions.EmptyStackException;
+import ArrayList.ArrayUnorderedList;
+import Exceptions.EmptyCollectionException;
+import Exceptions.EmptyQueueException;
+import Exceptions.EmptyStackException;
 import interfaces.NetworkADT;
 import java.util.Iterator;
-import linkedHeap.LinkedHeap;
-import linkedQueue.LinkedQueue;
-import linkedStack.LinkedStack;
+import LinkedHeap.LinkedHeap;
+import LinkedQueue.LinkedQueue;
+import LinkedStack.LinkedStack;
 
 /**
  * @param <T> T Element
- * @author Bernardino Silva - 8140277
- * @author Rui Bessa - 8140210
+ *
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  */
 public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
@@ -33,20 +34,23 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         this.edgeMatrix = new Edge[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
         vertices = (T[]) new Object[DEFAULT_CAPACITY];
         addPessoasToVertex();
-        
+
     }
-    
-    private void addPessoasToVertex(){
+
+    /**
+     * Método para adicionar pessoas a cada vértice, ou seja, o número de
+     * pessoas na base dados vai ser igual ao número de vértices
+     */
+    private void addPessoasToVertex() {
         SqlConnection con = projeto_ed.Projeto_ed.connection;
         ArrayUnorderedList<Pessoa> p = new ArrayUnorderedList<>();
         p = con.getAllPessoas("");
         Iterator it = p.iterator();
-        while(it.hasNext()){
-            addVertex((T)it.next());
+        while (it.hasNext()) {
+            addVertex((T) it.next());
         }
     }
-    
-    
+
     /**
      * Procurar na lista de vertex o elemento coorespondente ao nome indicado
      *
@@ -64,7 +68,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
         return null;
     }
-    */
+     */
     /**
      * Modificar o valor do tempo de paragem em cada local da network
      *
@@ -79,7 +83,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
             this.vertices[getIndex((T) vertex)] = (T) vertex;
         }
     }
-    */
+     */
     /**
      * Verificar se o Edge existe na base de dados Se existir e não estiver.
      * relacionado com nenhum Vertex é executado uma query à base de dados,
@@ -106,7 +110,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
             addEdge((T) searchVertex(tempEdge.getOrigin()), (T) searchVertex(tempEdge.getDestination()), tempEdge);
         }
     }
-    */
+     */
     /**
      * Verificar se existe nas ligações entre vertices conexões nulas em pelo
      * menos um sentido se existir, é executado um pedido à base de dados na
@@ -126,7 +130,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
             }
         }
     }
-    */
+     */
     /**
      * Inserir uma ligação entre dois vertice
      *
@@ -422,7 +426,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         if (indexIsValid(getIndex(vertex1)) && indexIsValid(getIndex(vertex2))) {
             this.adjMatrix[getIndex(vertex1)][getIndex(vertex2)] = Integer.MAX_VALUE;
             this.adjMatrix[getIndex(vertex2)][getIndex(vertex1)] = Integer.MAX_VALUE;
-            
+
         }
     }
 
@@ -524,7 +528,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
         return resultList.iterator();
     }
-    
+
     /**
      * Obter a minimum spanning tree
      *
@@ -532,8 +536,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @throws EmptyQueueException se a Queue estiver vazia
      * @throws EmptyCollectionException se não existir elementos na coleção
      */
-    
-   /* public Network mstNetwork() throws EmptyQueueException, EmptyCollectionException {
+    /* public Network mstNetwork() throws EmptyQueueException, EmptyCollectionException {
         int x, y;
         int index;
         double weight;
@@ -566,8 +569,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         /**
          * Adicionar todas as arestas, que são adjacentes ao vertice inicial à
          * heap
-         */
-    /*
+     */
+ /*
         for (int i = 0; i < numVertices; i++) {
             minHeap.addElement(new Double(adjMatrix[0][i]));
         }
@@ -596,8 +599,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
             /**
              * Adicionar todas as ligações, que são adjacentes ao vertice à heap
-             */
-    /*
+     */
+ /*
             for (int i = 0; i < numVertices; i++) {
                 if (!visited[i] && (this.adjMatrix[i][index]
                         < Double.POSITIVE_INFINITY)) {
@@ -609,7 +612,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
         return resultGraph;
     }
- */
+     */
     /**
      * Obter o índice do Edge que tem associado o peso na ligação especificada
      *

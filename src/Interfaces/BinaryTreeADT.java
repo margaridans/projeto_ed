@@ -1,8 +1,8 @@
 package interfaces;
 
-import exceptions.ElementNotFoundException;
-import exceptions.EmptyCollectionException;
-import exceptions.EmptyQueueException;
+import Exceptions.ElementNotFoundException;
+import Exceptions.EmptyCollectionException;
+import Exceptions.EmptyQueueException;
 import java.util.Iterator;
 
 

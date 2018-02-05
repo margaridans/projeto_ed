@@ -1,6 +1,6 @@
-package linkedHeap;
+package LinkedHeap;
 
-import exceptions.EmptyCollectionException;
+import Exceptions.EmptyCollectionException;
 import interfaces.HeapADT;
 
 /**

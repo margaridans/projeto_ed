@@ -1,7 +1,7 @@
 package interfaces;
 
-import exceptions.EmptyQueueException;
-import exceptions.EmptyStackException;
+import Exceptions.EmptyQueueException;
+import Exceptions.EmptyStackException;
 import java.util.Iterator;
 
 /**

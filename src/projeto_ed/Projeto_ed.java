@@ -10,8 +10,8 @@ import InterfacesGraficas.Login;
 
 
 /**
- *
- * @author margarida
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  */
 public class Projeto_ed {
 
@@ -20,13 +20,9 @@ public class Projeto_ed {
     public Projeto_ed() {
         connection = new SqlConnection();
         new Login(this);
-
-        
-
     }
 
-    
-
+  
     /**
      * @param args the command line arguments
      */

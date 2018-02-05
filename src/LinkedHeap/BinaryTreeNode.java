@@ -1,4 +1,4 @@
-package linkedHeap;
+package LinkedHeap;
 
 /**
  * BinaryTreenode represents a node in a binaryTree with a left and right child.

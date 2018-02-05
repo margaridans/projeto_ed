@@ -1,6 +1,6 @@
 package interfaces;
 
-import exceptions.EmptyStackException;
+import Exceptions.EmptyStackException;
 
 /**
  * @param <T> generic

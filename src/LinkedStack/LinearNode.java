@@ -1,4 +1,4 @@
-package linkedQueue;
+package LinkedStack;
 
 /**
  * @param <T> T Element
@@ -11,7 +11,7 @@ public class LinearNode<T> {
     private T element;
 
     /**
-     * Creates a stored empty node
+     * Create a stored empty node
      */
     public LinearNode() {
         this.next = null;
@@ -21,7 +21,7 @@ public class LinearNode<T> {
     /**
      * Create a node storing the specified element
      *
-     * @param element element to be a stored
+     * @param element element to be stored
      */
     public LinearNode(T element) {
         this.next = null;
@@ -38,7 +38,7 @@ public class LinearNode<T> {
     }
 
     /**
-     * Sets the node that follows this one
+     * Sts the node that follows this one
      *
      * @param node node to follow this one
      */
@@ -49,7 +49,7 @@ public class LinearNode<T> {
     /**
      * Returns the element stored in this node
      *
-     * @return T element stored at this node
+     * @return T elemnt stored at this node
      */
     public T getElement() {
         return this.element;
@@ -63,4 +63,5 @@ public class LinearNode<T> {
     public void setElement(T element) {
         this.element = element;
     }
+
 }

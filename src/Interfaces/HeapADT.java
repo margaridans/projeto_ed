@@ -1,6 +1,6 @@
 package interfaces;
 
-import exceptions.EmptyCollectionException;
+import Exceptions.EmptyCollectionException;
 
 /**
  * @param <T> T Element

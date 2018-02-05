@@ -1,6 +1,6 @@
 package interfaces;
 
-import exceptions.EmptyQueueException;
+import Exceptions.EmptyQueueException;
 
 /**
  * @author Bernardino Silva - 8140277

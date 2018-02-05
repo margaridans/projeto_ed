@@ -1,6 +1,6 @@
-package linkedQueue;
+package LinkedQueue;
 
-import exceptions.EmptyQueueException;
+import Exceptions.EmptyQueueException;
 import interfaces.QueueADT;
 
 /**

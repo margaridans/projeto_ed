@@ -1,7 +1,7 @@
-package arrayList;
+package ArrayList;
 
 import interfaces.OrderedListADT;
-import iterator.ArrayIterator;
+import Iterator.ArrayIterator;
 
 /**
  * @param <T> T Element

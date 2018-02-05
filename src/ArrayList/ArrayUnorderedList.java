@@ -1,6 +1,6 @@
-package arrayList;
+package ArrayList;
 
-import exceptions.ElementNotFoundException;
+import Exceptions.ElementNotFoundException;
 import interfaces.UnorderedListADT;
 
 /**

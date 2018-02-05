@@ -1,5 +1,5 @@
-package linkedStack;
-import exceptions.EmptyStackException;
+package LinkedStack;
+import Exceptions.EmptyStackException;
 import interfaces.StackADT;
 
 /**

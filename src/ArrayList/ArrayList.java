@@ -1,9 +1,9 @@
-package arrayList;
+package ArrayList;
 
-import exceptions.ElementNotFoundException;
-import exceptions.EmptyCollectionException;
+import Exceptions.ElementNotFoundException;
+import Exceptions.EmptyCollectionException;
 import interfaces.ListADT;
-import iterator.ArrayIterator;
+import Iterator.ArrayIterator;
 import java.util.Iterator;
 
 /**

@@ -1,27 +1,29 @@
-package network;
+package GrafoPesado;
 
-import arrayList.ArrayUnorderedList;
-import exceptions.EmptyQueueException;
-import exceptions.EmptyStackException;
+import ArrayList.ArrayUnorderedList;
+import Exceptions.EmptyQueueException;
+import Exceptions.EmptyStackException;
 import interfaces.GraphADT;
 import java.util.Iterator;
-import linkedQueue.LinkedQueue;
-import linkedStack.LinkedStack;
+import LinkedQueue.LinkedQueue;
+import LinkedStack.LinkedStack;
 
 /**
  * @param <T> T element
- * @author Bernardino Silva - 8140277
- * @author Rui Bessa - 8140210
+ * 
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  */
-public class Graph<T> implements GraphADT<T> {
+public class Graph <T> implements GraphADT<T> {
 
     protected final int DEFAULT_CAPACITY = 10;
-    protected int numVertices; // Number of vertices in the graph
-    protected boolean[][] adjMatrix; // Adjacency matrix;
-    protected T[] vertices; // values of vertices;
+    protected int numVertices; // Número de vértices num grafo 
+    protected boolean[][] adjMatrix; // matriz de adjacências
+    protected T[] vertices; // valores dos vértices
 
-    /**
-     * Creates an empty graph.
+     /**
+     * Método construtor que permite a criação de uma instância de
+     * {@link Graph} vazia
      */
     public Graph() {
         this.numVertices = 0;

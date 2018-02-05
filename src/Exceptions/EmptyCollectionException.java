@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 
 /**
  * @author Bernardino Silva - 8140277
