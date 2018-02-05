@@ -411,17 +411,19 @@ public class SqlConnection {
             ResultSet r = statement.executeQuery(SQL);
 
             Boolean hasPessoa = false;
+            
             while (r.next()) {
                 hasPessoa = true;
-                Pessoa tmpP = new Pessoa(r.getString("USER_EMAIL"), r.getString("USER_NOME"), null, r.getInt("NR_CREDITOS"));
-                valor.addToRear(tmpP);
+                Pessoa tmpPessoa = new Pessoa(r.getString("USER_EMAIL"), r.getString("USER_NOME"), null, r.getInt("NR_CREDITOS"));
+                valor.addToRear(tmpPessoa);
 
             }
 
             if (!hasPessoa) {
-                System.out.println("Não existe Pessoas");
+                System.out.println("Não existem pessoas");
                 valor = null;
             }
+            
             connection.commit();
             statement.close();
 
