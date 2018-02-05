@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import network.Network;
 import projeto_ed.Projeto_ed;
 
 /**
@@ -22,23 +23,33 @@ import projeto_ed.Projeto_ed;
  * @author Bernardino
  */
 public class Menu {
-        SqlConnection sql = Projeto_ed.connection;
-    
-    public void Menu(String user_logado) throws IOException {
-        System.out.println("Bem vindo " + user_logado);
 
+    private SqlConnection sql = Projeto_ed.connection;
+    //Menu menu = this;
+    private String utilizador_logado = null;
+    private Network<Pessoa> grafoPessoas = new Network<>();
+    
+
+    public Menu(String user_logado) {
+        this.utilizador_logado = user_logado;
+    }
+
+    public void menu(String user_logado) throws IOException {
+        this.utilizador_logado = user_logado;
+        System.out.println("Existem numero de vertices: " + this.grafoPessoas.size());
         System.out.println("\n \n");
         System.out.println("* * * * * * * * * * Menu * * * * * * * * * * ");
         System.out.println("*                                          * ");
         System.out.println("*                                          * ");
-        System.out.println("*             1- Escrever mensagem         * ");
-        System.out.println("*             2- Ver utilizadores          * ");
-        System.out.println("*             3- Terminar Sessão           * ");
+        System.out.println("*          1- Escrever mensagem            * ");
+        System.out.println("*          2- Ver utilizadores             * ");
+        System.out.println("*          3- Gestão de pedidos de amizade * ");
+        System.out.println("*          4- Terminar Sessão              * ");
         System.out.println("*                                          * ");
         System.out.println("*                                          * ");
         System.out.println("* * * * * * * * * * * * * * * * * * * * *  * ");
         System.out.println("O que pretende fazer? ");
-        
+
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String escolha = in.readLine();
 
@@ -46,12 +57,10 @@ public class Menu {
             System.out.println("\n \n");
             System.out.println("* * * * * * * * * * Menu Mensagem * * * * * * * * * * ");
 
-           String conteudo= escreverMensagem();
+            String conteudo = escreverMensagem();
 
             System.out.println("\n \n");
             System.out.println("A sua mensagem vai ser de que tipo: (1 - Privada/ 2 - Pública) ");
-
-            
 
             int lerTipoMensagem = Integer.parseInt(in.readLine());
 
@@ -69,11 +78,10 @@ public class Menu {
             String lerOpcaoMensagem = in.readLine();
 
             if ("S".equals(lerOpcaoMensagem)) {
-                 Date d = new Date();
-        
-        
+                Date d = new Date();
+
                 Pessoa p = sql.getPessoa(user_logado);
-                Mensagem msg = new Mensagem(conteudo,d, IdTipoMensagem, p);
+                Mensagem msg = new Mensagem(conteudo, d, IdTipoMensagem, p);
 
                 sql.inserirMensagem(msg);
                 System.out.println("Mensagem guardada");
@@ -82,20 +90,27 @@ public class Menu {
                 escreverMensagem();
 
             }
-        } else if("2".equals(escolha)) {
-           ArrayUnorderedList<Pessoa> p = new ArrayUnorderedList<>();
-           p = sql.getAllPessoas(user_logado);
-            if(p != null){
+        } else if ("2".equals(escolha)) {
+            ArrayUnorderedList<Pessoa> p = new ArrayUnorderedList<>();
+            p = sql.getAllPessoas(user_logado);
+            if (p != null) {
                 //System.out.println("Existem " + p.size() + " pessoas");
                 printAllUsers(p);
-                Pessoa pEscolhida =  escolherUser(p);
-                
-            }else{
+                Pessoa pEscolhida = escolherUser(p);
+                MenuPessoa(pEscolhida, this.utilizador_logado);
+            } else {
                 System.out.println("É nulo");
             }
-            
-        }
-        else if ("3".equals(escolha)) {
+
+        } else if ("3".equals(escolha)) {
+           String escolha_opcaoPedido = MenuPedidosAmizade();
+           
+           if("2".equals(escolha_opcaoPedido)) {
+               
+           }
+           
+           
+        } else if ("4".equals(escolha)) {
             System.out.println("A sua sessão foi terminada. Até à próxima");
             user_logado = null;
             Projeto_ed inicio = new Projeto_ed();
@@ -113,41 +128,92 @@ public class Menu {
         System.out.println("\n");
         String lerMensagem = in.readLine();
         String mensagem_conteudo = lerMensagem;
-        
+
         return mensagem_conteudo;
     }
-    
-    private void printAllUsers(ArrayUnorderedList<Pessoa> u){
-         
+
+    private void printAllUsers(ArrayUnorderedList<Pessoa> u) {
+
         int counter = 0;
-        ArrayIterator it = (ArrayIterator)u.iterator();
+        ArrayIterator it = (ArrayIterator) u.iterator();
         System.out.println();
         System.out.println("Escolha um utilizador através do seu índice");
-        while(it.hasNext()){
+        while (it.hasNext()) {
             counter++;
-            Pessoa p = (Pessoa)it.next();
-            System.out.println( counter + " -> "+ p.getUser_email());
+            Pessoa p = (Pessoa) it.next();
+            System.out.println(counter + " -> " + p.getUser_email());
         }
-        
+
     }
-    
-    private Pessoa escolherUser(ArrayUnorderedList<Pessoa> u) throws IOException{
+
+    private Pessoa escolherUser(ArrayUnorderedList<Pessoa> u) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String escolha = in.readLine();
-        ArrayIterator it = (ArrayIterator)u.iterator();
+        ArrayIterator it = (ArrayIterator) u.iterator();
         Integer counter = 0;
-         while(it.hasNext()){
+        while (it.hasNext()) {
             counter++;
-            Pessoa p = (Pessoa)it.next();
-            if(escolha.equals(counter.toString())){
-               System.out.println("Escolheu o utilizador " + p.getUser_nome());
-               return p;
-            }                   
+            Pessoa p = (Pessoa) it.next();
+            if (escolha.equals(counter.toString())) {
+                System.out.println("Escolheu o utilizador " + p.getUser_nome());
+                return p;
+            }
         }
         return null;
     }
-    
-    public void MenuPessoa() {
-        
+
+    public void MenuPessoa(Pessoa menuPessoa, String utiliza) throws IOException {
+        String nomePessoa = menuPessoa.getUser_nome();
+        System.out.println("Bem vindo ao perfil de " + nomePessoa);
+
+        System.out.println("\n \n");
+        System.out.println("* * * * * * * * * * Menu * * * * * * * * * * ");
+        System.out.println("*                                          * ");
+        System.out.println("*                                          * ");
+        System.out.println("*      1- Ver informação do utilizador     * ");
+        System.out.println("*      2- Ver mensagens Utilizador         * ");
+        System.out.println("*      3- Sair do perfil do utilizador     * ");
+        System.out.println("*                                          * ");
+        System.out.println("*                                          * ");
+        System.out.println("* * * * * * * * * * * * * * * * * * * * *  * ");
+        System.out.println("O que pretende fazer? ");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String escolha = in.readLine();
+
+        if (null != escolha) {
+            switch (escolha) {
+                case "1":
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    this.menu(this.utilizador_logado);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    public String MenuPedidosAmizade() throws IOException {
+        System.out.println("\n \n");
+        System.out.println("* * * * * * * * * * Menu * * * * * * * * * * ");
+        System.out.println("*                                          * ");
+        System.out.println("*                                          * ");
+        System.out.println("*          1- Fazer pedido patrocionado    * ");
+        System.out.println("*          2- Fazer pedido amizade normal  * ");
+        System.out.println("*          3- Aceitar/Rejeitar pedidos     * ");
+        System.out.println("*          4- Voltar atrás                 * ");
+        System.out.println("*                                          * ");
+        System.out.println("*                                          * ");
+        System.out.println("* * * * * * * * * * * * * * * * * * * * *  * ");
+        System.out.println("O que pretende fazer? ");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String escolha = in.readLine();
+
+        return escolha;
     }
 }

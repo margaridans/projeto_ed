@@ -19,6 +19,7 @@ import projeto_ed.Projeto_ed;
  * @author Bernardino
  */
 public class Login extends javax.swing.JFrame {
+
     private static Projeto_ed selected;
 
     /**
@@ -28,13 +29,9 @@ public class Login extends javax.swing.JFrame {
         super("Blog social");
         this.selected = selected;
         startWindow();
-        initComponents();    }
+        initComponents();
+    }
 
-    
-
-  
-    
-    
     /**
      * Iniciar a interface de utilizador
      */
@@ -185,8 +182,10 @@ public class Login extends javax.swing.JFrame {
             if (sql.ifExisteLogin(textField3.getText(), jPasswordField1.getText()) == true) {
                 String nome_logado = textField3.getText();
                 setVisible(false);
-                Menu inicio = new Menu();
-                inicio.Menu(nome_logado);
+                System.out.println("Bem vindo " + nome_logado);
+
+                Menu inicio = new Menu(nome_logado);
+                inicio.menu(nome_logado);
 
             } else {
                 System.out.println("Ainda não se encontra registado");
