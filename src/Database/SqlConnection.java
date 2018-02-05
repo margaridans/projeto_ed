@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import org.sqlite.SQLiteConfig;
+import arrayList.ArrayUnorderedList;
 
 /**
  * @author Marisa Machado - 8140
@@ -337,6 +338,39 @@ public class SqlConnection {
         }
         stmt.close();
         return result;
+    }
+    
+    public ArrayUnorderedList<Pessoa> getAllPessoas(String myEmail){
+            Statement statement = null;
+        ArrayUnorderedList<Pessoa> valor = new ArrayUnorderedList<>();
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM Pessoa WHERE USER_EMAIL  <> '" + myEmail + "'";
+            ResultSet r = statement.executeQuery(SQL);
+            //valor = Integer.parseInt(r.getString("ID_TIPO_MENSAGEM"));
+            //Pessoa tmp = new Pessoa(myEmail,r.getString("USER_NOME"),r.getString("PASSWORD"));
+            //valor = tmp;
+            Boolean hasPessoa = false;
+            while (r.next()) {
+                hasPessoa = true;
+                Pessoa tmpP = new Pessoa(r.getString("USER_EMAIL"),r.getString("USER_NOME"),null);
+                valor.addToRear(tmpP);
+                
+                
+            }
+            
+            if(!hasPessoa){
+                System.out.println("Não existe Pessoas");
+                valor = null;
+            }
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
     }
 
     /**

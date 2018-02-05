@@ -9,7 +9,7 @@ package Classes;
  *
  * @author Marisa Machado
  */
-public class Pessoa {
+public class Pessoa{
 
     private String user_nome, user_email, password;
 
@@ -57,5 +57,7 @@ public class Pessoa {
     public void setPassword(String password) {
         this.password = password;
     }
+
+  
 
 }

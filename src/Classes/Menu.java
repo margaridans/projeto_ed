@@ -7,11 +7,14 @@ package Classes;
 
 import Classes.Enumeracoes.TipoMensagem;
 import Database.SqlConnection;
+import arrayList.ArrayUnorderedList;
+import iterator.ArrayIterator;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import projeto_ed.Projeto_ed;
 
 /**
@@ -19,7 +22,8 @@ import projeto_ed.Projeto_ed;
  * @author Bernardino
  */
 public class Menu {
-
+        SqlConnection sql = Projeto_ed.connection;
+    
     public void Menu(String user_logado) throws IOException {
         System.out.println("Bem vindo " + user_logado);
 
@@ -28,12 +32,13 @@ public class Menu {
         System.out.println("*                                          * ");
         System.out.println("*                                          * ");
         System.out.println("*             1- Escrever mensagem         * ");
-        System.out.println("*             2- Ver amigos                * ");
+        System.out.println("*             2- Ver utilizadores          * ");
         System.out.println("*             3- Terminar Sessão           * ");
         System.out.println("*                                          * ");
         System.out.println("*                                          * ");
         System.out.println("* * * * * * * * * * * * * * * * * * * * *  * ");
         System.out.println("O que pretende fazer? ");
+        
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String escolha = in.readLine();
 
@@ -46,7 +51,7 @@ public class Menu {
             System.out.println("\n \n");
             System.out.println("A sua mensagem vai ser de que tipo: (1 - Privada/ 2 - Pública) ");
 
-            SqlConnection sql = Projeto_ed.connection;
+            
 
             int lerTipoMensagem = Integer.parseInt(in.readLine());
 
@@ -78,6 +83,16 @@ public class Menu {
 
             }
         } else if("2".equals(escolha)) {
+           ArrayUnorderedList<Pessoa> p = new ArrayUnorderedList<>();
+           p = sql.getAllPessoas(user_logado);
+            if(p != null){
+                //System.out.println("Existem " + p.size() + " pessoas");
+                printAllUsers(p);
+                Pessoa pEscolhida =  escolherUser(p);
+                
+            }else{
+                System.out.println("É nulo");
+            }
             
         }
         else if ("3".equals(escolha)) {
@@ -100,5 +115,39 @@ public class Menu {
         String mensagem_conteudo = lerMensagem;
         
         return mensagem_conteudo;
+    }
+    
+    private void printAllUsers(ArrayUnorderedList<Pessoa> u){
+         
+        int counter = 0;
+        ArrayIterator it = (ArrayIterator)u.iterator();
+        System.out.println();
+        System.out.println("Escolha um utilizador através do seu índice");
+        while(it.hasNext()){
+            counter++;
+            Pessoa p = (Pessoa)it.next();
+            System.out.println( counter + " -> "+ p.getUser_email());
+        }
+        
+    }
+    
+    private Pessoa escolherUser(ArrayUnorderedList<Pessoa> u) throws IOException{
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String escolha = in.readLine();
+        ArrayIterator it = (ArrayIterator)u.iterator();
+        Integer counter = 0;
+         while(it.hasNext()){
+            counter++;
+            Pessoa p = (Pessoa)it.next();
+            if(escolha.equals(counter.toString())){
+               System.out.println("Escolheu o utilizador " + p.getUser_nome());
+               return p;
+            }                   
+        }
+        return null;
+    }
+    
+    public void MenuPessoa() {
+        
     }
 }
