@@ -6,7 +6,7 @@
 package projeto_ed;
 
 import Database.SqlConnection;
-import Interfaces.Login;
+import InterfacesGraficas.Login;
 
 
 /**

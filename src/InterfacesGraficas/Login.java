@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interfaces;
+package InterfacesGraficas;
 
 import Classes.Menu;
 import Classes.Pessoa;
@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 import projeto_ed.Projeto_ed;
 
 /**
- *
- * @author Bernardino
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  */
 public class Login extends javax.swing.JFrame {
 
