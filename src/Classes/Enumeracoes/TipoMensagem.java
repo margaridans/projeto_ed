@@ -7,7 +7,7 @@ package Classes.Enumeracoes;
 
 /**
  * @author Margarida Sousa - 8140092
- * @author Marisa Machado - 8140092
+ * @author Marisa Machado - 8140186
  */
 public enum TipoMensagem {
 

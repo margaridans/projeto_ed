@@ -8,8 +8,8 @@ package Classes;
 import java.util.Date;
 
 /**
- *
- * @author Marisa Machado
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  */
 public class Comentario {
 

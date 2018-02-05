@@ -12,15 +12,13 @@ import iterator.ArrayIterator;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import network.Network;
 import projeto_ed.Projeto_ed;
 
 /**
- *
- * @author Bernardino
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  */
 public class Menu {
 

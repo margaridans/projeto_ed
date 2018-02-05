@@ -6,8 +6,8 @@
 package Classes;
 
 /**
- *
- * @author Bernardino
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  */
 public class Edge {
     private Pessoa pessoa1;

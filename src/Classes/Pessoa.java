@@ -6,8 +6,8 @@
 package Classes;
 
 /**
- *
- * @author Marisa Machado
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  */
 public class Pessoa{
 
@@ -21,6 +21,7 @@ public class Pessoa{
      * @param user_nome nome do utilizador
      * @param user_email email do utlizador
      * @param password password do utilizador
+     * @param nr_creditos
      */
     public Pessoa(String user_email, String user_nome, String password, Integer nr_creditos) {
         this.user_nome = user_nome;
@@ -29,8 +30,6 @@ public class Pessoa{
         this.nr_creditos= nr_creditos;
     }
     
-
-
     /**
      * Método construtor que permite a criação de uma instância de
      * {@link Pessoa} vazia
