@@ -69,12 +69,12 @@ public class SqlConnection {
             String sqlTable = "CREATE TABLE " + TABELA_PESSOA
                     + " (USER_EMAIL VARCHAR(50) PRIMARY KEY NOT NULL,"
                     + "USER_NOME VARCHAR(50) NOT NULL,"
-                    + "NR_CREDITOS INTEGER NOT NULL"
+                    + "NR_CREDITOS INTEGER NOT NULL, "
                     + "PASSWORD VARCHAR(50) NOT NULL)";
 
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
-            System.out.println("A tabela 'Pessoa' já existe!");
+            System.out.println("A tabela Pessoa já existe!");
         }
     }
 
@@ -214,8 +214,9 @@ public class SqlConnection {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
             String insert = "INSERT INTO " + TABELA_PESSOA
-                    + "(USER_EMAIL, USER_NOME, PASSWORD) " + "VALUES ( '" + user.getUser_email() + "'" + ",'"
+                    + "(USER_EMAIL, USER_NOME, NR_CREDITOS,PASSWORD) " + "VALUES ( '" + user.getUser_email() + "'" + ",'"
                     + user.getUser_nome() + "'" + ",'"
+                    + user.getNr_creditos()+ "'" + ",'"
                     + user.getPassword() + "');";
 
             statement.executeUpdate(insert);
