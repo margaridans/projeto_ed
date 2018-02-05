@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 import projeto_ed.Projeto_ed;
 
 /**
- * @author Margarida Sousa - 8140092
- * @author Marisa Machado - 8140186
+ *
+ * @author Bernardino
  */
 public class Login extends javax.swing.JFrame {
 
