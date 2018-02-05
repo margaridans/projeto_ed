@@ -18,9 +18,10 @@ public class Projeto_ed {
     public static SqlConnection connection;
 
     public Projeto_ed() {
+        connection = new SqlConnection();
         new Login(this);
 
-        connection = new SqlConnection();
+        
 
     }
 

@@ -19,7 +19,7 @@ import projeto_ed.Projeto_ed;
  * @author Bernardino
  */
 public class Login extends javax.swing.JFrame {
-    private final Projeto_ed selected;
+    private static Projeto_ed selected;
 
     /**
      * Creates new form Login
@@ -32,9 +32,7 @@ public class Login extends javax.swing.JFrame {
 
     
 
-    Login() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  
     
     
     /**
@@ -182,7 +180,7 @@ public class Login extends javax.swing.JFrame {
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         Pessoa ps = new Pessoa();
-        SqlConnection sql = new SqlConnection();
+        SqlConnection sql = Projeto_ed.connection;
         try {
             if (sql.ifExisteLogin(textField3.getText(), jPasswordField1.getText()) == true) {
                 String nome_logado = textField3.getText();
@@ -246,7 +244,7 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new Login(selected).setVisible(true);
             }
         });
     }

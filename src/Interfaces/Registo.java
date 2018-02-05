@@ -194,7 +194,7 @@ public class Registo extends javax.swing.JFrame {
     /*Botão registar*/
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         Pessoa person = new Pessoa();
-        SqlConnection sql = new SqlConnection();
+        SqlConnection sql = Projeto_ed.connection;
 
         try {
             if (sql.ifExiste(textField3.getText()) == true) {
@@ -206,7 +206,7 @@ public class Registo extends javax.swing.JFrame {
 
                     sql.inserirPessoa(user);
 
-                    Login frame = new Login();
+                    Login frame = new Login(null);
                     frame.setVisible(true);
 
                 } else {

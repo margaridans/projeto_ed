@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import org.sqlite.SQLiteConfig;
 
 /**
@@ -21,6 +22,8 @@ public class SqlConnection {
     private final String TABELA_MENSAGEM = "Mensagem";
     private final String TABELA_TIPO_MENSAGEM = "TipoMensagem";
     private final String TABELA_AMIZADE = "Amizade";
+    private final String TABELA_PEDIDO_AMIZADE = "PedidoAmizade";
+    private final String TABELA_ESTADO_PEDIDO_AMIZADE = "EstadoPedidoAmizade";
     private final String SQL_LITE = "jdbc:sqlite:";
     private String DB_NAME = "basedadosed.db";
     private Connection connection = null;
@@ -44,8 +47,11 @@ public class SqlConnection {
                 criarTabelaComentario();
                 criarTabelaTipoMensagem();
                 criarTabelaAmizade();
+                criarTabelaPedidoAmizade();
+                criarTabelaEstadoPedido();
                 inserirTipoMensagem();
             }
+            
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
@@ -141,6 +147,43 @@ public class SqlConnection {
             System.out.println("A tabela 'Amizade' já existe!");
         }
     }
+    
+    
+    /*Criação da tabela que armazena pedidos de amizade*/
+    public void criarTabelaPedidoAmizade() {
+        Statement stm = null;
+        try {
+            stm = connection.createStatement();
+            String sqlTable = "CREATE TABLE " + TABELA_PEDIDO_AMIZADE
+                    + " (ID_PEDIDO INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "USER_ORIGEM VARCHAR(50) NOT NULL,"
+                    + "USER_DESTINO VARCHAR(50) NOT NULL,"
+                    + "ID_ESTADO INTEGER NOT NULL,"
+                    + "FOREIGN KEY(USER_ORIGEM) REFERENCES Pessoa(USER_EMAIL),"
+                    + "FOREIGN KEY(USER_DESTINO) REFERENCES Pessoa(USER_EMAIL),"
+                    + "FOREIGN KEY(ID_ESTADO) REFERENCES EstadoPedidoAmizade(ID_ESTADO))";
+
+            stm.executeUpdate(sqlTable);
+        } catch (SQLException ex) {
+            System.out.println("A tabela 'Pedido Amizade' já existe!");
+        }
+    }
+    
+      /*Criação da tabela que armazena pedidos de amizade*/
+    public void criarTabelaEstadoPedido() {
+        Statement stm = null;
+        try {
+            stm = connection.createStatement();
+            String sqlTable = "CREATE TABLE " + TABELA_ESTADO_PEDIDO_AMIZADE
+                    + " (ID_ESTADO INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "  ESTADO_DESC VARCHAR(50) NOT NULL)";
+
+            stm.executeUpdate(sqlTable);
+        } catch (SQLException ex) {
+            System.out.println("A tabela 'Estado Pedido Amizade' já existe!");
+        }
+    }
+
 
     /**
      * Inserir utilizadores na tabela Pessoas
@@ -179,10 +222,12 @@ public class SqlConnection {
         try {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
+            SimpleDateFormat ft = 
+        new SimpleDateFormat ("dd/MM/yyyy");
             String insert = "INSERT INTO " + TABELA_MENSAGEM
-                    + "(CONTEUDO, DATA_PUBLICACAO, USER_EMAIL, ID_TIPO_MENSAGEM) " + "VALUES ( '" + msg.getConteudo_msg() + "'" + ",'"
-                    + msg.getData_publicacao() + "'" + ",'"
-                    + msg.getEmail_user() + "'" + ",'"
+                    + "(CONTEUDO_MSG, DATA_PUBLICACAO, USER_EMAIL, ID_TIPO_MENSAGEM) " + "VALUES ( '" + msg.getConteudo_msg() + "'" + ",'"
+                    + ft.format(msg.getData_publicacao()) + "'" + ",'"
+                    + msg.getEmail_user().getUser_email() + "'" + ",'"
                     + msg.getTipoMensagem() + "');";
 
             statement.executeUpdate(insert);
@@ -194,22 +239,44 @@ public class SqlConnection {
             System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
         }
     }
-
-    public void verTipoMensagem(String tipoMensagem) {
-        Statement statement = null;
-
+    
+    public Pessoa getPessoa(String email_user) {
+           Statement statement = null;
+        Pessoa valor = null;
         try {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            String SQL = "SELECT ID_TIPO_MENSAGEM FROM TipoMensagem WHERE TIPO_MENSAGEM  = '" + tipoMensagem + "'";
-            statement.executeUpdate(SQL);
-
+            String SQL = "SELECT * FROM Pessoa WHERE USER_EMAIL  = '" + email_user + "'";
+            ResultSet r = statement.executeQuery(SQL);
+            //valor = Integer.parseInt(r.getString("ID_TIPO_MENSAGEM"));
+            Pessoa tmp = new Pessoa(email_user,r.getString("USER_NOME"),r.getString("PASSWORD"));
+            valor = tmp;
             connection.commit();
             statement.close();
 
         } catch (SQLException ex) {
             System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
         }
+        return valor;
+    }
+
+    public Integer verTipoMensagem(String tipoMensagem) {
+        Statement statement = null;
+        Integer valor = 0;
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String SQL = "SELECT ID_TIPO_MENSAGEM FROM TipoMensagem WHERE TIPO_MENSAGEM  = '" + tipoMensagem + "'";
+            ResultSet r = statement.executeQuery(SQL);
+            valor = Integer.parseInt(r.getString("ID_TIPO_MENSAGEM"));
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+
     }
 
     /**

@@ -17,7 +17,7 @@ public class Mensagem {
     private int id_mensagem;
     private String conteudo_msg; 
     private Date data_publicacao; 
-    private TipoMensagem tipoMensagem;
+    private Integer IdtipoMensagem;
     private Pessoa email_user;
 
     /**
@@ -30,11 +30,11 @@ public class Mensagem {
      * @param tipoMensagem tipo de mensagem (publica/privada)
      * @param email_user email da pessoa que escreveu a mensagem
      */
-    public Mensagem(int id_mensagem, String conteudo_msg, Date data_publicacao, TipoMensagem tipoMensagem, Pessoa email_user) {
+    public Mensagem(int id_mensagem, String conteudo_msg, Date data_publicacao, Integer tipoMensagem, Pessoa email_user) {
         this.id_mensagem = id_mensagem;
         this.conteudo_msg = conteudo_msg;
         this.data_publicacao = data_publicacao;
-        this.tipoMensagem = tipoMensagem;
+        this.IdtipoMensagem = tipoMensagem;
         this.email_user = email_user;
     }
 
@@ -47,10 +47,10 @@ public class Mensagem {
      * @param tipoMensagem tipo de mensagem (publica/privada)
      * @param email_user email da pessoa que escreveu a mensagem
      */
-    public Mensagem(String conteudo_msg, Date data_publicacao, TipoMensagem tipoMensagem, Pessoa email_user) {
+    public Mensagem(String conteudo_msg, Date data_publicacao, Integer tipoMensagem, Pessoa email_user) {
         this.conteudo_msg = conteudo_msg;
         this.data_publicacao = data_publicacao;
-        this.tipoMensagem = tipoMensagem;
+        this.IdtipoMensagem = tipoMensagem;
         this.email_user = email_user;
     }
     
@@ -87,12 +87,12 @@ public class Mensagem {
         this.data_publicacao = data_publicacao;
     }
 
-    public TipoMensagem getTipoMensagem() {
-        return tipoMensagem;
+    public Integer getTipoMensagem() {
+        return IdtipoMensagem;
     }
 
-    public void setTipoMensagem(TipoMensagem tipoMensagem) {
-        this.tipoMensagem = tipoMensagem;
+    public void setTipoMensagem(Integer tipoMensagem) {
+        this.IdtipoMensagem = tipoMensagem;
     }
 
     public Pessoa getEmail_user() {
