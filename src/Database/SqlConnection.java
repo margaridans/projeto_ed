@@ -394,10 +394,12 @@ public class SqlConnection {
 
     /**
      * Método responsável por ir buscar à base dados todas as pessoas que
-     * existem com registo menos a pessoa que se encontra logada
+     * existem com registo excepto o utilizador que é enviado na string, ou
+     * seja, excepto o utilizador que se encontra logado
      *
      * @param myEmail email da pessoa logada
-     * @return Lista desordenada das pessoas que encontrou na base dados
+     * @return numa Unordered List todas as pessoas presentes na base dados
+     * excepto o utilizador que é enviado na string
      */
     public ArrayUnorderedList<Pessoa> getAllPessoas(String myEmail) {
         Statement statement = null;
@@ -411,7 +413,7 @@ public class SqlConnection {
             ResultSet r = statement.executeQuery(SQL);
 
             Boolean hasPessoa = false;
-            
+
             while (r.next()) {
                 hasPessoa = true;
                 Pessoa tmpPessoa = new Pessoa(r.getString("USER_EMAIL"), r.getString("USER_NOME"), null, r.getInt("NR_CREDITOS"));
@@ -423,7 +425,7 @@ public class SqlConnection {
                 System.out.println("Não existem pessoas");
                 valor = null;
             }
-            
+
             connection.commit();
             statement.close();
 
