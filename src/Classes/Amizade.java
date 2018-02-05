@@ -10,20 +10,31 @@ package Classes;
  * @author Marisa Machado - 8140186
  */
 public class Amizade {
+
     private Integer id_amizade;
     private Pessoa user1;
     private Pessoa user2;
 
+    /**
+     * Método construtor que permite a criação de uma nova instância de
+     * {@link Amizade}
+     *
+     * @param user1 utilizador 1 que vai fazer parte da amizade 
+     * @param user2 utilizador 2 que vai fazer parte da amizade 
+     */
     public Amizade(Pessoa user1, Pessoa user2) {
         this.user1 = user1;
         this.user2 = user2;
     }
 
+    /**
+     * Método construtor que permite a criação de uma instância de
+     * {@link Amizade} vazia
+     */
     public Amizade() {
-        
+
     }
-    
-    
+
     public Integer getId_amizade() {
         return id_amizade;
     }
@@ -47,7 +58,5 @@ public class Amizade {
     public void setUser2(Pessoa user2) {
         this.user2 = user2;
     }
-    
-    
-    
+
 }
