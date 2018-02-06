@@ -7,12 +7,13 @@ package Classes;
 
 import ArrayList.ArrayOrderedList;
 import java.util.Date;
+import static javafx.scene.input.KeyCode.T;
 
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
  */
-public class Mensagem {
+public class Mensagem implements Comparable<Mensagem>{
 
     private int id_mensagem;
     private String conteudo_msg;
@@ -106,6 +107,13 @@ public class Mensagem {
 
     public void setEmail_user(Pessoa email_user) {
         this.email_user = email_user;
+    }
+
+    
+
+    @Override
+    public int compareTo(Mensagem o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
