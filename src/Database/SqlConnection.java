@@ -216,7 +216,7 @@ public class SqlConnection {
             String insert = "INSERT INTO " + TABELA_PESSOA
                     + "(USER_EMAIL, USER_NOME, NR_CREDITOS,PASSWORD) " + "VALUES ( '" + user.getUser_email() + "'" + ",'"
                     + user.getUser_nome() + "'" + ",'"
-                    + user.getNr_creditos()+ "'" + ",'"
+                    + user.getNr_creditos() + "'" + ",'"
                     + user.getPassword() + "');";
 
             statement.executeUpdate(insert);
@@ -422,10 +422,10 @@ public class SqlConnection {
 
             }
 
-            if (!hasPessoa) {
+            /*if (!hasPessoa) {
                 System.out.println("Não existem pessoas");
                 valor = null;
-            }
+            }*/
 
             connection.commit();
             statement.close();
@@ -435,6 +435,8 @@ public class SqlConnection {
         }
         return valor;
     }
+
+    
 
     /**
      * Fecha a connexão à base de dados

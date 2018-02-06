@@ -209,7 +209,11 @@ public class Registo extends javax.swing.JFrame {
                         Pessoa user = new Pessoa(textField3.getText(), textField4.getText(), jPasswordField1.getText(), 10);
 
                         sql.inserirPessoa(user);
-
+                        System.out.println("Utilizador registado com sucesso!");
+                        System.out.println("");
+                        System.out.println(" * * * * * * * * * * * * * * * * BOA * * * * * * * * * * * * * * * * * *  *");
+                        System.out.println(" * Acabaste de ganhar 10 créditos apenas por te registares no blog social *");
+                        System.out.println(" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *");
                         Login frame = new Login(null);
                         frame.setVisible(true);
 

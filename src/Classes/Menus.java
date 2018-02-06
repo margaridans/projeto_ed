@@ -114,7 +114,7 @@ public class Menus {
                         Pessoa pEscolhida = escolherUser(p);
                         menuPessoa(pEscolhida, this.utilizador_logado);
                     } else {
-                        System.out.println("É nulo");
+                        System.out.println("Não existem utilizadores");
                     }
                     break;
 
@@ -127,7 +127,15 @@ public class Menus {
                     break;
 
                 case "4":
-                    this.menuPrincipal(this.utilizador_logado);
+                    System.out.println("");
+                    System.out.println("*********************************");
+                    System.out.println("*       DEFINIÇÕES DE CONTA     *");
+                    System.out.println("*********************************");
+                    System.out.println("");
+                    System.out.println("Nome: " + sql.getPessoa(user_logado).getUser_nome() );
+                    System.out.println("Email: " + user_logado);
+                    System.out.println("Número de créditos: " + sql.getPessoa(user_logado).getNr_creditos());
+
                     break;
 
                 case "5":
