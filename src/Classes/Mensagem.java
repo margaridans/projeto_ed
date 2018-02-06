@@ -5,6 +5,7 @@
  */
 package Classes;
 
+import ArrayList.ArrayOrderedList;
 import java.util.Date;
 
 /**
@@ -14,10 +15,11 @@ import java.util.Date;
 public class Mensagem {
 
     private int id_mensagem;
-    private String conteudo_msg; 
-    private Date data_publicacao; 
+    private String conteudo_msg;
+    private Date data_publicacao;
     private Integer IdtipoMensagem;
     private Pessoa email_user;
+    private ArrayOrderedList<Comentario> comentarios;
 
     /**
      * Método construtor que permite a criação de uma nova instância de
@@ -52,14 +54,12 @@ public class Mensagem {
         this.IdtipoMensagem = tipoMensagem;
         this.email_user = email_user;
     }
-    
-       public Mensagem(String conteudo_msg, Date data_publicacao, Integer tipoMensagem) {
+
+    public Mensagem(String conteudo_msg, Date data_publicacao, Integer tipoMensagem) {
         this.conteudo_msg = conteudo_msg;
         this.data_publicacao = data_publicacao;
         this.IdtipoMensagem = tipoMensagem;
     }
-    
-  
 
     /**
      * Método construtor que permite a criação de uma instância de

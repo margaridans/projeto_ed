@@ -1,5 +1,6 @@
 package Database;
 
+import ArrayList.ArrayOrderedList;
 import Classes.Mensagem;
 import Classes.Pessoa;
 import java.sql.Connection;
@@ -469,14 +470,14 @@ public class SqlConnection {
      * públicas que existem daquele utilizador
      *
      * @param email_user email do utilizador que queremos ver as mensagens
-     * @return numa Unordered List todas as mensagens presentes na base dados
+     * @return numa Ordered List todas as mensagens presentes na base dados
      * daquele utilizador
      * @throws ParseException - é lançada quando encontra erros de análise,
      * nesta caso na transição da data de String para Date
      */
-    public ArrayUnorderedList<Mensagem> getMensagensPublicas(String email_user) throws ParseException {
+    public ArrayOrderedList<Mensagem> getMensagensPublicas(String email_user) throws ParseException {
         Statement statement = null;
-        ArrayUnorderedList<Mensagem> valor = new ArrayUnorderedList<>();
+        ArrayOrderedList<Mensagem> valor = new ArrayOrderedList<>();
         try {
             connection.setAutoCommit(false);
 
@@ -493,7 +494,7 @@ public class SqlConnection {
 
                 hasMensagem = true;
                 Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
-                valor.addToRear(tmpMensagem);
+                valor.add(tmpMensagem);
 
             }
 
@@ -520,9 +521,9 @@ public class SqlConnection {
      * @throws ParseException - é lançada quando encontra erros de análise,
      * nesta caso na transição da data de String para Date
      */
-    public ArrayUnorderedList<Mensagem> getAllMensagens(String email_user) throws ParseException {
+    public ArrayOrderedList<Mensagem> getAllMensagens(String email_user) throws ParseException {
         Statement statement = null;
-        ArrayUnorderedList<Mensagem> valor = new ArrayUnorderedList<>();
+        ArrayOrderedList<Mensagem> valor = new ArrayOrderedList<>();
         try {
             connection.setAutoCommit(false);
 
@@ -539,7 +540,7 @@ public class SqlConnection {
 
                 hasMensagem = true;
                 Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
-                valor.addToRear(tmpMensagem);
+                valor.add(tmpMensagem);
 
             }
 

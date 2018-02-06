@@ -5,6 +5,7 @@
  */
 package Classes;
 
+import ArrayList.ArrayOrderedList;
 import Classes.Enumeracoes.TipoMensagem;
 import Database.SqlConnection;
 import ArrayList.ArrayUnorderedList;
@@ -179,7 +180,7 @@ public class Menus {
 
     }
 
-    private void printMsgPublicas(ArrayUnorderedList<Mensagem> msg) {
+    private void printMsgPublicas(ArrayOrderedList<Mensagem> msg) {
 
         ArrayIterator it = (ArrayIterator) msg.iterator();
         System.out.println();
@@ -252,7 +253,7 @@ public class Menus {
                     break;
                 case "2":
                     String email = sql.getPessoaByName(nomePessoa).getUser_email();
-                    ArrayUnorderedList<Mensagem> msg = new ArrayUnorderedList<>();
+                    ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
 
                     //SE NÃO FOREM AMIGOS -> PUBLICAS
                     System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
