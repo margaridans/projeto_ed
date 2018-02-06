@@ -35,11 +35,13 @@ public class Menus {
     }
 
     /**
-     * 
-     * @param user_logado
+     * Método responsável por imprimir o menu principal e por fazer a gestão das
+     * escolhas que o utilizador vai fazer
+     *
+     * @param user_logado - email do utilizador logado
      * @throws IOException
      * @throws ParseException
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void menuPrincipal(String user_logado) throws IOException, ParseException, SQLException {
         this.utilizador_logado = user_logado;
@@ -118,14 +120,14 @@ public class Menus {
                     break;
 
                 case "2":
-                    ArrayUnorderedList<Pessoa> p = new ArrayUnorderedList<>();
-                    p = sql.getAllPessoas(user_logado);
-                    if (p != null) {
-                        printAllUsers(p);
-                        Pessoa pEscolhida = escolherUser(p);
+                    ArrayUnorderedList<Pessoa> pessoa = new ArrayUnorderedList<>();
+                    pessoa = sql.getAllPessoas(user_logado);
+                    if (pessoa != null) {
+                        printAllUsers(pessoa);
+                        Pessoa pEscolhida = escolherUser(pessoa);
                         System.out.println("");
                         menuPessoa(pEscolhida, this.utilizador_logado);
-                    } else {
+                    } else if (pessoa == null) {
                         System.out.println("Não existem utilizadores");
                     }
                     break;
@@ -154,7 +156,7 @@ public class Menus {
                     System.out.println("A sua sessão foi terminada. Até à próxima");
                     user_logado = null;
                     Login voltar_inicio = new Login();
-                   
+
                     break;
                 default:
                     break;
@@ -163,91 +165,18 @@ public class Menus {
     }
 
     /**
-     * 
-     * @return
-     * @throws IOException 
-     */
-    public String escreverMensagem() throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
-        System.out.println("");
-        System.out.print("Escreva aqui: ");
-        String lerMensagem = in.readLine();
-        String mensagem_conteudo = lerMensagem;
-
-        return mensagem_conteudo;
-    }
-
-    /**
-     * 
-     * @param pessoa
-     */
-    private void printAllUsers(ArrayUnorderedList<Pessoa> pessoa) {
-
-        int counter = 0;
-        ArrayIterator it = (ArrayIterator) pessoa.iterator();
-        System.out.println();
-        System.out.println("Escolha um utilizador através do seu índice: ");
-        while (it.hasNext()) {
-            counter++;
-            Pessoa p = (Pessoa) it.next();
-            System.out.println(counter + " -> " + p.getUser_email());
-            System.out.println("");
-            System.out.println("Qual o utilizador que pretende escolher? ");
-        }
-
-    }
-
-    /**
-     * 
-     * @param msg 
-     */
-    private void printMsgPublicas(ArrayOrderedList<Mensagem> msg) {
-
-        ArrayIterator it = (ArrayIterator) msg.iterator();
-        System.out.println();
-        while (it.hasNext()) {
-            Mensagem mens = (Mensagem) it.next();
-            System.out.println("Publicada em: " + mens.getData_publicacao().toString());
-            System.out.println("Mensagem: " + mens.getConteudo_msg());
-            System.out.println("");
-
-        }
-
-    }
-
-    /**
-     * 
-     * @param pessoa
-     * @return
-     * @throws IOException 
-     */
-    private Pessoa escolherUser(ArrayUnorderedList<Pessoa> pessoa) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String escolha = in.readLine();
-        ArrayIterator it = (ArrayIterator) pessoa.iterator();
-        Integer counter = 0;
-        while (it.hasNext()) {
-            counter++;
-            Pessoa p = (Pessoa) it.next();
-            if (escolha.equals(counter.toString())) {
-                System.out.println("Escolheu o utilizador " + p.getUser_nome());
-                return p;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Método responsável por apresentar o menu do utilizador
+     * Método responsável por imprimir o menu do utilizador que foi escolhido
+     * para o seu perfil ser visualizado e por fazer a gestão das escolhas que o
+     * utilizador vai fazer perante o menu
      *
-     * @param menuPessoa
-     * @param utilizador
+     * @param pessoaEscolhida - pessoa escolhida para o seu perfil ser
+     * visualizado
+     * @param utilizador - utilizador logado
      * @throws IOException
      * @throws java.text.ParseException
      */
-    public void menuPessoa(Pessoa menuPessoa, String utilizador) throws IOException, ParseException, SQLException {
-        String nomePessoa = menuPessoa.getUser_nome();
+    public void menuPessoa(Pessoa pessoaEscolhida, String utilizador) throws IOException, ParseException, SQLException {
+        String nomePessoa = pessoaEscolhida.getUser_nome();
 
         System.out.println("\n \n");
         System.out.println("* * * * * * * * * * * * Menu * * * * * * * * * * * * * *");
@@ -277,7 +206,7 @@ public class Menus {
                     System.out.println("Nome: " + nomePessoa);
                     System.out.println("Email: " + sql.getPessoaByName(nomePessoa).getUser_email());
                     System.out.println("Número de créditos: " + sql.getPessoaByName(nomePessoa).getNr_creditos());
-                    menuPessoa(menuPessoa, utilizador);
+                    menuPessoa(pessoaEscolhida, utilizador);
                     break;
                 case "2":
                     String email = sql.getPessoaByName(nomePessoa).getUser_email();
@@ -302,7 +231,7 @@ public class Menus {
                     }
 
                     //SE FOR AMIGOS -> MOSTRA TODAS
-                   /* System.out.println("");
+                    /* System.out.println("");
                     System.out.println("***************************************");
                     System.out.println("*              MENSAGENS              *");
                     System.out.println("***************************************");
@@ -330,9 +259,11 @@ public class Menus {
     }
 
     /**
-     * 
-     * @return
-     * @throws IOException 
+     * Método responsável apenas por mostrar ao utilizador o menu dos pedidos de
+     * amizade e ler do teclado a sua opção
+     *
+     * @return a opção escolhida pelo utilizador
+     * @throws IOException
      */
     public String MenuPedidosAmizade() throws IOException {
         System.out.println("\n \n");
@@ -352,5 +283,100 @@ public class Menus {
         String escolha = in.readLine();
 
         return escolha;
+    }
+
+    /**
+     * Este método é responsável pela seleção do utilizador ao qual pretendemos
+     * ver o perfil, através do BufferedReader lê a opção que o utilizador
+     * escolheu e através do iterador vai percorrendo os utilizadores mostrados
+     * no ecrã fazendo o count, depois vai ver se a opção que o utilizador
+     * escolheu é igual ao count se foi retorna o nome da pessoa que foi, se não
+     * continua a percorrer até ser escolhida
+     *
+     * @param pessoa - coleção de pessoas que podem ser escolhidas, isto é, que
+     * foram mostradas ao utilizador para ele escolher a pessoa que queria
+     * visualizar o perfil
+     * @return pessoa escolhida
+     * @throws IOException
+     */
+    private Pessoa escolherUser(ArrayUnorderedList<Pessoa> pessoa) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String escolha = in.readLine();
+
+        ArrayIterator it = (ArrayIterator) pessoa.iterator();
+        Integer counter = 0;
+        while (it.hasNext()) {
+            counter++;
+            Pessoa p = (Pessoa) it.next();
+            if (escolha.equals(counter.toString())) {
+                System.out.println("Escolheu o utilizador " + p.getUser_nome());
+                return p;
+            }
+        }
+        return null;
+
+    }
+
+    /**
+     * Método responsável pela escrita da mensagem, o utilizador vai escrever a
+     * mensagem e através do BufferedReader vamos ler do teclado o que
+     * utilizador escreveu e armazenamos numa variavel (mensagem_conteudo)
+     *
+     * @return o conteúdo da mensagem do utilizador
+     * @throws IOException
+     */
+    public String escreverMensagem() throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("");
+        System.out.print("Escreva aqui: ");
+        String lerMensagem = in.readLine();
+        String mensagem_conteudo = lerMensagem;
+
+        return mensagem_conteudo;
+    }
+
+    /**
+     * Método que vai imprimir todos as mensagens públicas, para isso
+     * percorremos a nossa OrderedList de mensagens através do iterador
+     *
+     * @param msg coleção de mensagens que vamos percorrer e consequentemente
+     * imprimir
+     */
+    private void printMsgPublicas(ArrayOrderedList<Mensagem> msg) {
+
+        ArrayIterator it = (ArrayIterator) msg.iterator();
+        System.out.println();
+        while (it.hasNext()) {
+            Mensagem mens = (Mensagem) it.next();
+            System.out.println("Publicada em: " + mens.getData_publicacao().toString());
+            System.out.println("Mensagem: " + mens.getConteudo_msg());
+            System.out.println("");
+
+        }
+
+    }
+
+    /**
+     * Método que vai imprimir todos os utilizadores, para isso percorremos a
+     * nossa UnorderedList de pessoas através do iterador
+     *
+     * @param pessoa coleção de pessoas que vamos percorrer e consequentemente
+     * imprimir
+     */
+    private void printAllUsers(ArrayUnorderedList<Pessoa> pessoa) {
+
+        int counter = 0;
+        ArrayIterator it = (ArrayIterator) pessoa.iterator();
+        System.out.println();
+        System.out.println("Escolha um utilizador através do seu índice: ");
+        while (it.hasNext()) {
+            counter++;
+            Pessoa p = (Pessoa) it.next();
+            System.out.println(counter + " -> " + p.getUser_email());
+            System.out.println("");
+            System.out.println("Qual o utilizador que pretende escolher? ");
+        }
+
     }
 }
