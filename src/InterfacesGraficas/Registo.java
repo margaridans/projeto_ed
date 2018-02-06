@@ -200,17 +200,22 @@ public class Registo extends javax.swing.JFrame {
             if (sql.ifExiste(textField3.getText()) == true) {
                 System.out.println("Esse utilizador já existe!");
             } else {
-                if (jPasswordField1.getText().equals(jPasswordField2.getText())) {
 
-                    Pessoa user = new Pessoa(textField3.getText(), textField4.getText(), jPasswordField1.getText(), 10);
-
-                    sql.inserirPessoa(user);
-
-                    Login frame = new Login(null);
-                    frame.setVisible(true);
-
+                if (textField3.getText().isEmpty() || textField4.getText().isEmpty() || jPasswordField1.getText().isEmpty() || jPasswordField2.getText().isEmpty()) {
+                    System.out.println("Não pode prosseguir se não preencher os campos todos.");
                 } else {
-                    System.out.println("As palavras passes não coincidem");
+                    if (jPasswordField1.getText().equals(jPasswordField2.getText())) {
+
+                        Pessoa user = new Pessoa(textField3.getText(), textField4.getText(), jPasswordField1.getText(), 10);
+
+                        sql.inserirPessoa(user);
+
+                        Login frame = new Login(null);
+                        frame.setVisible(true);
+
+                    } else {
+                        System.out.println("As palavras passes não coincidem");
+                    }
                 }
 
             }

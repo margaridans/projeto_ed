@@ -90,10 +90,18 @@ public class Menus {
                         Mensagem msg = new Mensagem(conteudo, d, IdTipoMensagem, p);
 
                         sql.inserirMensagem(msg);
-                        System.out.println("Mensagem partilhada. Esteja atento agora aos comentários! ");
+                        System.out.println("");
+                        System.out.println("**********");
+                        System.out.println("*  BOA!! *");
+                        System.out.println("**********");
+                        System.out.print("Mensagem partilhada. Esteja atento agora aos comentários! ");
                         menuPrincipal(user_logado);
                     } else if ("2".equals(lerOpcaoMensagem)) {
-                        System.out.println("A sua mensagem não foi partilhada com os seus amigos!");
+                        System.out.println("");
+                        System.out.println("*************");
+                        System.out.println("*  OH NÃO!! *");
+                        System.out.println("*************");
+                        System.out.print("A sua mensagem não foi partilhada com os seus amigos!");
                         menuPrincipal(user_logado);
                     }
                     break;
