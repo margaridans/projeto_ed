@@ -13,7 +13,7 @@ import static javafx.scene.input.KeyCode.T;
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
  */
-public class Mensagem implements Comparable<Mensagem>{
+public class Mensagem implements Comparable<Mensagem> {
 
     private int id_mensagem;
     private String conteudo_msg;
@@ -109,11 +109,9 @@ public class Mensagem implements Comparable<Mensagem>{
         this.email_user = email_user;
     }
 
-    
-
     @Override
-    public int compareTo(Mensagem o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int compareTo(Mensagem msg) {
+        return data_publicacao.compareTo(msg.data_publicacao);
     }
 
 }

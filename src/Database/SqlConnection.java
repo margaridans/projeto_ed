@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import org.sqlite.SQLiteConfig;
 import ArrayList.ArrayUnorderedList;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -540,6 +541,7 @@ public class SqlConnection {
 
                 hasMensagem = true;
                 Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
+             
                 valor.add(tmpMensagem);
 
             }
