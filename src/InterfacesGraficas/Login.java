@@ -5,7 +5,7 @@
  */
 package InterfacesGraficas;
 
-import Classes.Menu;
+import Classes.Menus;
 import Classes.Pessoa;
 import Database.SqlConnection;
 import java.io.IOException;
@@ -184,8 +184,8 @@ public class Login extends javax.swing.JFrame {
                 setVisible(false);
                 System.out.println("Bem vindo " + nome_logado);
 
-                Menu inicio = new Menu(nome_logado);
-                inicio.menu(nome_logado);
+                Menus inicio = new Menus(nome_logado);
+                inicio.menuPrincipal(nome_logado);
 
             } else {
                 System.out.println("Ainda não se encontra registado");
