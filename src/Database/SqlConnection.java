@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import org.sqlite.SQLiteConfig;
 import ArrayList.ArrayUnorderedList;
+import java.text.ParseException;
+import java.util.Date;
 
 /**
  * @author Margarida Sousa - 8140092
@@ -137,7 +139,7 @@ public class SqlConnection {
                     + "TIPO_MENSAGEM VARCHAR(50) NOT NULL)";
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
-            System.out.println(ex + " : A tabela 'Tipo Mensagem' já existe!");
+            System.out.println("A tabela 'Tipo Mensagem' já existe!");
         }
     }
 
@@ -241,8 +243,7 @@ public class SqlConnection {
         try {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            SimpleDateFormat ft
-                    = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy");
             String insert = "INSERT INTO " + TABELA_MENSAGEM
                     + "(CONTEUDO_MSG, DATA_PUBLICACAO, USER_EMAIL, ID_TIPO_MENSAGEM) " + "VALUES ( '" + msg.getConteudo_msg() + "'" + ",'"
                     + ft.format(msg.getData_publicacao()) + "'" + ",'"
@@ -299,6 +300,7 @@ public class SqlConnection {
             String SQL = "SELECT * FROM Pessoa WHERE USER_EMAIL  = '" + email_user + "'";
 
             ResultSet r = statement.executeQuery(SQL);
+
             Pessoa tmp = new Pessoa(email_user, r.getString("USER_NOME"), r.getString("PASSWORD"), r.getInt("NR_CREDITOS"));
             valor = tmp;
             connection.commit();
@@ -462,22 +464,33 @@ public class SqlConnection {
         return valor;
     }
 
-    public ArrayUnorderedList<Mensagem> getMensagensPublicas(String email_user) {
+    /**
+     * Método responsável por ir buscar à base dados todas as mensagens do tipo
+     * públicas que existem daquele utilizador
+     *
+     * @param email_user email do utilizador que queremos ver as mensagens
+     * @return numa Unordered List todas as mensagens presentes na base dados daquele utilizador
+     * @throws ParseException - é lançada quando encontra erros de análise, nesta caso na transição da data de String para Date
+     */
+    public ArrayUnorderedList<Mensagem> getMensagensPublicas(String email_user) throws ParseException {
         Statement statement = null;
         ArrayUnorderedList<Mensagem> valor = new ArrayUnorderedList<>();
         try {
             connection.setAutoCommit(false);
 
             statement = connection.createStatement();
-            String SQL = "SELECT * FROM Mensagem WHERE USER_EMAIL = '" + email_user + "'" +  "ID_TIPO_MENSAGEM = 1";
+            String SQL = "SELECT * FROM Mensagem WHERE USER_EMAIL = '" + email_user + "'" + "AND ID_TIPO_MENSAGEM = 1";
 
             ResultSet r = statement.executeQuery(SQL);
 
             Boolean hasMensagem = false;
 
             while (r.next()) {
+                String data = r.getString("DATA_PUBLICACAO");
+                Date data_pub = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+           
                 hasMensagem = true;
-                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), null, r.getInt("ID_TIPO_MENSAGEM"));
+                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
                 valor.addToRear(tmpMensagem);
 
             }
@@ -486,26 +499,6 @@ public class SqlConnection {
                 System.out.println("Não existem mensagens");
                 valor = null;
             }*/
-            connection.commit();
-            statement.close();
-
-        } catch (SQLException ex) {
-            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-        }
-        return valor;
-    }
-
-    public Pessoa getAllMensagens(String email_user) {
-        Statement statement = null;
-        Pessoa valor = null;
-        try {
-            connection.setAutoCommit(false);
-            statement = connection.createStatement();
-            String SQL = "SELECT * FROM Pessoa WHERE USER_EMAIL  = '" + email_user + "'";
-
-            ResultSet r = statement.executeQuery(SQL);
-            Pessoa tmp = new Pessoa(email_user, r.getString("USER_NOME"), r.getString("PASSWORD"), r.getInt("NR_CREDITOS"));
-            valor = tmp;
             connection.commit();
             statement.close();
 
