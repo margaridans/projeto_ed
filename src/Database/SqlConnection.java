@@ -311,6 +311,33 @@ public class SqlConnection {
     }
 
     /**
+     * Método responsável por ir buscar uma pessoa específica
+     *
+     * @param nome - pessoa a ser pesquisada na base dados
+     * @return valor - pessoa encontrada na base dados com aquele email
+     * especifico
+     */
+    public Pessoa getPessoaByName(String nome) {
+        Statement statement = null;
+        Pessoa valor = null;
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM Pessoa WHERE USER_NOME  = '" + nome + "'";
+
+            ResultSet r = statement.executeQuery(SQL);
+            Pessoa tmp = new Pessoa(r.getString("USER_EMAIL"), nome, r.getString("PASSWORD"), r.getInt("NR_CREDITOS"));
+            valor = tmp;
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+    }
+
+    /**
      * Método responsável por fazer uma pesquisa à base dados para encontrar o
      * id do tipo de mensagem que corresponde ao tipo de mensagem inserida pelo
      * utilizador
@@ -426,7 +453,6 @@ public class SqlConnection {
                 System.out.println("Não existem pessoas");
                 valor = null;
             }*/
-
             connection.commit();
             statement.close();
 
@@ -436,7 +462,58 @@ public class SqlConnection {
         return valor;
     }
 
-    
+    public ArrayUnorderedList<Mensagem> getMensagensPublicas(String email_user) {
+        Statement statement = null;
+        ArrayUnorderedList<Mensagem> valor = new ArrayUnorderedList<>();
+        try {
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM Mensagem WHERE USER_EMAIL = '" + email_user + "'" +  "ID_TIPO_MENSAGEM = 1";
+
+            ResultSet r = statement.executeQuery(SQL);
+
+            Boolean hasMensagem = false;
+
+            while (r.next()) {
+                hasMensagem = true;
+                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), null, r.getInt("ID_TIPO_MENSAGEM"));
+                valor.addToRear(tmpMensagem);
+
+            }
+
+            /*if (!hasMensagem) {
+                System.out.println("Não existem mensagens");
+                valor = null;
+            }*/
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+    }
+
+    public Pessoa getAllMensagens(String email_user) {
+        Statement statement = null;
+        Pessoa valor = null;
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM Pessoa WHERE USER_EMAIL  = '" + email_user + "'";
+
+            ResultSet r = statement.executeQuery(SQL);
+            Pessoa tmp = new Pessoa(email_user, r.getString("USER_NOME"), r.getString("PASSWORD"), r.getInt("NR_CREDITOS"));
+            valor = tmp;
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+    }
 
     /**
      * Fecha a connexão à base de dados

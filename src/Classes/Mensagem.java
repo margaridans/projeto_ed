@@ -53,6 +53,12 @@ public class Mensagem {
         this.email_user = email_user;
     }
     
+       public Mensagem(String conteudo_msg, Date data_publicacao, Integer tipoMensagem) {
+        this.conteudo_msg = conteudo_msg;
+        this.data_publicacao = data_publicacao;
+        this.IdtipoMensagem = tipoMensagem;
+    }
+    
   
 
     /**

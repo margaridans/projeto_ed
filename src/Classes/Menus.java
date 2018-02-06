@@ -112,6 +112,7 @@ public class Menus {
                     if (p != null) {
                         printAllUsers(p);
                         Pessoa pEscolhida = escolherUser(p);
+                        System.out.println("");
                         menuPessoa(pEscolhida, this.utilizador_logado);
                     } else {
                         System.out.println("Não existem utilizadores");
@@ -132,7 +133,7 @@ public class Menus {
                     System.out.println("*       DEFINIÇÕES DE CONTA     *");
                     System.out.println("*********************************");
                     System.out.println("");
-                    System.out.println("Nome: " + sql.getPessoa(user_logado).getUser_nome() );
+                    System.out.println("Nome: " + sql.getPessoa(user_logado).getUser_nome());
                     System.out.println("Email: " + user_logado);
                     System.out.println("Número de créditos: " + sql.getPessoa(user_logado).getNr_creditos());
 
@@ -165,11 +166,26 @@ public class Menus {
         int counter = 0;
         ArrayIterator it = (ArrayIterator) u.iterator();
         System.out.println();
-        System.out.println("Escolha um utilizador através do seu índice");
+        System.out.println("Escolha um utilizador através do seu índice: ");
         while (it.hasNext()) {
             counter++;
             Pessoa p = (Pessoa) it.next();
             System.out.println(counter + " -> " + p.getUser_email());
+            System.out.println("");
+            System.out.println("Qual o utilizador que pretende escolher? ");
+        }
+
+    }
+
+    private void printMsgPublicas(ArrayUnorderedList<Mensagem> msg) {
+
+        ArrayIterator it = (ArrayIterator) msg.iterator();
+        System.out.println();
+        while (it.hasNext()) {
+            Mensagem mens = (Mensagem) it.next();
+            System.out.println("Mensagem: " + mens.getConteudo_msg());
+            System.out.println("");
+
         }
 
     }
@@ -194,15 +210,15 @@ public class Menus {
      * Método responsável por apresentar o menu do utilizador
      *
      * @param menuPessoa
-     * @param utiliza
+     * @param utilizador
      * @throws IOException
      */
-    public void menuPessoa(Pessoa menuPessoa, String utiliza) throws IOException {
+    public void menuPessoa(Pessoa menuPessoa, String utilizador) throws IOException {
         String nomePessoa = menuPessoa.getUser_nome();
 
         System.out.println("\n \n");
         System.out.println("* * * * * * * * * * Menu * * * * * * * * * * ");
-        System.out.println("* Bem vindo ao perfil de " + nomePessoa + "*");
+        System.out.println("* Bem vindo ao perfil de " + nomePessoa + "         *");
         System.out.println("*                                          * ");
         System.out.println("*                                          * ");
         System.out.println("*      1- Ver informação do utilizador     * ");
@@ -220,8 +236,36 @@ public class Menus {
         if (null != escolha) {
             switch (escolha) {
                 case "1":
+                    System.out.println("");
+                    System.out.println("************************************************************");
+                    System.out.println("*              INFORMAÇÃO DO USER " + nomePessoa.toUpperCase() + "                *");
+                    System.out.println("************************************************************");
+                    System.out.println("");
+                    System.out.println("Nome: " + nomePessoa);
+                    System.out.println("Email: " + sql.getPessoaByName(nomePessoa).getUser_email());
+                    System.out.println("Número de créditos: " + sql.getPessoaByName(nomePessoa).getNr_creditos());
+                    menuPessoa(menuPessoa, utilizador);
                     break;
                 case "2":
+                    //FAZER CONDIÇÃO A VER SE É AMIGO OU NÃO
+                    //IF SE NÃO FOR
+                    System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " não pode ver as suas mensagens privadas");
+                    System.out.println("***************************************");
+                    System.out.println("*              MENSAGENS              *");
+                    System.out.println("***************************************");
+
+                    String email = sql.getPessoaByName(nomePessoa).getUser_email();
+                    ArrayUnorderedList<Mensagem> msg = new ArrayUnorderedList<>();
+                    msg = sql.getMensagensPublicas("marisa@hotmail.com");
+                    if (msg != null) {
+                        printMsgPublicas(msg);
+                        System.out.println("");
+                        
+                    } else {
+                        System.out.println("Não existem mensagens deste utilizadores");
+                    }
+
+                    //IF SE NÃO FOR -> MOSTRA TODAS
                     break;
                 case "3":
                     break;
