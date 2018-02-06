@@ -214,7 +214,7 @@ public class Registo extends javax.swing.JFrame {
                         System.out.println(" * * * * * * * * * * * * * * * * BOA * * * * * * * * * * * * * * * * * *  *");
                         System.out.println(" * " + textField4.getText().toUpperCase() + " acabaste de ganhar 10 créditos apenas por te registares no blog social *");
                         System.out.println(" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *");
-                        Login frame = new Login(null);
+                        Login frame = new Login();
                         frame.setVisible(true);
 
                     } else {

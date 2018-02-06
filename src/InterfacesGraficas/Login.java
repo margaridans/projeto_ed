@@ -21,14 +21,12 @@ import projeto_ed.Projeto_ed;
  */
 public class Login extends javax.swing.JFrame {
 
-    private static Projeto_ed selected;
 
     /**
      * Creates new form Login
      */
-    public Login(Projeto_ed selected) {
+    public Login() {
         super("Blog social");
-        this.selected = selected;
         startWindow();
         initComponents();
     }
@@ -246,7 +244,7 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login(selected).setVisible(true);
+                new Login().setVisible(true);
             }
         });
     }

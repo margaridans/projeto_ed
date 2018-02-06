@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
 import GrafoPesado.Network;
+import InterfacesGraficas.Login;
 import java.sql.SQLException;
 import java.text.ParseException;
 import projeto_ed.Projeto_ed;
@@ -33,6 +34,13 @@ public class Menus {
         this.utilizador_logado = user_logado;
     }
 
+    /**
+     * 
+     * @param user_logado
+     * @throws IOException
+     * @throws ParseException
+     * @throws SQLException 
+     */
     public void menuPrincipal(String user_logado) throws IOException, ParseException, SQLException {
         this.utilizador_logado = user_logado;
         //System.out.println("Existem numero de vertices: " + this.grafoPessoas.size());
@@ -145,7 +153,8 @@ public class Menus {
                 case "5":
                     System.out.println("A sua sessão foi terminada. Até à próxima");
                     user_logado = null;
-                    Projeto_ed inicio = new Projeto_ed();
+                    Login voltar_inicio = new Login();
+                   
                     break;
                 default:
                     break;
@@ -153,6 +162,11 @@ public class Menus {
         }
     }
 
+    /**
+     * 
+     * @return
+     * @throws IOException 
+     */
     public String escreverMensagem() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
@@ -164,10 +178,14 @@ public class Menus {
         return mensagem_conteudo;
     }
 
-    private void printAllUsers(ArrayUnorderedList<Pessoa> u) {
+    /**
+     * 
+     * @param pessoa
+     */
+    private void printAllUsers(ArrayUnorderedList<Pessoa> pessoa) {
 
         int counter = 0;
-        ArrayIterator it = (ArrayIterator) u.iterator();
+        ArrayIterator it = (ArrayIterator) pessoa.iterator();
         System.out.println();
         System.out.println("Escolha um utilizador através do seu índice: ");
         while (it.hasNext()) {
@@ -180,6 +198,10 @@ public class Menus {
 
     }
 
+    /**
+     * 
+     * @param msg 
+     */
     private void printMsgPublicas(ArrayOrderedList<Mensagem> msg) {
 
         ArrayIterator it = (ArrayIterator) msg.iterator();
@@ -194,10 +216,16 @@ public class Menus {
 
     }
 
-    private Pessoa escolherUser(ArrayUnorderedList<Pessoa> u) throws IOException {
+    /**
+     * 
+     * @param pessoa
+     * @return
+     * @throws IOException 
+     */
+    private Pessoa escolherUser(ArrayUnorderedList<Pessoa> pessoa) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String escolha = in.readLine();
-        ArrayIterator it = (ArrayIterator) u.iterator();
+        ArrayIterator it = (ArrayIterator) pessoa.iterator();
         Integer counter = 0;
         while (it.hasNext()) {
             counter++;
@@ -301,6 +329,11 @@ public class Menus {
 
     }
 
+    /**
+     * 
+     * @return
+     * @throws IOException 
+     */
     public String MenuPedidosAmizade() throws IOException {
         System.out.println("\n \n");
         System.out.println("* * * * * * * * * * Menu * * * * * * * * * * ");

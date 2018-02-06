@@ -19,7 +19,7 @@ public class Projeto_ed {
 
     public Projeto_ed() {
         connection = new SqlConnection();
-        new Login(this);
+        new Login();
     }
 
   
