@@ -221,17 +221,17 @@ public class Menus {
         String nomePessoa = menuPessoa.getUser_nome();
 
         System.out.println("\n \n");
-        System.out.println("* * * * * * * * * * Menu * * * * * * * * * * ");
-        System.out.println("* Bem vindo ao perfil de " + nomePessoa + "         *");
-        System.out.println("*                                          * ");
-        System.out.println("*                                          * ");
-        System.out.println("*      1- Ver informação do utilizador     * ");
-        System.out.println("*      2- Ver mensagens Utilizador         * ");
-        System.out.println("*      3- Fazer pedido amizade             * ");
-        System.out.println("*      4- Sair do perfil do utilizador     * ");
-        System.out.println("*                                          * ");
-        System.out.println("*                                          * ");
-        System.out.println("* * * * * * * * * * * * * * * * * * * * *  * ");
+        System.out.println("* * * * * * * * * * * * Menu * * * * * * * * * * * * * *");
+        System.out.println("*            Bem vindo ao perfil de " + nomePessoa + "          *");
+        System.out.println("*                                                      *");
+        System.out.println("*                                                      *");
+        System.out.println("*           1- Ver informação do utilizador            *");
+        System.out.println("*           2- Ver mensagens Utilizador                *");
+        System.out.println("*           3- Fazer pedido amizade                    *");
+        System.out.println("*           4- Sair do perfil do utilizador            *");
+        System.out.println("*                                                      *");
+        System.out.println("*                                                      *");
+        System.out.println("* * * * * * * * * * * * * * * * * * * * *  * * * * * * *");
         System.out.println("O que pretende fazer? ");
 
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
