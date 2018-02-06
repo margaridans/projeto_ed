@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
 import GrafoPesado.Network;
+import java.sql.SQLException;
 import java.text.ParseException;
 import projeto_ed.Projeto_ed;
 
@@ -31,7 +32,7 @@ public class Menus {
         this.utilizador_logado = user_logado;
     }
 
-    public void menuPrincipal(String user_logado) throws IOException, ParseException {
+    public void menuPrincipal(String user_logado) throws IOException, ParseException, SQLException {
         this.utilizador_logado = user_logado;
         //System.out.println("Existem numero de vertices: " + this.grafoPessoas.size());
         System.out.println("\n \n");
@@ -216,7 +217,7 @@ public class Menus {
      * @throws IOException
      * @throws java.text.ParseException
      */
-    public void menuPessoa(Pessoa menuPessoa, String utilizador) throws IOException, ParseException {
+    public void menuPessoa(Pessoa menuPessoa, String utilizador) throws IOException, ParseException, SQLException {
         String nomePessoa = menuPessoa.getUser_nome();
 
         System.out.println("\n \n");
@@ -250,18 +251,20 @@ public class Menus {
                     menuPessoa(menuPessoa, utilizador);
                     break;
                 case "2":
-                    //FAZER CONDIÇÃO A VER SE É AMIGO OU NÃO
-                    //IF SE NÃO FOR
+                    String email = sql.getPessoaByName(nomePessoa).getUser_email();
+                    ArrayUnorderedList<Mensagem> msg = new ArrayUnorderedList<>();
+
+                    //SE NÃO FOREM AMIGOS -> PUBLICAS
+                    System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
+
                     System.out.println("");
-                    System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " não pode ver as suas mensagens privadas");
                     System.out.println("***************************************");
                     System.out.println("*              MENSAGENS              *");
                     System.out.println("***************************************");
 
-                    String email = sql.getPessoaByName(nomePessoa).getUser_email();
-                    ArrayUnorderedList<Mensagem> msg = new ArrayUnorderedList<>();
                     msg = sql.getMensagensPublicas(email);
                     if (msg != null) {
+
                         printMsgPublicas(msg);
                         System.out.println("");
 
@@ -269,7 +272,21 @@ public class Menus {
                         System.out.println("Não existem mensagens deste utilizadores");
                     }
 
-                    //IF SE NÃO FOR -> MOSTRA TODAS
+                    //SE FOR AMIGOS -> MOSTRA TODAS
+                   /* System.out.println("");
+                    System.out.println("***************************************");
+                    System.out.println("*              MENSAGENS              *");
+                    System.out.println("***************************************");
+
+                    msg = sql.getAllMensagens(email);
+                    if (msg != null) {
+
+                        printMsgPublicas(msg);
+                        System.out.println("");
+
+                    } else {
+                        System.out.println("Não existem mensagens deste utilizadores");
+                    }*/
                     break;
                 case "3":
                     break;

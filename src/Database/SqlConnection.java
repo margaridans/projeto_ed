@@ -469,8 +469,10 @@ public class SqlConnection {
      * públicas que existem daquele utilizador
      *
      * @param email_user email do utilizador que queremos ver as mensagens
-     * @return numa Unordered List todas as mensagens presentes na base dados daquele utilizador
-     * @throws ParseException - é lançada quando encontra erros de análise, nesta caso na transição da data de String para Date
+     * @return numa Unordered List todas as mensagens presentes na base dados
+     * daquele utilizador
+     * @throws ParseException - é lançada quando encontra erros de análise,
+     * nesta caso na transição da data de String para Date
      */
     public ArrayUnorderedList<Mensagem> getMensagensPublicas(String email_user) throws ParseException {
         Statement statement = null;
@@ -488,7 +490,53 @@ public class SqlConnection {
             while (r.next()) {
                 String data = r.getString("DATA_PUBLICACAO");
                 Date data_pub = new SimpleDateFormat("dd/MM/yyyy").parse(data);
-           
+
+                hasMensagem = true;
+                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
+                valor.addToRear(tmpMensagem);
+
+            }
+
+            /*if (!hasMensagem) {
+                System.out.println("Não existem mensagens");
+                valor = null;
+            }*/
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+    }
+
+    /**
+     * Método responsável por ir buscar à base dados todas as mensagens que
+     * existem daquele utilizador
+     *
+     * @param email_user email do utilizador que queremos ver as mensagens
+     * @return numa Unordered List todas as mensagens presentes na base dados
+     * daquele utilizador
+     * @throws ParseException - é lançada quando encontra erros de análise,
+     * nesta caso na transição da data de String para Date
+     */
+    public ArrayUnorderedList<Mensagem> getAllMensagens(String email_user) throws ParseException {
+        Statement statement = null;
+        ArrayUnorderedList<Mensagem> valor = new ArrayUnorderedList<>();
+        try {
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM Mensagem WHERE USER_EMAIL = '" + email_user + "'";
+
+            ResultSet r = statement.executeQuery(SQL);
+
+            Boolean hasMensagem = false;
+
+            while (r.next()) {
+                String data = r.getString("DATA_PUBLICACAO");
+                Date data_pub = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+
                 hasMensagem = true;
                 Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
                 valor.addToRear(tmpMensagem);
