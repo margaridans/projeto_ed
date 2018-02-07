@@ -13,12 +13,8 @@ import java.text.SimpleDateFormat;
 import org.sqlite.SQLiteConfig;
 import ArrayList.ArrayUnorderedList;
 import Classes.Comentario;
-import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import java.text.ParseException;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import static javafx.scene.input.KeyCode.T;
 
 /**
  * @author Margarida Sousa - 8140092
@@ -125,7 +121,6 @@ public class SqlConnection {
                     + "ID_MENSAGEM INTEGER NOT NULL,"
                     + "FOREIGN KEY(ID_MENSAGEM) REFERENCES Mensagem(ID_MENSAGEM),"
                     + "FOREIGN KEY(USER_EMAIL) REFERENCES Pessoa(USER_EMAIL))";
-
             stm.executeUpdate(sqlTable);
         } catch (SQLException ex) {
             System.out.println("A tabela 'Comentario' já existe!");
@@ -228,6 +223,42 @@ public class SqlConnection {
                     + user.getPassword() + "');";
 
             statement.executeUpdate(insert);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
+
+    public void apagarPessoa(String email_user) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String delete = "DELETE FROM Pessoa WHERE USER_EMAIL  = '" + email_user + "'";
+
+            statement.executeUpdate(delete);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
+    
+    public void apagarMensagem(Integer id_mensagem) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String delete = "DELETE FROM Mensagem WHERE ID_MENSAGEM  = '" + id_mensagem + "'";
+
+            statement.executeUpdate(delete);
 
             connection.commit();
             statement.close();
@@ -546,7 +577,7 @@ public class SqlConnection {
                 hasMensagem = true;
                 Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
                 valor.add(tmpMensagem);
-                
+
             }
 
             /*if (!hasMensagem) {

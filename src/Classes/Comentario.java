@@ -105,10 +105,21 @@ public class Comentario implements Comparable<Comentario>{
     public void setId_mensagem(Integer id_mensagem) {
         this.id_mensagem = id_mensagem;
     }
-
+    
+    
     @Override
     public int compareTo(Comentario coment) {
-        return data_comentario.compareTo(coment.data_comentario);
+       long myDateMiliSec = this.data_comentario.getTime();
+       long otherDateMiliSec = coment.getData_comentario().getTime();
+     
+       if(myDateMiliSec > otherDateMiliSec){
+           return -1;
+       }else if(myDateMiliSec < otherDateMiliSec){
+           return 1;
+           
+       }else{
+           return 0;
+       }
     }
 
 }
