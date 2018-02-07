@@ -121,9 +121,9 @@ public class Mensagem implements Comparable<Mensagem> {
        long myDateMiliSec = this.data_publicacao.getTime();
        long otherDateMiliSec = msg.getData_publicacao().getTime();
        if(myDateMiliSec > otherDateMiliSec){
-           return 1;
-       }else if(myDateMiliSec < otherDateMiliSec){
            return -1;
+       }else if(myDateMiliSec < otherDateMiliSec){
+           return 1;
            
        }else{
            return 0;
