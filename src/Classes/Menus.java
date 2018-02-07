@@ -124,6 +124,7 @@ public class Menus {
                     ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
                     System.out.println("\n");
                     System.out.println("************** AS MINHAS MENSAGENS**************");
+                    System.out.println("");
                     msg = sql.getAllMensagens(user_logado);
 
                     if (msg.size() == 0) {
@@ -482,11 +483,12 @@ public class Menus {
             if (sql.ifExisteComentariosMensagem(idMensagem) == true) {
                 Comentario comentario = new Comentario();
                 comentario_mensagem = sql.getComentarioById(idMensagem);
+
                 printComentario(comentario_mensagem);
 
             } else {
                 System.out.println("Não há comentários");
-                System.out.println("______________________________________________");
+                System.out.println("______________________________________________________");
                 System.out.println("");
 
             }
@@ -505,8 +507,9 @@ public class Menus {
             Comentario comentario = (Comentario) it.next();
             System.out.println("Comentário " + counter + ": " + comentario.getComentario());
             System.out.println("Publicado em: " + comentario.getData_comentario().toLocaleString());
-            System.out.println("______________________________________________");
+            System.out.println("");
         }
+            System.out.println("______________________________________________________");
 
     }
 

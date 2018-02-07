@@ -555,15 +555,20 @@ public class SqlConnection {
             String SQL = "SELECT * FROM Comentario WHERE ID_MENSAGEM  = '" + id_mensagem + "'";
 
             ResultSet r = statement.executeQuery(SQL);
-            String data = r.getString("DATA_COMENT");
+            Boolean hasComentario = false;
 
-            Date data_coment = new SimpleDateFormat("dd/MM/yyyy").parse(data);
-            Comentario tmp = new Comentario(r.getString("CONTEUDO_COMENT"), data_coment, null, id_mensagem);
+            while (r.next()) {
+                String data = r.getString("DATA_COMENT");
+                Date data_coment = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+                
+                hasComentario = true;
+                Comentario tmp = new Comentario(r.getString("CONTEUDO_COMENT"), data_coment, null, id_mensagem);
 
-            valor.add(tmp);
+                valor.add(tmp);
+
+            }
             connection.commit();
             statement.close();
-
         } catch (SQLException ex) {
             System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
         }
@@ -671,8 +676,6 @@ public class SqlConnection {
         stmt.close();
         return result;
     }
-
-    
 
     /**
      * Método que verifica na base dados se existe o email e a password
