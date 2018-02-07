@@ -108,9 +108,25 @@ public class Mensagem implements Comparable<Mensagem> {
         this.email_user = email_user;
     }
 
+    
+    /*
     @Override
     public int compareTo(Mensagem msg) {
         return data_publicacao.compareTo(msg.getData_publicacao());
     }
-
+    */
+    
+    @Override
+    public int compareTo(Mensagem msg) {
+       long myDateMiliSec = this.data_publicacao.getTime();
+       long otherDateMiliSec = msg.getData_publicacao().getTime();
+       if(myDateMiliSec > otherDateMiliSec){
+           return 1;
+       }else if(myDateMiliSec < otherDateMiliSec){
+           return -1;
+           
+       }else{
+           return 0;
+       }
+    }
 }
