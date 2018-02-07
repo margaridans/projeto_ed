@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.codec.digest.DigestUtils;
 import projeto_ed.Projeto_ed;
 
 /**
@@ -178,7 +179,11 @@ public class Login extends javax.swing.JFrame {
         Pessoa ps = new Pessoa();
         SqlConnection sql = Projeto_ed.connection;
         try {
-            if (sql.ifExisteLogin(textField3.getText(), jPasswordField1.getText()) == true) {
+            
+            String password = jPasswordField1.getText();
+            String passwordEncrip = DigestUtils.md5Hex(password);
+            
+            if (sql.ifExisteLogin(textField3.getText(), passwordEncrip) == true) {
                 String nome_logado = textField3.getText();
                 setVisible(false);
                 System.out.println("Bem vindo " + nome_logado);

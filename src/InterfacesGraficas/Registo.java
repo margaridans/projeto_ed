@@ -10,6 +10,7 @@ import Database.SqlConnection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.codec.digest.DigestUtils;
 import projeto_ed.Projeto_ed;
 
 /**
@@ -206,7 +207,10 @@ public class Registo extends javax.swing.JFrame {
                 } else {
                     if (jPasswordField1.getText().equals(jPasswordField2.getText())) {
 
-                        Pessoa user = new Pessoa(textField3.getText(), textField4.getText(), jPasswordField1.getText(), 10);
+                        String password=jPasswordField1.getText();
+                        String passwordEncrip=DigestUtils.md5Hex(password);
+                        
+                        Pessoa user = new Pessoa(textField3.getText(), textField4.getText(), passwordEncrip, 10);
 
                         sql.inserirPessoa(user);
                         System.out.println("Utilizador registado com sucesso!");
