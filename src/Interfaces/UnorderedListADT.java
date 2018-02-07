@@ -3,9 +3,9 @@ package interfaces;
 import Exceptions.ElementNotFoundException;
 
 /**
- * @param <T> T element
- * @author Bernardino Silva - 8140277
- * @author Rui Bessa - 8140210
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
+ * @param <T>
  */
 public interface UnorderedListADT<T> extends ListADT<T> {
 
