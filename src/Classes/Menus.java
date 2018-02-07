@@ -122,6 +122,7 @@ public class Menus {
                     break;
                 case "2":
                     ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
+                    System.out.println("\n");
                     System.out.println("************** AS MINHAS MENSAGENS**************");
                     msg = sql.getAllMensagens(user_logado);
 
@@ -277,7 +278,7 @@ public class Menus {
                     System.out.println("***************************************");
                     System.out.println("*              MENSAGENS              *");
                     System.out.println("***************************************");
-
+                    System.out.println("");
                     msg = sql.getMensagensPublicas(email);
                     if (msg.size() != 0) {
 
@@ -465,18 +466,46 @@ public class Menus {
      * @param msg coleção de mensagens que vamos percorrer e consequentemente
      * imprimir
      */
-    private void printMsg(ArrayOrderedList<Mensagem> msg) throws ParseException {
+    private void printMsg(ArrayOrderedList<Mensagem> msg) throws ParseException, SQLException {
         int counter = 0;
         ArrayIterator it = (ArrayIterator) msg.iterator();
+        ArrayOrderedList<Comentario> comentario_mensagem;
+
+        while (it.hasNext()) {
+            counter++;
+            Mensagem mens = (Mensagem) it.next();
+            System.out.println("Mensagem " + counter + ": " + mens.getConteudo_msg());
+            System.out.println("Publicada em: " + mens.getData_publicacao().toLocaleString());
+            System.out.println("");
+
+            Integer idMensagem = sql.verIdMensagem(mens.getConteudo_msg());
+            if (sql.ifExisteComentariosMensagem(idMensagem) == true) {
+                Comentario comentario = new Comentario();
+                comentario_mensagem = sql.getComentarioById(idMensagem);
+                printComentario(comentario_mensagem);
+
+            } else {
+                System.out.println("Não há comentários");
+                System.out.println("______________________________________________");
+                System.out.println("");
+
+            }
+
+        }
+
+    }
+
+    private void printComentario(ArrayOrderedList<Comentario> coment) throws ParseException {
+        int counter = 0;
+        ArrayIterator it = (ArrayIterator) coment.iterator();
 
         System.out.println();
         while (it.hasNext()) {
             counter++;
-            Mensagem mens = (Mensagem) it.next();
-            System.out.println("Publicada em: " + mens.getData_publicacao().toString());
-            System.out.println("Mensagem " + counter + ": " + mens.getConteudo_msg());
-            System.out.println("");
-
+            Comentario comentario = (Comentario) it.next();
+            System.out.println("Comentário " + counter + ": " + comentario.getComentario());
+            System.out.println("Publicado em: " + comentario.getData_comentario().toLocaleString());
+            System.out.println("______________________________________________");
         }
 
     }
