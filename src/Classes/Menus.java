@@ -122,13 +122,16 @@ public class Menus {
                 case "2":
                     ArrayUnorderedList<Pessoa> pessoa = new ArrayUnorderedList<>();
                     pessoa = sql.getAllPessoas(user_logado);
-                    if (pessoa != null) {
+
+                    if (pessoa.size() != 0) {
                         printAllUsers(pessoa);
                         Pessoa pEscolhida = escolherUser(pessoa);
                         System.out.println("");
                         menuPessoa(pEscolhida, this.utilizador_logado);
-                    } else if (pessoa == null) {
+                    } else {
+                        System.out.println("");
                         System.out.println("Não existem utilizadores");
+                        menuPrincipal(user_logado);
                     }
                     break;
 

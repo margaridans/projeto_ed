@@ -211,9 +211,9 @@ public class Registo extends javax.swing.JFrame {
                         sql.inserirPessoa(user);
                         System.out.println("Utilizador registado com sucesso!");
                         System.out.println("");
-                        System.out.println(" * * * * * * * * * * * * * * * * BOA * * * * * * * * * * * * * * * * * *  *");
-                        System.out.println(" * " + textField4.getText().toUpperCase() + " acabaste de ganhar 10 créditos apenas por te registares no blog social *");
-                        System.out.println(" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  *");
+                        System.out.println(" * * * * * * * * * * * * * * * * * * * * * * * * BOA * * * * * * * * * * * * * * * * * * * * * * * * * *");
+                        System.out.println(" *              "+ textField4.getText().toUpperCase() + " acabaste de ganhar 10 créditos apenas por te registares no blog social             *");
+                        System.out.println(" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
                         Login frame = new Login();
                         frame.setVisible(true);
 
