@@ -26,6 +26,7 @@ import projeto_ed.Projeto_ed;
  */
 public class Menus {
 
+    private Integer id_Mensagem = 0;
     private SqlConnection sql = Projeto_ed.connection;
     private String utilizador_logado = null;
     private Network<Pessoa> grafoPessoas = new Network<>();
@@ -123,24 +124,29 @@ public class Menus {
                     ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
                     System.out.println("************** AS MINHAS MENSAGENS**************");
                     msg = sql.getAllMensagens(user_logado);
-                    printMsg(msg);
-                    System.out.println("");
-                    System.out.println("Deseja eliminar alguma mensagem?\n1-Sim\n2-Não");
-                    String desejaEliminar = in.readLine();
-                    if ("1".equals(desejaEliminar)) {
-                        System.out.print("Qual a mensagem que pretende eliminar? Indique o seu índice: ");
-                        Mensagem msg_eliminada = escolherMsgEliminada(msg);
-                        Integer idMensagem = 0;
-                        idMensagem = sql.verIdMensagem(msg_eliminada.getConteudo_msg());
 
-                        sql.apagarMensagem(idMensagem);
-                        System.out.println("");
-                        System.out.println("Com pena nossa, a sua mensagem foi eliminada.");
-                        menuPrincipal(user_logado);
+                    if (msg.size() == 0) {
+                        System.out.println("Não tem mensagens");
                     } else {
+                        printMsg(msg);
                         System.out.println("");
-                        System.out.println("Ainda bem que não quis eliminar as suas mensagens");
-                        menuPrincipal(user_logado);
+                        System.out.println("Deseja eliminar alguma mensagem?\n1-Sim\n2-Não");
+                        String desejaEliminar = in.readLine();
+                        if ("1".equals(desejaEliminar)) {
+                            System.out.print("Qual a mensagem que pretende eliminar? Indique o seu índice: ");
+                            Mensagem msg_eliminada = escolherMsgEliminada(msg);
+                            Integer idMensagem = 0;
+                            idMensagem = sql.verIdMensagem(msg_eliminada.getConteudo_msg());
+
+                            sql.apagarMensagem(idMensagem);
+                            System.out.println("");
+                            System.out.println("Com pena nossa, a sua mensagem foi eliminada.");
+                            menuPrincipal(user_logado);
+                        } else {
+                            System.out.println("");
+                            System.out.println("Ainda bem que não quis eliminar as suas mensagens");
+                            menuPrincipal(user_logado);
+                        }
                     }
 
                     break;
@@ -289,15 +295,14 @@ public class Menus {
                                 System.out.println("***************COMENTÁRIOS****************");
                                 Mensagem msg_comentar = escolherMsg(msg);
 
-                                Integer idMensagem = 0;
-                                idMensagem = sql.verIdMensagem(msg_comentar.getConteudo_msg());
+                                id_Mensagem = sql.verIdMensagem(msg_comentar.getConteudo_msg());
 
                                 System.out.println("");
                                 System.out.print("Comente aqui: ");
                                 String conteudo_coment = in.readLine();
                                 Pessoa pessoa_logada = sql.getPessoa(utilizador_logado);
 
-                                Comentario comentario = new Comentario(conteudo_coment, data_pub, pessoa_logada, idMensagem);
+                                Comentario comentario = new Comentario(conteudo_coment, data_pub, pessoa_logada, id_Mensagem);
                                 sql.inserirComent(comentario);
                                 System.out.println("O seu comentário foi feito com sucesso");
                                 menuPessoa(pessoaEscolhida, utilizador);
@@ -460,9 +465,10 @@ public class Menus {
      * @param msg coleção de mensagens que vamos percorrer e consequentemente
      * imprimir
      */
-    private void printMsg(ArrayOrderedList<Mensagem> msg) {
+    private void printMsg(ArrayOrderedList<Mensagem> msg) throws ParseException {
         int counter = 0;
         ArrayIterator it = (ArrayIterator) msg.iterator();
+
         System.out.println();
         while (it.hasNext()) {
             counter++;
