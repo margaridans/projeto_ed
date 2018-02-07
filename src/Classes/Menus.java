@@ -97,10 +97,10 @@ public class Menus {
                     String lerOpcaoMensagem = in.readLine();
 
                     if ("1".equals(lerOpcaoMensagem)) {
-                        Date d = new Date();
+                        Date data_pub = new Date();
 
-                        Pessoa p = sql.getPessoa(user_logado);
-                        Mensagem msg = new Mensagem(conteudo, d, IdTipoMensagem, p);
+                        Pessoa pessoa_logada = sql.getPessoa(user_logado);
+                        Mensagem msg = new Mensagem(conteudo, data_pub, IdTipoMensagem, pessoa_logada);
 
                         sql.inserirMensagem(msg);
                         System.out.println("");
@@ -213,7 +213,7 @@ public class Menus {
                     break;
                 case "2":
                     String email = sql.getPessoaByName(nomePessoa).getUser_email();
-                    ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
+                    ArrayUnorderedList<Mensagem> msg = new ArrayUnorderedList<>();
 
                     //SE NÃO FOREM AMIGOS -> PUBLICAS
                     System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
@@ -228,6 +228,32 @@ public class Menus {
 
                         printMsgPublicas(msg);
                         System.out.println("");
+                        System.out.println("Pretende comentar alguma mensagem?\n1- Sim\n2- Não, pretendo sair");
+                        String escolha_comentario = in.readLine();
+                        switch (escolha_comentario) {
+                            case "1":
+                                Date data_pub = new Date();
+
+                                System.out.print("Qual a mensagem que pretende comentar? Indique o seu índice: ");
+                                Mensagem msg_comentar = escolherMsg(msg);
+                                System.out.println("***************COMENTÁRIOS****************");
+                                System.out.println(msg_comentar.getConteudo_msg());
+
+                                Integer idMensagem = 0;
+                                idMensagem=sql.verIdMensagem(msg_comentar.getConteudo_msg());
+                                
+                                System.out.print("Comente aqui: ");
+                                String conteudo_coment = in.readLine();
+                                Pessoa pessoa_logada = sql.getPessoa(utilizador_logado);
+
+                                Comentario comentario = new Comentario(conteudo_coment, data_pub, pessoa_logada, idMensagem);
+                                sql.inserirComent(comentario);
+                                System.out.println("Comentário inserido com sucesso");
+                                break;
+                            case "2":
+                                menuPessoa(pessoaEscolhida, utilizador);
+                                break;
+                        }
 
                     } else {
                         System.out.println("Não existem mensagens deste utilizadores");
@@ -320,6 +346,24 @@ public class Menus {
 
     }
 
+    private Mensagem escolherMsg(ArrayUnorderedList<Mensagem> msg) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String escolha = in.readLine();
+
+        ArrayIterator it = (ArrayIterator) msg.iterator();
+        Integer counter = 0;
+        while (it.hasNext()) {
+            counter++;
+            Mensagem mensa = (Mensagem) it.next();
+            if (escolha.equals(counter.toString())) {
+                System.out.println("Escolheu a mensagem " + "'" + mensa.getConteudo_msg() + "'" + " para ser comentada");
+                return mensa;
+            }
+        }
+        return null;
+
+    }
+
     /**
      * Método responsável pela escrita da mensagem, o utilizador vai escrever a
      * mensagem e através do BufferedReader vamos ler do teclado o que
@@ -346,14 +390,15 @@ public class Menus {
      * @param msg coleção de mensagens que vamos percorrer e consequentemente
      * imprimir
      */
-    private void printMsgPublicas(ArrayOrderedList<Mensagem> msg) {
-
+    private void printMsgPublicas(ArrayUnorderedList<Mensagem> msg) {
+        int counter = 0;
         ArrayIterator it = (ArrayIterator) msg.iterator();
         System.out.println();
         while (it.hasNext()) {
+            counter++;
             Mensagem mens = (Mensagem) it.next();
             System.out.println("Publicada em: " + mens.getData_publicacao().toString());
-            System.out.println("Mensagem: " + mens.getConteudo_msg());
+            System.out.println("Mensagem " + counter + ": " + mens.getConteudo_msg());
             System.out.println("");
 
         }

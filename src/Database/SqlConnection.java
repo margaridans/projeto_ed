@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import org.sqlite.SQLiteConfig;
 import ArrayList.ArrayUnorderedList;
+import Classes.Comentario;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -286,6 +287,33 @@ public class SqlConnection {
     }
 
     /**
+     *
+     * @param coment
+     */
+    public void inserirComent(Comentario coment) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy");
+            String insert = "INSERT INTO " + TABELA_COMENTARIO
+                    + "(CONTEUDO_COMENT, DATA_COMENT, USER_EMAIL, ID_MENSAGEM) " + "VALUES ( '" + coment.getComentario() + "'" + ",'"
+                    + ft.format(coment.getData_comentario()) + "'" + ",'"
+                    + coment.getEmail_user().getUser_email() + "'" + ",'"
+                    + coment.getId_mensagem() + "');";
+
+            statement.executeUpdate(insert);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
+
+    /**
      * Método responsável por ir buscar uma pessoa específica
      *
      * @param email_user pessoa a ser pesquisada na base dados
@@ -366,6 +394,26 @@ public class SqlConnection {
         return valor;
 
     }
+
+        public Integer verIdMensagem(String conteudoMsg) {
+        Statement statement = null;
+        Integer valor = 0;
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String SQL = "SELECT ID_MENSAGEM FROM Mensagem WHERE CONTEUDO_MSG  = '" + conteudoMsg + "'";
+            ResultSet r = statement.executeQuery(SQL);
+            valor = Integer.parseInt(r.getString("ID_MENSAGEM"));
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+
+    }
+   
 
     /**
      * Método responsável pela verificação do utilizador na base dados perante o
@@ -475,9 +523,9 @@ public class SqlConnection {
      * @throws ParseException - é lançada quando encontra erros de análise,
      * nesta caso na transição da data de String para Date
      */
-    public ArrayOrderedList<Mensagem> getMensagensPublicas(String email_user) throws ParseException {
+    public ArrayUnorderedList<Mensagem> getMensagensPublicas(String email_user) throws ParseException {
         Statement statement = null;
-        ArrayOrderedList<Mensagem> valor = new ArrayOrderedList<>();
+        ArrayUnorderedList<Mensagem> valor = new ArrayUnorderedList<>();
         try {
             connection.setAutoCommit(false);
 
@@ -494,7 +542,7 @@ public class SqlConnection {
 
                 hasMensagem = true;
                 Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
-                valor.add(tmpMensagem);
+                valor.addToRear(tmpMensagem);
 
             }
 
@@ -540,7 +588,7 @@ public class SqlConnection {
 
                 hasMensagem = true;
                 Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
-             
+
                 valor.add(tmpMensagem);
 
             }

@@ -17,7 +17,7 @@ public class Comentario {
     private String comentario;
     private Date data_comentario;
     private Pessoa email_user;
-    private Mensagem id_mensagem;
+    private Integer id_mensagem;
 
     /**
      * Método construtor que permite a criação de uma nova instância de
@@ -29,7 +29,7 @@ public class Comentario {
      * @param email_user email de quem escreveu o comentário
      * @param id_mensagem id da mensagem associada ao comentário
      */
-    public Comentario(int id_comentario, String comentario, Date data_comentario, Pessoa email_user, Mensagem id_mensagem) {
+    public Comentario(int id_comentario, String comentario, Date data_comentario, Pessoa email_user, Integer id_mensagem) {
         this.id_comentario = id_comentario;
         this.comentario = comentario;
         this.data_comentario = data_comentario;
@@ -46,7 +46,7 @@ public class Comentario {
      * @param email_user email de quem escreveu o comentário
      * @param id_mensagem id da mensagem associada ao comentário
      */
-    public Comentario(String comentario, Date data_comentario, Pessoa email_user, Mensagem id_mensagem) {
+    public Comentario(String comentario, Date data_comentario, Pessoa email_user, Integer id_mensagem) {
         this.comentario = comentario;
         this.data_comentario = data_comentario;
         this.email_user = email_user;
@@ -92,11 +92,11 @@ public class Comentario {
         this.email_user = email_user;
     }
 
-    public Mensagem getId_mensagem() {
+    public Integer getId_mensagem() {
         return id_mensagem;
     }
 
-    public void setId_mensagem(Mensagem id_mensagem) {
+    public void setId_mensagem(Integer id_mensagem) {
         this.id_mensagem = id_mensagem;
     }
 
