@@ -13,8 +13,12 @@ import java.text.SimpleDateFormat;
 import org.sqlite.SQLiteConfig;
 import ArrayList.ArrayUnorderedList;
 import Classes.Comentario;
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import static javafx.scene.input.KeyCode.T;
 
 /**
  * @author Margarida Sousa - 8140092
@@ -542,7 +546,7 @@ public class SqlConnection {
                 hasMensagem = true;
                 Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
                 valor.add(tmpMensagem);
-
+                
             }
 
             /*if (!hasMensagem) {

@@ -110,7 +110,7 @@ public class Mensagem implements Comparable<Mensagem> {
 
     @Override
     public int compareTo(Mensagem msg) {
-        return data_publicacao.compareTo(msg.data_publicacao);
+        return msg.getData_publicacao().compareTo(data_publicacao);
     }
 
 }
