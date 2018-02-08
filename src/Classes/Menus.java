@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
 import GrafoPesado.Network;
-import InterfacesGraficas.Login;
 import java.sql.SQLException;
 import java.text.ParseException;
 import projeto_ed.Projeto_ed;
@@ -34,6 +33,10 @@ public class Menus {
     public Menus(String user_logado) {
         this.utilizador_logado = user_logado;
     }
+
+    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    Boolean terminarSwitch = false;
+    ArrayIterator it;
 
     /**
      * Método responsável por imprimir o menu principal e por fazer a gestão das
@@ -60,20 +63,21 @@ public class Menus {
         System.out.println("*                                                  * ");
         System.out.println("*                                                  * ");
         System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * *  * ");
-        System.out.print("O que pretende fazer? ");
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("O que pretende fazer? ");
         String escolha = in.readLine();
 
         if (null != escolha) {
 
             switch (escolha) {
-
+                //ESCREVER MENSAGEM
                 case "1":
                     System.out.println("\n");
                     System.out.println("* * * * * * * * * * * * * * * * * * * * * * *");
                     System.out.println("* O QUE QUER PARTILHAR COM OS SEUS AMIGOS?  *");
                     System.out.println("* * * * * * * * * * * * * * * * * * * * * * *");
+
+                    //Onde o utilizador vai escrever a mensagem
                     String conteudo = escreverMensagem();
 
                     System.out.println("");
@@ -81,7 +85,6 @@ public class Menus {
                             + "1 - PRIVADA: Apenas os seus amigos podem ver as suas mensagens publicadas\n"
                             + "2 - PÚBLICA: Todos os utilizadores podem ver as suas mensagens publicadas\n\n"
                             + "Como pretende guardar a sua mensagem? ");
-
                     int lerTipoMensagem = Integer.parseInt(in.readLine());
 
                     Integer IdTipoMensagem = null;
@@ -92,133 +95,151 @@ public class Menus {
                     }
 
                     System.out.println("\n");
-
                     System.out.println("Está prestes a partilhar a sua mensagem com os seus amigos...\n\n"
                             + "Tem a certeza que pretende continuar?\n"
                             + "1- Sim\n2- Não ");
-                    String lerOpcaoMensagem = in.readLine();
+                    String continuarMensagem = in.readLine();
 
-                    if ("1".equals(lerOpcaoMensagem)) {
+                    //Se sim pretende continuar
+                    if ("1".equals(continuarMensagem)) {
                         Date data_pub = new Date();
+                        Pessoa pessoa_logada = sql.getPessoa(user_logado); //Vai buscar a pessoa logada
 
-                        Pessoa pessoa_logada = sql.getPessoa(user_logado);
                         Mensagem msg = new Mensagem(conteudo, data_pub, IdTipoMensagem, pessoa_logada);
+                        sql.inserirMensagem(msg); //Insere a mensagem
 
-                        sql.inserirMensagem(msg);
                         System.out.println("");
                         System.out.println("**********");
                         System.out.println("*  BOA!! *");
                         System.out.println("**********");
                         System.out.print("Mensagem partilhada. Esteja atento agora aos comentários! ");
-                        menuPrincipal(user_logado);
-                    } else if ("2".equals(lerOpcaoMensagem)) {
+                        menuPrincipal(user_logado); //Volta ao menu principal
+
+                        //Se não pretende continuar
+                    } else if ("2".equals(continuarMensagem)) {
                         System.out.println("");
                         System.out.println("*************");
                         System.out.println("*  OH NÃO!! *");
                         System.out.println("*************");
                         System.out.print("A sua mensagem não foi partilhada com os seus amigos!");
-                        menuPrincipal(user_logado);
+                        menuPrincipal(user_logado); //Volta ao menu principal
                     }
                     break;
+
+                //GERIR MINHAS MENSAGENS
                 case "2":
                     ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
+
                     System.out.println("\n");
                     System.out.println("************** AS MINHAS MENSAGENS**************");
                     System.out.println("");
-                    msg = sql.getAllMensagens(user_logado);
+
+                    msg = sql.getAllMensagens(user_logado); //vai buscar todas as minhas mensagens
 
                     if (msg.size() == 0) {
                         System.out.println("Não tem mensagens");
                     } else {
-                        printMsg(msg);
+                        printMsg(msg);  //imprime todas as minhas mensagens
+
                         System.out.println("");
                         System.out.println("Deseja eliminar alguma mensagem?\n1-Sim\n2-Não");
                         String desejaEliminar = in.readLine();
+
+                        //Se desejar eliminar
                         if ("1".equals(desejaEliminar)) {
                             System.out.print("Qual a mensagem que pretende eliminar? Indique o seu índice: ");
-                            Mensagem msg_eliminada = escolherMsgEliminada(msg);
-                            Integer idMensagem = 0;
-                            idMensagem = sql.verIdMensagem(msg_eliminada.getConteudo_msg());
 
-                            sql.apagarMensagem(idMensagem);
+                            Mensagem msg_eliminada = escolherMsgEliminada(msg); //Escolha da mensagem que vai ser eliminada
+
+                            Integer idMensagem = sql.verIdMensagem(msg_eliminada.getConteudo_msg());
+                            sql.apagarMensagem(idMensagem); //Apaga a mensagem
+
                             System.out.println("");
                             System.out.println("Com pena nossa, a sua mensagem foi eliminada.");
-                            menuPrincipal(user_logado);
+                            menuPrincipal(user_logado); //Volta ao menu principal
+                            //Se não desejar eliminar    
                         } else {
                             System.out.println("");
-                            System.out.println("Ainda bem que não quis eliminar as suas mensagens");
-                            menuPrincipal(user_logado);
+                            System.out.println("Ainda bem que não quis eliminar as suas mensagens!");
+                            menuPrincipal(user_logado); //Volta ao menu principal
                         }
                     }
-
                     break;
+
+                //VER UTILIZADORES    
                 case "3":
                     ArrayUnorderedList<Pessoa> pessoa = new ArrayUnorderedList<>();
-                    pessoa = sql.getAllPessoas(user_logado);
+                    pessoa = sql.getAllPessoas(user_logado); //Vai buscar as pessoas todas
 
+                    //Se houver pessoas 
                     if (pessoa.size() != 0) {
-                        printAllUsers(pessoa);
-                        Pessoa pEscolhida = escolherUser(pessoa);
+                        printAllUsers(pessoa); //mostra todos os utilizadores
+                        Pessoa pEscolhida = escolherUser(pessoa); //guarda a pessoa que foi escolhida
                         System.out.println("");
-                        menuPessoa(pEscolhida, this.utilizador_logado);
+                        menuPessoa(pEscolhida, this.utilizador_logado); //Vai para o menu da pessoa
+                        //Se não houver pessoas 
                     } else {
                         System.out.println("");
                         System.out.println("Não existem utilizadores");
-                        menuPrincipal(user_logado);
+                        menuPrincipal(user_logado); //Volta ao menu principal
                     }
                     break;
 
+                //PEDIDOS DE AMIZADE
                 case "4":
                     String escolha_opcaoPedido = MenuPedidosAmizade();
 
-                    if ("2".equals(escolha_opcaoPedido)) {
-
-                    }
-                    break;
-
+                //DEFINIÇÕES DE CONTA
                 case "5":
-                    String nome_pessoaLogada = sql.getPessoa(user_logado).getUser_nome();
+                    String nome_pessoaLogada = sql.getPessoa(user_logado).getUser_nome(); //nome da pessoa logada
+
                     System.out.println("");
                     System.out.println("*********************************");
                     System.out.println("*       DEFINIÇÕES DE CONTA     *");
                     System.out.println("*********************************");
                     System.out.println("");
+
                     System.out.println("Nome: " + nome_pessoaLogada);
                     System.out.println("Email: " + user_logado);
                     System.out.println("Número de créditos: " + sql.getPessoa(user_logado).getNr_creditos());
                     System.out.println("");
+
                     System.out.println("Deseja apagar a sua conta?\n1-Sim\n2-Não");
                     String apagarConta = in.readLine();
-                    if (null == apagarConta) {
-                        System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
-                    } else {
+                    while (terminarSwitch == false) {
                         switch (apagarConta) {
-                            case "1":
-                                sql.apagarPessoa(user_logado);
+                            case "1":  //Se quiser apagar conta
+                                sql.apagarPessoa(user_logado); //apaga a conta
                                 System.out.println("Que pena. Vai fazer falta. Até um dia");
-                                Login login = new Login();
+                                System.exit(0); //Encerra o programa
+                                terminarSwitch = true;
                                 break;
-                            case "2":
+
+                            case "2": //Se não quiser apagar conta
                                 System.out.println("");
                                 System.out.println("Ainda bem que não apagou a sua conta. Iria fazer falta!");
                                 menuPrincipal(user_logado);
+                                terminarSwitch = true;
                                 break;
-                            default:
+
+                            default: //Se não escolher nenhuma destas opções
                                 System.out.println("");
                                 System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
+                                apagarConta = in.readLine();
+                                terminarSwitch = false;
                                 break;
                         }
                     }
-
                     break;
 
+                //TEMINAR SESSÃO
                 case "6":
                     System.out.println("A sua sessão foi terminada. Até à próxima");
                     user_logado = null;
-                    Login voltar_inicio = new Login();
-
+                    System.exit(0); //Encerra o programa
                     break;
-                default:
+                default: //Se não escolher nenhuma opção do menu principal
+                    menuPrincipal(user_logado); //Volta para o menu principal
                     break;
             }
         }
@@ -252,44 +273,48 @@ public class Menus {
         System.out.println("* * * * * * * * * * * * * * * * * * * * *  * * * * * * *");
         System.out.println("O que pretende fazer? ");
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String escolha = in.readLine();
 
-        if (null != escolha) {
-            switch (escolha) {
-                case "1":
-                    System.out.println("");
-                    System.out.println("************************************************************");
-                    System.out.println("*              INFORMAÇÃO DO USER " + nomePessoa.toUpperCase() + "                *");
-                    System.out.println("************************************************************");
-                    System.out.println("");
-                    System.out.println("Nome: " + nomePessoa);
-                    System.out.println("Email: " + sql.getPessoaByName(nomePessoa).getUser_email());
-                    System.out.println("Número de créditos: " + sql.getPessoaByName(nomePessoa).getNr_creditos());
-                    menuPessoa(pessoaEscolhida, utilizador);
-                    break;
-                case "2":
-                    String email = sql.getPessoaByName(nomePessoa).getUser_email();
-                    ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
+        switch (escolha) {
+            //VER INFORMAÇÕES AMIGO/NÃO AMIGO
+            case "1":
+                System.out.println("");
+                System.out.println("************************************************************");
+                System.out.println("*              INFORMAÇÃO DO USER " + nomePessoa.toUpperCase() + "                *");
+                System.out.println("************************************************************");
+                System.out.println("");
 
-                    //SE NÃO FOREM AMIGOS -> PUBLICAS
-                    System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
+                System.out.println("Nome: " + nomePessoa);
+                System.out.println("Email: " + sql.getPessoaByName(nomePessoa).getUser_email());
+                System.out.println("Número de créditos: " + sql.getPessoaByName(nomePessoa).getNr_creditos());
+                menuPessoa(pessoaEscolhida, utilizador);
+                break;
+
+            //VER MENSAGENS DO AMIGO/NÃO AMIGO
+            case "2":
+                String email = sql.getPessoaByName(nomePessoa).getUser_email();
+                ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
+
+                //SE NÃO FOREM AMIGOS -> PUBLICAS
+                System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
+
+                System.out.println("");
+                System.out.println("***************************************");
+                System.out.println("*              MENSAGENS              *");
+                System.out.println("***************************************");
+                System.out.println("");
+                msg = sql.getMensagensPublicas(email); //vai buscar as mensagens públicas
+
+                if (msg.size() != 0) {
+                    printMsg(msg); //imprime as mensagens públicas
 
                     System.out.println("");
-                    System.out.println("***************************************");
-                    System.out.println("*              MENSAGENS              *");
-                    System.out.println("***************************************");
-                    System.out.println("");
-                    msg = sql.getMensagensPublicas(email);
-                    if (msg.size() != 0) {
+                    System.out.println("Pretende comentar alguma mensagem?\n1- Sim\n2- Não, pretendo sair");
+                    String pretendeComentar = in.readLine();
 
-                        printMsg(msg);
-
-                        System.out.println("");
-                        System.out.println("Pretende comentar alguma mensagem?\n1- Sim\n2- Não, pretendo sair");
-                        String escolha_comentario = in.readLine();
-                        switch (escolha_comentario) {
-                            case "1":
+                    while (terminarSwitch == false) {
+                        switch (pretendeComentar) {
+                            case "1": //Caso queira comentar
                                 Date data_pub = new Date();
                                 System.out.println("");
                                 System.out.print("Qual a mensagem que pretende comentar? Indique o seu índice: ");
@@ -308,42 +333,40 @@ public class Menus {
                                 sql.inserirComent(comentario);
                                 System.out.println("O seu comentário foi feito com sucesso");
                                 menuPessoa(pessoaEscolhida, utilizador);
+                                terminarSwitch = true;
                                 break;
-                            case "2":
-                                menuPessoa(pessoaEscolhida, utilizador);
-                                break;
-                        }
 
-                    } else {
-                        System.out.println("Não existem mensagens deste utilizadores");
+                            case "2": //Caso não queira comentar
+                                menuPessoa(pessoaEscolhida, utilizador);
+                                terminarSwitch = true;
+                                break;
+
+                            default://Caso escolha uma opção inválida
+                                System.out.println("");
+                                System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
+                                pretendeComentar = in.readLine();
+                                terminarSwitch = false;
+                        }
                     }
 
-                    //SE FOR AMIGOS -> MOSTRA TODAS
-                    /* System.out.println("");
-                    System.out.println("***************************************");
-                    System.out.println("*              MENSAGENS              *");
-                    System.out.println("***************************************");
+                } else {
+                    System.out.println("Não existem mensagens deste utilizadores");
+                }
 
-                    msg = sql.getAllMensagens(email);
-                    if (msg != null) {
+                //SE FOR AMIGOS -> MOSTRA TODAS -> FALTA CÓDIGO DEPOIS DOS PEDIDOS DE AMIZADE
+                break;
 
-                        printMsg(msg);
-                        System.out.println("");
+            //FAZER PEDIDO DE AMIZADE
+            case "3":
+                break;
 
-                    } else {
-                        System.out.println("Não existem mensagens deste utilizadores");
-                    }*/
-                    break;
-                case "3":
-                    break;
-                case "4":
-                    this.menuPrincipal(this.utilizador_logado);
-                    break;
-                default:
-                    break;
-            }
+            //SAIR DO PERFIL
+            case "4":
+                this.menuPrincipal(this.utilizador_logado);
+                break;
+            default:
+                break;
         }
-
     }
 
     /**
@@ -367,10 +390,9 @@ public class Menus {
         System.out.println("* * * * * * * * * * * * * * * * * * * * *  * ");
         System.out.println("O que pretende fazer? ");
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String escolha = in.readLine();
+        String escolhaMenuAmizade = in.readLine();
 
-        return escolha;
+        return escolhaMenuAmizade;
     }
 
     /**
@@ -388,33 +410,54 @@ public class Menus {
      * @throws IOException
      */
     private Pessoa escolherUser(ArrayUnorderedList<Pessoa> pessoa) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String escolha = in.readLine();
-
-        ArrayIterator it = (ArrayIterator) pessoa.iterator();
+        it = (ArrayIterator) pessoa.iterator();
         Integer counter = 0;
+
         while (it.hasNext()) {
+            String escolhaUser = in.readLine(); //Lê a escolha do user
+
             counter++;
             Pessoa p = (Pessoa) it.next();
-            if (escolha.equals(counter.toString())) {
-                System.out.println("Escolheu o utilizador " + p.getUser_nome());
-                return p;
+            while (terminarSwitch == false) {
+                if (escolhaUser.equals(counter.toString())) {
+                    System.out.println("Escolheu o utilizador " + p.getUser_nome());
+                    terminarSwitch = true;
+                    return p;
+
+                } else {
+                    System.out.println("Escolha novamente, esse utilizador não existe.");
+                    escolhaUser = in.readLine();
+                    terminarSwitch = false;
+                }
             }
+
         }
         return null;
 
     }
 
+    /**
+     * Este método é responsável pela seleção da mensagem que pretendemos,
+     * através do BufferedReader lê a opção que o utilizador escolheu e através
+     * do iterador vai percorrendo as mensasagens mostradas no ecrã fazendo o
+     * count, depois vai ver se a opção que o utilizador escolheu é igual ao
+     * count se foi retorna a mensagem que foi, se não continua a percorrer até
+     * ser escolhida
+     *
+     * @param msg coleção de mensagens que podem ser escolhidas, isto é, que
+     * foram mostradas ao utilizador para ele escolher
+     * @return mensagem escolhida
+     * @throws IOException
+     */
     private Mensagem escolherMsg(ArrayOrderedList<Mensagem> msg) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String escolha = in.readLine();
+        String escolhaMensagem = in.readLine();
 
-        ArrayIterator it = (ArrayIterator) msg.iterator();
+        it = (ArrayIterator) msg.iterator();
         Integer counter = 0;
         while (it.hasNext()) {
             counter++;
             Mensagem mensa = (Mensagem) it.next();
-            if (escolha.equals(counter.toString())) {
+            if (escolhaMensagem.equals(counter.toString())) {
                 System.out.println("Escolheu a mensagem " + "'" + mensa.getConteudo_msg() + "'" + " para ser comentada");
                 return mensa;
             }
@@ -423,16 +466,24 @@ public class Menus {
 
     }
 
+    /**
+     * Este método é responsável pelo retorno da mensagem que o utilizador quer
+     * eliminar
+     *
+     * @param msg coleção de mensagens que vai ser percorrida para ver qual o
+     * utilizador vai escolher
+     * @return mensagem que vai ser eliminada
+     * @throws IOException
+     */
     private Mensagem escolherMsgEliminada(ArrayOrderedList<Mensagem> msg) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String escolha = in.readLine();
+        String escolhaMsgEliminada = in.readLine();
 
-        ArrayIterator it = (ArrayIterator) msg.iterator();
+        it = (ArrayIterator) msg.iterator();
         Integer counter = 0;
         while (it.hasNext()) {
             counter++;
             Mensagem mensa = (Mensagem) it.next();
-            if (escolha.equals(counter.toString())) {
+            if (escolhaMsgEliminada.equals(counter.toString())) {
                 System.out.println("Escolheu a mensagem " + "'" + mensa.getConteudo_msg() + "'" + " para ser eliminada");
                 return mensa;
             }
@@ -450,11 +501,11 @@ public class Menus {
      * @throws IOException
      */
     public String escreverMensagem() throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("");
         System.out.print("Escreva aqui: ");
         String lerMensagem = in.readLine();
+
         String mensagem_conteudo = lerMensagem;
 
         return mensagem_conteudo;
@@ -468,8 +519,8 @@ public class Menus {
      * imprimir
      */
     private void printMsg(ArrayOrderedList<Mensagem> msg) throws ParseException, SQLException {
-        int counter = 0;
-        ArrayIterator it = (ArrayIterator) msg.iterator();
+        Integer counter = 0;
+        it = (ArrayIterator) msg.iterator();
         ArrayOrderedList<Comentario> comentario_mensagem;
 
         while (it.hasNext()) {
@@ -480,26 +531,31 @@ public class Menus {
             System.out.println("");
 
             Integer idMensagem = sql.verIdMensagem(mens.getConteudo_msg());
+            //Se exister comentários para aquela mensagem
             if (sql.ifExisteComentariosMensagem(idMensagem) == true) {
                 Comentario comentario = new Comentario();
-                comentario_mensagem = sql.getComentarioById(idMensagem);
-
-                printComentario(comentario_mensagem);
+               
+                comentario_mensagem = sql.getComentarioById(idMensagem); //ele vai buscar os comentário
+                printComentario(comentario_mensagem); //e vai imprimir
 
             } else {
                 System.out.println("Não há comentários");
                 System.out.println("______________________________________________________");
                 System.out.println("");
-
             }
 
         }
 
     }
 
+    /**
+     * Método resposável por imprimir os comentários
+     * @param coment coleção de comentários que vão ser mostrados
+     * @throws ParseException 
+     */
     private void printComentario(ArrayOrderedList<Comentario> coment) throws ParseException {
-        int counter = 0;
-        ArrayIterator it = (ArrayIterator) coment.iterator();
+        Integer counter = 0;
+        it = (ArrayIterator) coment.iterator();
 
         System.out.println();
         while (it.hasNext()) {
@@ -509,7 +565,7 @@ public class Menus {
             System.out.println("Publicado em: " + comentario.getData_comentario().toLocaleString());
             System.out.println("");
         }
-            System.out.println("______________________________________________________");
+        System.out.println("______________________________________________________");
 
     }
 
@@ -522,8 +578,9 @@ public class Menus {
      */
     private void printAllUsers(ArrayUnorderedList<Pessoa> pessoa) {
 
-        int counter = 0;
-        ArrayIterator it = (ArrayIterator) pessoa.iterator();
+        Integer counter = 0;
+        it = (ArrayIterator) pessoa.iterator();
+
         System.out.println();
         System.out.println("Escolha um utilizador através do seu índice: ");
         while (it.hasNext()) {
