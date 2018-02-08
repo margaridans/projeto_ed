@@ -213,7 +213,7 @@ public class Menus {
                     break;
                 case "2":
                     String email = sql.getPessoaByName(nomePessoa).getUser_email();
-                    ArrayUnorderedList<Mensagem> msg = new ArrayUnorderedList<>();
+                    ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
 
                     //SE NÃO FOREM AMIGOS -> PUBLICAS
                     System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
@@ -224,31 +224,34 @@ public class Menus {
                     System.out.println("***************************************");
 
                     msg = sql.getMensagensPublicas(email);
-                    if (msg != null) {
+                    if (msg.size()!=0) {
 
                         printMsgPublicas(msg);
+
                         System.out.println("");
                         System.out.println("Pretende comentar alguma mensagem?\n1- Sim\n2- Não, pretendo sair");
                         String escolha_comentario = in.readLine();
                         switch (escolha_comentario) {
                             case "1":
                                 Date data_pub = new Date();
-
+                                System.out.println("");
                                 System.out.print("Qual a mensagem que pretende comentar? Indique o seu índice: ");
-                                Mensagem msg_comentar = escolherMsg(msg);
+                                System.out.println("\n");
                                 System.out.println("***************COMENTÁRIOS****************");
-                                System.out.println(msg_comentar.getConteudo_msg());
+                                Mensagem msg_comentar = escolherMsg(msg);
 
                                 Integer idMensagem = 0;
-                                idMensagem=sql.verIdMensagem(msg_comentar.getConteudo_msg());
-                                
+                                idMensagem = sql.verIdMensagem(msg_comentar.getConteudo_msg());
+
+                                System.out.println("");
                                 System.out.print("Comente aqui: ");
                                 String conteudo_coment = in.readLine();
                                 Pessoa pessoa_logada = sql.getPessoa(utilizador_logado);
 
                                 Comentario comentario = new Comentario(conteudo_coment, data_pub, pessoa_logada, idMensagem);
                                 sql.inserirComent(comentario);
-                                System.out.println("Comentário inserido com sucesso");
+                                System.out.println("O seu comentário foi feito com sucesso");
+                                menuPessoa(pessoaEscolhida, utilizador);
                                 break;
                             case "2":
                                 menuPessoa(pessoaEscolhida, utilizador);
@@ -346,7 +349,7 @@ public class Menus {
 
     }
 
-    private Mensagem escolherMsg(ArrayUnorderedList<Mensagem> msg) throws IOException {
+    private Mensagem escolherMsg(ArrayOrderedList<Mensagem> msg) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String escolha = in.readLine();
 
@@ -390,7 +393,7 @@ public class Menus {
      * @param msg coleção de mensagens que vamos percorrer e consequentemente
      * imprimir
      */
-    private void printMsgPublicas(ArrayUnorderedList<Mensagem> msg) {
+    private void printMsgPublicas(ArrayOrderedList<Mensagem> msg) {
         int counter = 0;
         ArrayIterator it = (ArrayIterator) msg.iterator();
         System.out.println();

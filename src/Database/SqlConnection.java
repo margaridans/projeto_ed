@@ -395,7 +395,7 @@ public class SqlConnection {
 
     }
 
-        public Integer verIdMensagem(String conteudoMsg) {
+    public Integer verIdMensagem(String conteudoMsg) {
         Statement statement = null;
         Integer valor = 0;
         try {
@@ -413,7 +413,6 @@ public class SqlConnection {
         return valor;
 
     }
-   
 
     /**
      * Método responsável pela verificação do utilizador na base dados perante o
@@ -523,9 +522,9 @@ public class SqlConnection {
      * @throws ParseException - é lançada quando encontra erros de análise,
      * nesta caso na transição da data de String para Date
      */
-    public ArrayUnorderedList<Mensagem> getMensagensPublicas(String email_user) throws ParseException {
+    public ArrayOrderedList<Mensagem> getMensagensPublicas(String email_user) throws ParseException {
         Statement statement = null;
-        ArrayUnorderedList<Mensagem> valor = new ArrayUnorderedList<>();
+        ArrayOrderedList<Mensagem> valor = new ArrayOrderedList<>();
         try {
             connection.setAutoCommit(false);
 
@@ -542,7 +541,7 @@ public class SqlConnection {
 
                 hasMensagem = true;
                 Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
-                valor.addToRear(tmpMensagem);
+                valor.add(tmpMensagem);
 
             }
 
@@ -595,6 +594,41 @@ public class SqlConnection {
 
             /*if (!hasMensagem) {
                 System.out.println("Não existem mensagens");
+                valor = null;
+            }*/
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+    }
+
+    public ArrayOrderedList<Comentario> getComentsMensagem(Integer idMensagem) throws ParseException {
+        Statement statement = null;
+        ArrayOrderedList<Comentario> valor = new ArrayOrderedList<>();
+        try {
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM Comentario WHERE ID_MENSAGEM  = '" + idMensagem + "'";
+
+            ResultSet r = statement.executeQuery(SQL);
+
+            Boolean hasComentario = false;
+            String data = r.getString("DATA_COMENT");
+            Date data_coment = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+
+            while (r.next()) {
+                hasComentario = true;
+                Comentario coment = new Comentario(r.getString("COMENTARIO"), data_coment, r.getInt("ID_MENSAGEM"));
+                valor.add(coment);
+
+            }
+
+            /*if (!hasComentario) {
+                System.out.println("Não existem comentários");
                 valor = null;
             }*/
             connection.commit();

@@ -11,7 +11,7 @@ import java.util.Date;
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
  */
-public class Comentario {
+public class Comentario implements Comparable<Comentario>{
 
     private int id_comentario;
     private String comentario;
@@ -50,6 +50,12 @@ public class Comentario {
         this.comentario = comentario;
         this.data_comentario = data_comentario;
         this.email_user = email_user;
+        this.id_mensagem = id_mensagem;
+    }
+    
+       public Comentario(String comentario, Date data_comentario,  Integer id_mensagem) {
+        this.comentario = comentario;
+        this.data_comentario = data_comentario;
         this.id_mensagem = id_mensagem;
     }
 
@@ -98,6 +104,11 @@ public class Comentario {
 
     public void setId_mensagem(Integer id_mensagem) {
         this.id_mensagem = id_mensagem;
+    }
+
+    @Override
+    public int compareTo(Comentario coment) {
+        return data_comentario.compareTo(coment.data_comentario);
     }
 
 }
