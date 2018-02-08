@@ -317,8 +317,9 @@ public class SqlConnection {
 
     //--------------------------------------------UTILIZADOR------------------------------------------------//
     /**
+     * Método responsável por eliminar uma pessoa da base dados
      *
-     * @param email_user
+     * @param email_user email da pessoa que vai ser eliminada
      */
     public void apagarPessoa(String email_user) {
         Statement statement = null;
@@ -436,8 +437,9 @@ public class SqlConnection {
 
     //--------------------------------------------MENSAGENS-------------------------------------------------//
     /**
+     * Método responsável por apagar uma mensagem da base dados
      *
-     * @param id_mensagem
+     * @param id_mensagem - id da mensagem que vai ser eliminada
      */
     public void apagarMensagem(Integer id_mensagem) {
         Statement statement = null;
@@ -606,9 +608,13 @@ public class SqlConnection {
 
     //--------------------------------------------COMENTÁRIOS-------------------------------------------------//
     /**
+     * Este método é responsável por ir buscar os comentários correspondentes a
+     * uma mensagem
      *
-     * @param id_mensagem
-     * @return
+     * @param id_mensagem id da mensagem ao qualpretende ir buscar os
+     * comentários
+     * @return Ordered List de todos os comentários presentes na base dados
+     * associados aquela mensagem
      * @throws ParseException
      */
     public ArrayOrderedList<Comentario> getComentarioById(Integer id_mensagem) throws ParseException {
@@ -625,7 +631,6 @@ public class SqlConnection {
             while (r.next()) {
                 String data = r.getString("DATA_COMENT");
                 Date data_coment = new SimpleDateFormat("dd/MM/yyyy").parse(data);
-
                 hasComentario = true;
                 Comentario tmp = new Comentario(r.getString("CONTEUDO_COMENT"), data_coment, null, id_mensagem);
 
@@ -641,9 +646,9 @@ public class SqlConnection {
     }
 
     /**
-     *
-     * @param id_mensagem
-     * @return
+     * Método responsável para ver se existem comentários associados a uma mensagem
+     * @param id_mensagem id da mensagem que se pretente ver se há comentários
+     * @return true se houver comentários para aquela mensagem ou false caso não haja
      * @throws SQLException
      */
     public boolean ifExisteComentariosMensagem(Integer id_mensagem) throws SQLException {
