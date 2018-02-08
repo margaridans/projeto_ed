@@ -35,8 +35,8 @@ public class Menus {
     }
 
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-    Boolean terminarSwitch = false;
     ArrayIterator it;
+    Boolean terminarSwitch = false;
 
     /**
      * Método responsável por imprimir o menu principal e por fazer a gestão das
@@ -88,10 +88,24 @@ public class Menus {
                     int lerTipoMensagem = Integer.parseInt(in.readLine());
 
                     Integer IdTipoMensagem = null;
-                    if (1 == lerTipoMensagem) {
-                        IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PRIVADA.getDescricao());
-                    } else if (2 == lerTipoMensagem) {
-                        IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PUBLICA.getDescricao());
+
+                    terminarSwitch = false;
+                    while (terminarSwitch == false) {
+                        switch (lerTipoMensagem) {
+                            case 1:
+                                IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PRIVADA.getDescricao());
+                                terminarSwitch = true;
+                                break;
+                            case 2:
+                                IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PUBLICA.getDescricao());
+                                terminarSwitch = true;
+                                break;
+                            default:
+                                System.out.println("A sua opção não foi válida, escolha apenas 1 - Privada   |     2 - Pública");
+                                lerTipoMensagem = Integer.parseInt(in.readLine());
+                                terminarSwitch = false;
+                                break;
+                        }
                     }
 
                     System.out.println("\n");
@@ -100,29 +114,38 @@ public class Menus {
                             + "1- Sim\n2- Não ");
                     String continuarMensagem = in.readLine();
 
-                    //Se sim pretende continuar
-                    if ("1".equals(continuarMensagem)) {
-                        Date data_pub = new Date();
-                        Pessoa pessoa_logada = sql.getPessoa(user_logado); //Vai buscar a pessoa logada
+                    terminarSwitch = false;
+                    while (terminarSwitch == false) {
+                        switch (continuarMensagem) {
+                            case "1": //Se sim pretende continuar
+                                Date data_pub = new Date();
+                                Pessoa pessoa_logada = sql.getPessoa(user_logado); //Vai buscar a pessoa logada
+                                Mensagem msg = new Mensagem(conteudo, data_pub, IdTipoMensagem, pessoa_logada);
+                                sql.inserirMensagem(msg); //Insere a mensagem
+                                System.out.println("");
+                                System.out.println("**********");
+                                System.out.println("*  BOA!! *");
+                                System.out.println("**********");
+                                System.out.print("Mensagem partilhada. Esteja atento agora aos comentários! ");
+                                menuPrincipal(user_logado); //Volta ao menu principal
+                                terminarSwitch = true;
+                                break;
 
-                        Mensagem msg = new Mensagem(conteudo, data_pub, IdTipoMensagem, pessoa_logada);
-                        sql.inserirMensagem(msg); //Insere a mensagem
-
-                        System.out.println("");
-                        System.out.println("**********");
-                        System.out.println("*  BOA!! *");
-                        System.out.println("**********");
-                        System.out.print("Mensagem partilhada. Esteja atento agora aos comentários! ");
-                        menuPrincipal(user_logado); //Volta ao menu principal
-
-                        //Se não pretende continuar
-                    } else if ("2".equals(continuarMensagem)) {
-                        System.out.println("");
-                        System.out.println("*************");
-                        System.out.println("*  OH NÃO!! *");
-                        System.out.println("*************");
-                        System.out.print("A sua mensagem não foi partilhada com os seus amigos!");
-                        menuPrincipal(user_logado); //Volta ao menu principal
+                            case "2": //Se não pretende continuar
+                                System.out.println("");
+                                System.out.println("*************");
+                                System.out.println("*  OH NÃO!! *");
+                                System.out.println("*************");
+                                System.out.print("A sua mensagem não foi partilhada com os seus amigos!");
+                                menuPrincipal(user_logado); //Volta ao menu principal
+                                terminarSwitch = true;
+                                break;
+                            default:
+                                System.out.println("Essa opção é inválida. Selecione apenas 1- Sim   |   2- Não");
+                                continuarMensagem = in.readLine();
+                                terminarSwitch = false;
+                                break;
+                        }
                     }
                     break;
 
@@ -145,23 +168,32 @@ public class Menus {
                         System.out.println("Deseja eliminar alguma mensagem?\n1-Sim\n2-Não");
                         String desejaEliminar = in.readLine();
 
-                        //Se desejar eliminar
-                        if ("1".equals(desejaEliminar)) {
-                            System.out.print("Qual a mensagem que pretende eliminar? Indique o seu índice: ");
+                        terminarSwitch = false;
+                        while (terminarSwitch == false) {
+                            switch (desejaEliminar) {
+                                case "1": //Se desejar eliminar
+                                    System.out.print("Qual a mensagem que pretende eliminar? Indique o seu índice: ");
+                                    Mensagem msg_eliminada = escolherMsgEliminada(msg); //Escolha da mensagem que vai ser eliminada
+                                    Integer idMensagem = sql.verIdMensagem(msg_eliminada.getConteudo_msg());
+                                    sql.apagarMensagem(idMensagem); //Apaga a mensagem
+                                    System.out.println("");
+                                    System.out.println("Com pena nossa, a sua mensagem foi eliminada.");
+                                    menuPrincipal(user_logado); //Volta ao menu principal
+                                    terminarSwitch = true;
+                                    break;
 
-                            Mensagem msg_eliminada = escolherMsgEliminada(msg); //Escolha da mensagem que vai ser eliminada
-
-                            Integer idMensagem = sql.verIdMensagem(msg_eliminada.getConteudo_msg());
-                            sql.apagarMensagem(idMensagem); //Apaga a mensagem
-
-                            System.out.println("");
-                            System.out.println("Com pena nossa, a sua mensagem foi eliminada.");
-                            menuPrincipal(user_logado); //Volta ao menu principal
-                            //Se não desejar eliminar    
-                        } else {
-                            System.out.println("");
-                            System.out.println("Ainda bem que não quis eliminar as suas mensagens!");
-                            menuPrincipal(user_logado); //Volta ao menu principal
+                                case "2": //Se não desejar eliminar
+                                    System.out.println("");
+                                    System.out.println("Ainda bem que não quis eliminar as suas mensagens!");
+                                    menuPrincipal(user_logado); //Volta ao menu principal
+                                    terminarSwitch = true;
+                                    break;
+                                default:
+                                    System.out.println("Essa opção é inválida. Selecione apenas 1- Sim   |   2- Não");
+                                    desejaEliminar = in.readLine();
+                                    terminarSwitch = false;
+                                    break;
+                            }
                         }
                     }
                     break;
@@ -206,6 +238,8 @@ public class Menus {
 
                     System.out.println("Deseja apagar a sua conta?\n1-Sim\n2-Não");
                     String apagarConta = in.readLine();
+
+                    terminarSwitch = false;
                     while (terminarSwitch == false) {
                         switch (apagarConta) {
                             case "1":  //Se quiser apagar conta
@@ -307,13 +341,13 @@ public class Menus {
 
                 if (msg.size() != 0) {
                     printMsg(msg); //imprime as mensagens públicas
-
                     System.out.println("");
                     System.out.println("Pretende comentar alguma mensagem?\n1- Sim\n2- Não, pretendo sair");
-                    String pretendeComentar = in.readLine();
+                    String pertendeComentar = in.readLine();
 
+                    terminarSwitch = false;
                     while (terminarSwitch == false) {
-                        switch (pretendeComentar) {
+                        switch (pertendeComentar) {
                             case "1": //Caso queira comentar
                                 Date data_pub = new Date();
                                 System.out.println("");
@@ -344,8 +378,9 @@ public class Menus {
                             default://Caso escolha uma opção inválida
                                 System.out.println("");
                                 System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
-                                pretendeComentar = in.readLine();
+                                pertendeComentar = in.readLine();
                                 terminarSwitch = false;
+
                         }
                     }
 
@@ -364,7 +399,8 @@ public class Menus {
             case "4":
                 this.menuPrincipal(this.utilizador_logado);
                 break;
-            default:
+            default: //Se não escolher nenhuma opção do menu principal
+                menuPessoa(pessoaEscolhida, utilizador); //Volta para o menu da pessoa
                 break;
         }
     }
@@ -418,6 +454,7 @@ public class Menus {
 
             counter++;
             Pessoa p = (Pessoa) it.next();
+            terminarSwitch = false;
             while (terminarSwitch == false) {
                 if (escolhaUser.equals(counter.toString())) {
                     System.out.println("Escolheu o utilizador " + p.getUser_nome());
@@ -534,7 +571,7 @@ public class Menus {
             //Se exister comentários para aquela mensagem
             if (sql.ifExisteComentariosMensagem(idMensagem) == true) {
                 Comentario comentario = new Comentario();
-               
+
                 comentario_mensagem = sql.getComentarioById(idMensagem); //ele vai buscar os comentário
                 printComentario(comentario_mensagem); //e vai imprimir
 
@@ -550,8 +587,9 @@ public class Menus {
 
     /**
      * Método resposável por imprimir os comentários
+     *
      * @param coment coleção de comentários que vão ser mostrados
-     * @throws ParseException 
+     * @throws ParseException
      */
     private void printComentario(ArrayOrderedList<Comentario> coment) throws ParseException {
         Integer counter = 0;
