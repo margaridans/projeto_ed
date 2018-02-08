@@ -63,6 +63,7 @@ public class SqlConnection {
         }
     }
 
+    //--------------------------------------------CRIAR TABELAS-------------------------------------------------//
     /**
      * Criação da tabela que vai permitir armazenar pessoas
      */
@@ -205,6 +206,7 @@ public class SqlConnection {
         }
     }
 
+    //------------------------------------------INSERIR DADOS NAS TABELAS-----------------------------------------------//
     /**
      * Inserir utilizadores na tabela Pessoas
      *
@@ -313,6 +315,7 @@ public class SqlConnection {
         }
     }
 
+    //--------------------------------------------UTILIZADOR------------------------------------------------//
     /**
      *
      * @param email_user
@@ -324,28 +327,6 @@ public class SqlConnection {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
             String delete = "DELETE FROM Pessoa WHERE USER_EMAIL  = '" + email_user + "'";
-            statement.executeUpdate(delete);
-
-            connection.commit();
-            statement.close();
-
-        } catch (SQLException ex) {
-            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param id_mensagem
-     */
-    public void apagarMensagem(Integer id_mensagem) {
-        Statement statement = null;
-
-        try {
-            connection.setAutoCommit(false);
-            statement = connection.createStatement();
-            String delete = "DELETE FROM Mensagem WHERE ID_MENSAGEM  = '" + id_mensagem + "'";
-
             statement.executeUpdate(delete);
 
             connection.commit();
@@ -453,6 +434,29 @@ public class SqlConnection {
         return valor;
     }
 
+    //--------------------------------------------MENSAGENS-------------------------------------------------//
+    /**
+     *
+     * @param id_mensagem
+     */
+    public void apagarMensagem(Integer id_mensagem) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String delete = "DELETE FROM Mensagem WHERE ID_MENSAGEM  = '" + id_mensagem + "'";
+
+            statement.executeUpdate(delete);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
+
     /**
      * Método responsável por ir buscar à base dados todas as mensagens do tipo
      * públicas que existem daquele utilizador
@@ -546,35 +550,6 @@ public class SqlConnection {
         return valor;
     }
 
-    public ArrayOrderedList<Comentario> getComentarioById(Integer id_mensagem) throws ParseException {
-        Statement statement = null;
-        ArrayOrderedList<Comentario> valor = new ArrayOrderedList<>();
-        try {
-            connection.setAutoCommit(false);
-            statement = connection.createStatement();
-            String SQL = "SELECT * FROM Comentario WHERE ID_MENSAGEM  = '" + id_mensagem + "'";
-
-            ResultSet r = statement.executeQuery(SQL);
-            Boolean hasComentario = false;
-
-            while (r.next()) {
-                String data = r.getString("DATA_COMENT");
-                Date data_coment = new SimpleDateFormat("dd/MM/yyyy").parse(data);
-                
-                hasComentario = true;
-                Comentario tmp = new Comentario(r.getString("CONTEUDO_COMENT"), data_coment, null, id_mensagem);
-
-                valor.add(tmp);
-
-            }
-            connection.commit();
-            statement.close();
-        } catch (SQLException ex) {
-            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-        }
-        return valor;
-    }
-
     /**
      * Método responsável por fazer uma pesquisa à base dados para encontrar o
      * id do tipo de mensagem que corresponde ao tipo de mensagem inserida pelo
@@ -629,6 +604,68 @@ public class SqlConnection {
 
     }
 
+    //--------------------------------------------COMENTÁRIOS-------------------------------------------------//
+    /**
+     *
+     * @param id_mensagem
+     * @return
+     * @throws ParseException
+     */
+    public ArrayOrderedList<Comentario> getComentarioById(Integer id_mensagem) throws ParseException {
+        Statement statement = null;
+        ArrayOrderedList<Comentario> valor = new ArrayOrderedList<>();
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM Comentario WHERE ID_MENSAGEM  = '" + id_mensagem + "'";
+
+            ResultSet r = statement.executeQuery(SQL);
+            Boolean hasComentario = false;
+
+            while (r.next()) {
+                String data = r.getString("DATA_COMENT");
+                Date data_coment = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+
+                hasComentario = true;
+                Comentario tmp = new Comentario(r.getString("CONTEUDO_COMENT"), data_coment, null, id_mensagem);
+
+                valor.add(tmp);
+
+            }
+            connection.commit();
+            statement.close();
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+    }
+
+    /**
+     *
+     * @param id_mensagem
+     * @return
+     * @throws SQLException
+     */
+    public boolean ifExisteComentariosMensagem(Integer id_mensagem) throws SQLException {
+        connection.setAutoCommit(false);
+        Comentario coment = null;
+        boolean result = false;
+
+        String SQL = "SELECT * FROM Comentario WHERE ID_MENSAGEM  = '" + id_mensagem + "'";
+        connection.commit();
+
+        /*Executa o sql*/
+        Statement stmt = connection.createStatement();
+        ResultSet resultado = stmt.executeQuery(SQL);
+
+        if (resultado.next()) {
+            result = true;
+        }
+        stmt.close();
+        return result;
+    }
+
+    //--------------------------------------------ACERCA LOGIN-------------------------------------------------//
     /**
      * Método responsável pela verificação do utilizador na base dados perante o
      * email inserido
@@ -645,25 +682,6 @@ public class SqlConnection {
         boolean result = false;
 
         String SQL = "SELECT * FROM Pessoa WHERE User_email  = '" + email + "'";
-        connection.commit();
-
-        /*Executa o sql*/
-        Statement stmt = connection.createStatement();
-        ResultSet resultado = stmt.executeQuery(SQL);
-
-        if (resultado.next()) {
-            result = true;
-        }
-        stmt.close();
-        return result;
-    }
-
-    public boolean ifExisteComentariosMensagem(Integer id_mensagem) throws SQLException {
-        connection.setAutoCommit(false);
-        Comentario coment = null;
-        boolean result = false;
-
-        String SQL = "SELECT * FROM Comentario WHERE ID_MENSAGEM  = '" + id_mensagem + "'";
         connection.commit();
 
         /*Executa o sql*/
