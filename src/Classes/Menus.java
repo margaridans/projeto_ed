@@ -38,6 +38,7 @@ public class Menus {
     ArrayIterator it;
     Boolean terminarSwitch = false;
 
+    //--------------------------------------------MENUS---------------------------------------------------//
     /**
      * Método responsável por imprimir o menu principal e por fazer a gestão das
      * escolhas que o utilizador vai fazer
@@ -431,6 +432,7 @@ public class Menus {
         return escolhaMenuAmizade;
     }
 
+    //--------------------------------------------ACERCA DO UTILIZADOR-------------------------------------------------//
     /**
      * Este método é responsável pela seleção do utilizador ao qual pretendemos
      * ver o perfil, através do BufferedReader lê a opção que o utilizador
@@ -473,6 +475,31 @@ public class Menus {
 
     }
 
+    /**
+     * Método que vai imprimir todos os utilizadores, para isso percorremos a
+     * nossa UnorderedList de pessoas através do iterador
+     *
+     * @param pessoa coleção de pessoas que vamos percorrer e consequentemente
+     * imprimir
+     */
+    private void printAllUsers(ArrayUnorderedList<Pessoa> pessoa) {
+
+        Integer counter = 0;
+        it = (ArrayIterator) pessoa.iterator();
+
+        System.out.println();
+        System.out.println("Escolha um utilizador através do seu índice: ");
+        while (it.hasNext()) {
+            counter++;
+            Pessoa p = (Pessoa) it.next();
+            System.out.println(counter + " -> " + p.getUser_email());
+            System.out.println("");
+            System.out.println("Qual o utilizador que pretende escolher? ");
+        }
+
+    }
+
+    //--------------------------------------------ACERCA DAS MENSAGENS-------------------------------------------------//
     /**
      * Este método é responsável pela seleção da mensagem que pretendemos,
      * através do BufferedReader lê a opção que o utilizador escolheu e através
@@ -585,6 +612,7 @@ public class Menus {
 
     }
 
+    //--------------------------------------------ACERCA DOS COMENTÁRIOS-------------------------------------------------//
     /**
      * Método resposável por imprimir os comentários
      *
@@ -604,30 +632,6 @@ public class Menus {
             System.out.println("");
         }
         System.out.println("______________________________________________________");
-
-    }
-
-    /**
-     * Método que vai imprimir todos os utilizadores, para isso percorremos a
-     * nossa UnorderedList de pessoas através do iterador
-     *
-     * @param pessoa coleção de pessoas que vamos percorrer e consequentemente
-     * imprimir
-     */
-    private void printAllUsers(ArrayUnorderedList<Pessoa> pessoa) {
-
-        Integer counter = 0;
-        it = (ArrayIterator) pessoa.iterator();
-
-        System.out.println();
-        System.out.println("Escolha um utilizador através do seu índice: ");
-        while (it.hasNext()) {
-            counter++;
-            Pessoa p = (Pessoa) it.next();
-            System.out.println(counter + " -> " + p.getUser_email());
-            System.out.println("");
-            System.out.println("Qual o utilizador que pretende escolher? ");
-        }
 
     }
 }
