@@ -221,6 +221,30 @@ public class Menus {
                 //PEDIDOS DE AMIZADE
                 case "4":
                     String escolha_opcaoPedido = MenuPedidosAmizade();
+                    terminarSwitch = false;
+                    while (terminarSwitch == false) {
+                        switch (escolha_opcaoPedido) {
+                            case "1": //Pedido patrocionado
+                                terminarSwitch = true;
+                                break;
+                            case "2": //Pedido normal
+
+                                terminarSwitch = true;
+                                break;
+                            case "3": //Aceitar/Rejeitar pedido                
+                                terminarSwitch = true;
+                                break;
+                            case "4": //Voltar atrás
+                                terminarSwitch = true;
+                                menuPrincipal(user_logado);
+                                break;
+                            default: //Caso não selecione nenhuma opção
+                                System.out.println("Opção inválide selecione apenas um número válido: ");
+                                escolha_opcaoPedido = MenuPedidosAmizade();
+                                terminarSwitch = false;
+                                break;
+                        }
+                    }
 
                 //DEFINIÇÕES DE CONTA
                 case "5":
@@ -394,6 +418,33 @@ public class Menus {
 
             //FAZER PEDIDO DE AMIZADE
             case "3":
+                System.out.println("");
+                System.out.println("***************PEDIDO NORMAL***************");
+                System.out.println("Ao fazer o pedido de amizade e este for aceite vai poder ver todas as mensagens do utilizador " + nomePessoa);
+                System.out.println("");
+                System.out.println("Está prestes a fazer o pedido de amizade a " + nomePessoa + ".\nTem a certeza que pretende continuar?\n1-Sim\n2-Não");
+                String fazerPedido = in.readLine();
+
+                terminarSwitch = false;
+                while (terminarSwitch == false) {
+                    switch (fazerPedido) {
+                        case "1":
+                            //Verificar se há ligação
+
+                            terminarSwitch = true;
+                            break;
+                        case "2":
+                            System.out.println("Ainda assim pode continuar a ver as mensagens públicas de " + nomePessoa);
+                            menuPessoa(pessoaEscolhida, utilizador);
+                            terminarSwitch = true;
+                            break;
+                        default:
+                            System.out.println("Opção inválida. Selecione apenas 1-Sim    |    2-Não");
+                            fazerPedido = in.readLine();
+                            terminarSwitch = false;
+                            break;
+                    }
+                }
                 break;
 
             //SAIR DO PERFIL

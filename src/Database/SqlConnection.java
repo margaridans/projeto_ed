@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import org.sqlite.SQLiteConfig;
 import ArrayList.ArrayUnorderedList;
+import Classes.Amizade;
 import Classes.Comentario;
 import java.text.ParseException;
 import java.util.Date;
@@ -435,6 +436,31 @@ public class SqlConnection {
         return valor;
     }
 
+    
+    /**
+     * 
+     * @param email1
+     * @param email2 
+     */
+    public void inserirAmizade(Amizade email1, Amizade email2) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String insert = "INSERT INTO " + TABELA_AMIZADE
+                    + "(USER_EMAIL1, USER_EMAIL2) " + "VALUES ( '" + email1.getUser1()+ "'" + ",'"
+                    + email2.getUser2() + "');";
+
+            statement.executeUpdate(insert);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
     //--------------------------------------------MENSAGENS-------------------------------------------------//
     /**
      * Método responsável por apagar uma mensagem da base dados
