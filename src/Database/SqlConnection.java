@@ -604,6 +604,8 @@ public class SqlConnection {
             System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
         }
     }
+    
+    
 
     //--------------------------------------------MENSAGENS-------------------------------------------------//
     /**

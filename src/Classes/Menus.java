@@ -31,7 +31,7 @@ public class Menus {
 
     private Integer id_Mensagem = 0;
     private SqlConnection sql = Projeto_ed.connection;
-    private String utilizador_logado = null, nomePessoa = null;
+    private String utilizador_logado = null;
     private Network<Pessoa> grafoPessoas;
 
     public Menus(String user_logado) {
@@ -503,6 +503,8 @@ public class Menus {
 
             //FAZER PEDIDO DE AMIZADE
             case "3":
+                Integer creditos = sql.getPessoa(utilizador_logado).getNr_creditos();
+
                 System.out.println("");
                 System.out.println("***************PEDIDO NORMAL***************");
                 System.out.println("Ao fazer o pedido de amizade e este for aceite vai poder ver todas as mensagens do utilizador " + nomePessoa);
@@ -521,21 +523,26 @@ public class Menus {
                             } else {
                                 Boolean existe = this.grafoPessoas.verificarTipoAmizadePossivel(logado, pessoaEscolhida);
                                 if (existe) {
-                                    System.out.println("Tem um amigo em comum, será um pedido normal");
+                                    System.out.println("Têm um amigo em comum --> assim sendo será um pedido normal");
                                     sql.fazerPedidoAmizade(logado, pessoaEscolhida);
-                                    System.out.println("Inserido na bd");
                                 } else {
-                                    System.out.println("Será um pedido patrocionado");
+                                    System.out.println("Não têm um amigo em comum --> assim sendo será um pedido patrocionado");
                                     // Caminho mais curto
-                                    Double db = this.grafoPessoas.shortestPathWeight(logado, pessoaEscolhida);
-                                    System.out.println(db.toString());
+                                    double nrCreditos = this.grafoPessoas.shortestPathWeight(logado, pessoaEscolhida);
+                                    System.out.println(nrCreditos);
+                                    sql.fazerPedidoAmizade(logado, pessoaEscolhida);
+
+                                    int nrCredRetirados = (int) nrCreditos;
+
+                                    Integer meusCreditos = creditos - nrCredRetirados;
+                                    sql.updateCreditosUser(utilizador_logado, meusCreditos);
 
                                     //System.out.println("A testar alcance...");
                                     //Iterator it = this.grafoPessoas.getAmigos(logado).iterator();
-                                    while (it.hasNext()) {
+                                    /*while (it.hasNext()) {
                                         Pessoa p = (Pessoa) it.next();
                                         System.out.println(p.getUser_email());
-                                    }
+                                    }*/
                                 }
 
                             }
