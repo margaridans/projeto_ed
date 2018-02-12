@@ -57,6 +57,7 @@ public class SqlConnection {
                 criarTabelaPedidoAmizade();
                 criarTabelaEstadoPedido();
                 inserirTipoMensagem();
+                inserirEstadoPedido();
             }
 
         } catch (ClassNotFoundException | SQLException e) {
@@ -288,6 +289,107 @@ public class SqlConnection {
         }
     }
 
+    public void inserirEstadoPedido() {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String insert = "INSERT INTO " + TABELA_ESTADO_PEDIDO_AMIZADE
+                    + "(ESTADO_DESC) " + "VALUES ('Pendente')";
+            String insert1 = "INSERT INTO " + TABELA_ESTADO_PEDIDO_AMIZADE
+                    + "(ESTADO_DESC) " + "VALUES ('Aceite')";
+            String insert2 = "INSERT INTO " + TABELA_ESTADO_PEDIDO_AMIZADE
+                    + "(ESTADO_DESC) " + "VALUES ('Recusado')";
+            statement.executeUpdate(insert);
+            statement.executeUpdate(insert1);
+            statement.executeUpdate(insert2);
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
+
+    public boolean ifExisteAmizadesPendentes(String emailLogado) throws SQLException {
+        connection.setAutoCommit(false);
+        Pessoa user = null;
+        boolean result = false;
+
+        String SQL = "SELECT * FROM PedidoAmizade WHERE USER_DESTINO  = '" + emailLogado + "'" + "AND ID_ESTADO = 1";
+        connection.commit();
+
+        /*Executa o sql*/
+        Statement stmt = connection.createStatement();
+        ResultSet resultado = stmt.executeQuery(SQL);
+
+        if (resultado.next()) {
+            result = true;
+        }
+        stmt.close();
+        return result;
+    }
+
+    public void aceitarPedido(String emailOrigem, String emailDestino) throws SQLException {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String update = "UPDATE PedidoAmizade SET ID_ESTADO = 2 WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'";
+            String insert = "INSERT INTO Amizade (USER_EMAIL1, USER_EMAIL2) VALUES ('" + emailOrigem +  "'" + ",'"  + emailDestino + "')";
+
+            statement.executeUpdate(update);
+            statement.executeUpdate(insert);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+
+    }
+
+    public void rejeitarPedido(String emailOrigem, String emailDestino) throws SQLException {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String update = "UPDATE PedidoAmizade SET ID_ESTADO = 3 WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'";
+
+            statement.executeUpdate(update);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+
+    }
+
+    public String getOrigemPedidoAmizade(String emailLogado) throws SQLException {
+        Statement statement = null;
+        String valor = null;
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM PedidoAmizade WHERE USER_DESTINO  = '" + emailLogado + "'" + "AND ID_ESTADO = 1";
+
+            ResultSet r = statement.executeQuery(SQL);
+            valor = r.getString("USER_ORIGEM");
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+    }
+
     /**
      * Método responsável por inserir comentários na base dados
      *
@@ -480,6 +582,27 @@ public class SqlConnection {
         }
         return valor;
 
+    }
+
+    public void fazerPedidoAmizade(Pessoa emailOrigem, Pessoa emailDestino) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String insert = "INSERT INTO " + TABELA_PEDIDO_AMIZADE
+                    + "(USER_ORIGEM, USER_DESTINO, ID_ESTADO) " + "VALUES ( '" + emailOrigem.getUser_email() + "'" + ",'"
+                    + emailDestino.getUser_email() + "'" + ",'"
+                    + "1" + "');";
+
+            statement.executeUpdate(insert);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
     }
 
     //--------------------------------------------MENSAGENS-------------------------------------------------//

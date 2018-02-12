@@ -54,19 +54,18 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
         Integer i = this.numVertices;
     }
-    
-    
-    private void addAmizadeToEdge(){
+
+    private void addAmizadeToEdge() {
         SqlConnection con = projeto_ed.Projeto_ed.connection;
         ArrayUnorderedList<Amizade> a = new ArrayUnorderedList<>();
         a = con.getAllAmizades();
         Iterator it = a.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Amizade tmpAm = (Amizade) it.next();
-            Edge tmpEdge = new Edge(tmpAm.getUser1(),tmpAm.getUser2());
-            addEdge((T)tmpAm.getUser1(), (T)tmpAm.getUser2(), tmpEdge);
+            Edge tmpEdge = new Edge(tmpAm.getUser1(), tmpAm.getUser2());
+            addEdge((T) tmpAm.getUser1(), (T) tmpAm.getUser2(), tmpEdge);
         }
-       
+
     }
 
     /**
@@ -80,54 +79,70 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     public void addEdge(T vertex1, T vertex2, double weight) {
         addEdge(getIndex(vertex1), getIndex(vertex2), weight);
     }
-    
-    
-    public Edge testEdge(Pessoa logada,Pessoa perfil){
-        int vertex1 = getIndex((T)logada);
-        int vertex2 = getIndex((T)perfil);
+
+    public Edge testEdge(Pessoa logada, Pessoa perfil) {
+        int vertex1 = getIndex((T) logada);
+        int vertex2 = getIndex((T) perfil);
         Edge testEdge = this.edgeMatrix[vertex1][vertex2];
-        
+
         return testEdge;
     }
-    
-    public ArrayOrderedList<Pessoa> getAmigos(Pessoa logada){
+
+    public ArrayOrderedList<Pessoa> getAmigos(Pessoa logada) {
         ArrayOrderedList<Pessoa> listamigos = new ArrayOrderedList<>();
-        for(int i = 0 ; i < this.numVertices ; i++){
-            if(this.edgeMatrix[getIndex((T)logada)][i] != null){
-                Pessoa p = this.edgeMatrix[getIndex((T)logada)][i].getPessoa2();
-                if(p.equals(logada)){
-                    listamigos.add(this.edgeMatrix[getIndex((T)logada)][i].getPessoa1());
-                }else{
+        for (int i = 0; i < this.numVertices; i++) {
+            if (this.edgeMatrix[getIndex((T) logada)][i] != null) {
+                Pessoa p = this.edgeMatrix[getIndex((T) logada)][i].getPessoa2();
+                if (p.equals(logada)) {
+                    listamigos.add(this.edgeMatrix[getIndex((T) logada)][i].getPessoa1());
+                } else {
                     listamigos.add(p);
                 }
 
-                
             }
         }
-        
+
         return listamigos;
     }
-    
-    public Boolean verificarAmigoDeAmigo(Pessoa perfil1,Pessoa perfil2){
-        Integer myIndexPessoa = getIndex((T)perfil1);
-        Integer myIndexPessoa2= getIndex((T)perfil2);
+
+    public boolean ifAmigos(Pessoa logada) {
+
+        ArrayOrderedList<Pessoa> listamigos = new ArrayOrderedList<>();
+        for (int i = 0; i < this.numVertices; i++) {
+            if (this.edgeMatrix[getIndex((T) logada)][i] != null) {
+                Pessoa p = this.edgeMatrix[getIndex((T) logada)][i].getPessoa2();
+                if (p.equals(logada)) {
+                    listamigos.add(this.edgeMatrix[getIndex((T) logada)][i].getPessoa1());
+                } else {
+                    listamigos.add(p);
+                }
+
+            }
+        }
+
+        return true;
+    }
+
+    public Boolean verificarAmigoDeAmigo(Pessoa perfil1, Pessoa perfil2) {
+        Integer myIndexPessoa = getIndex((T) perfil1);
+        Integer myIndexPessoa2 = getIndex((T) perfil2);
         Edge edge = this.edgeMatrix[myIndexPessoa][myIndexPessoa2];
-        if(edge != null){
+        if (edge != null) {
             return true;
-        }else{
+        } else {
             return false;
         }
         //return edge != null;
     }
-    
-    public Boolean verificarTipoAmizadePossivel(Pessoa logada,Pessoa perfil){
-        Integer myIndexPessoa = getIndex((T)logada);
+
+    public Boolean verificarTipoAmizadePossivel(Pessoa logada, Pessoa perfil) {
+        Integer myIndexPessoa = getIndex((T) logada);
         Boolean existe = false;
-        for(int i = 0 ; i < this.numVertices; i++){
-            if(this.edgeMatrix[myIndexPessoa][i] !=null){
+        for (int i = 0; i < this.numVertices; i++) {
+            if (this.edgeMatrix[myIndexPessoa][i] != null) {
                 Edge edge = edgeMatrix[myIndexPessoa][i];
                 existe = verificarAmigoDeAmigo(edge.getPessoa2(), perfil);
-                if(existe){
+                if (existe) {
                     break;
                 }
             }
