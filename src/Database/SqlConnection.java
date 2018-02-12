@@ -415,9 +415,8 @@ public class SqlConnection {
             ResultSet r = statement.executeQuery(SQL);
 
             //Boolean hasPessoa = false;
-
             while (r.next()) {
-             //   hasPessoa = true;
+                //   hasPessoa = true;
                 Pessoa tmpPessoa = new Pessoa(r.getString("USER_EMAIL"), r.getString("USER_NOME"), null, r.getInt("NR_CREDITOS"));
                 valor.addToRear(tmpPessoa);
 
@@ -437,8 +436,8 @@ public class SqlConnection {
     }
 
     //--------------------------------------------AMIZADE--------------------------------------------------------//
-    public ArrayUnorderedList<Amizade> getAllAmizades(){
-           Statement statement = null;
+    public ArrayUnorderedList<Amizade> getAllAmizades() {
+        Statement statement = null;
         ArrayUnorderedList<Amizade> valor = new ArrayUnorderedList<>();
         try {
             connection.setAutoCommit(false);
@@ -448,11 +447,10 @@ public class SqlConnection {
 
             ResultSet r = statement.executeQuery(SQL);
 
-
             while (r.next()) {
                 Pessoa a = getPessoa(r.getString("USER_EMAIL1"));
                 Pessoa b = getPessoa(r.getString("USER_EMAIL2"));
-                Amizade amizade = new Amizade(a,b);
+                Amizade amizade = new Amizade(a, b);
                 valor.addToRear(amizade);
 
             }
@@ -465,7 +463,7 @@ public class SqlConnection {
         return valor;
 
     }
-    
+
     //--------------------------------------------MENSAGENS-------------------------------------------------//
     /**
      * Método responsável por apagar uma mensagem da base dados
@@ -516,9 +514,10 @@ public class SqlConnection {
             while (r.next()) {
                 String data = r.getString("DATA_PUBLICACAO");
                 Date data_pub = new SimpleDateFormat("dd/MM/yyyy").parse(data);
-
+               
+                Pessoa tempPessoa = getPessoa(r.getString("USER_EMAIL"));
                 hasMensagem = true;
-                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
+                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"),tempPessoa);
                 valor.add(tmpMensagem);
 
             }
@@ -677,9 +676,12 @@ public class SqlConnection {
     }
 
     /**
-     * Método responsável para ver se existem comentários associados a uma mensagem
+     * Método responsável para ver se existem comentários associados a uma
+     * mensagem
+     *
      * @param id_mensagem id da mensagem que se pretente ver se há comentários
-     * @return true se houver comentários para aquela mensagem ou false caso não haja
+     * @return true se houver comentários para aquela mensagem ou false caso não
+     * haja
      * @throws SQLException
      */
     public boolean ifExisteComentariosMensagem(Integer id_mensagem) throws SQLException {

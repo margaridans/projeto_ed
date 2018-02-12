@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
 import GrafoPesado.Network;
+import InterfacesGraficas.Login;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Iterator;
@@ -300,7 +301,8 @@ public class Menus {
                 case "6":
                     System.out.println("A sua sessão foi terminada. Até à próxima");
                     user_logado = null;
-                    System.exit(0); //Encerra o programa
+                    //System.exit(0); //Encerra o programa
+                    new Login();
                     break;
                 default: //Se não escolher nenhuma opção do menu principal
                     menuPrincipal(user_logado); //Volta para o menu principal
@@ -683,6 +685,7 @@ public class Menus {
                 System.out.println("Não há comentários");
                 System.out.println("______________________________________________________");
                 System.out.println("");
+                menuPrincipal(utilizador_logado);
             }
 
         }
