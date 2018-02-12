@@ -435,6 +435,24 @@ public class SqlConnection {
         return valor;
     }
 
+    public void updateCreditosUser(String email, Integer nrCreditos) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String update = "UPDATE Pessoa SET NR_CREDITOS = '" + nrCreditos + "'" + "WHERE USER_EMAIL = '" + email + "'";
+
+            statement.executeUpdate(update);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
+
     //--------------------------------------------AMIZADE--------------------------------------------------------//
     public ArrayUnorderedList<Amizade> getAllAmizades() {
         Statement statement = null;
@@ -514,10 +532,10 @@ public class SqlConnection {
             while (r.next()) {
                 String data = r.getString("DATA_PUBLICACAO");
                 Date data_pub = new SimpleDateFormat("dd/MM/yyyy").parse(data);
-               
+
                 Pessoa tempPessoa = getPessoa(r.getString("USER_EMAIL"));
                 hasMensagem = true;
-                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"),tempPessoa);
+                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"), tempPessoa);
                 valor.add(tmpMensagem);
 
             }

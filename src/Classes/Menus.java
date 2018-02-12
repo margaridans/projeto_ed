@@ -32,7 +32,7 @@ public class Menus {
 
     private Integer id_Mensagem = 0;
     private SqlConnection sql = Projeto_ed.connection;
-    private String utilizador_logado = null;
+    private String utilizador_logado = null, nomePessoa = null;
     private Network<Pessoa> grafoPessoas;
 
     public Menus(String user_logado) {
@@ -168,6 +168,7 @@ public class Menus {
 
                     if (msg.size() == 0) {
                         System.out.println("Não tem mensagens");
+                        menuPrincipal(user_logado);
                     } else {
                         printMsg(msg);  //imprime todas as minhas mensagens
 
@@ -255,6 +256,7 @@ public class Menus {
                 //DEFINIÇÕES DE CONTA
                 case "5":
                     String nome_pessoaLogada = sql.getPessoa(user_logado).getUser_nome(); //nome da pessoa logada
+                    Integer creditos = sql.getPessoa(user_logado).getNr_creditos();
 
                     System.out.println("");
                     System.out.println("*********************************");
@@ -264,37 +266,47 @@ public class Menus {
 
                     System.out.println("Nome: " + nome_pessoaLogada);
                     System.out.println("Email: " + user_logado);
-                    System.out.println("Número de créditos: " + sql.getPessoa(user_logado).getNr_creditos());
+                    System.out.println("Número de créditos: " + creditos);
                     System.out.println("");
-
-                    System.out.println("Deseja apagar a sua conta?\n1-Sim\n2-Não");
-                    String apagarConta = in.readLine();
+                    System.out.println("Quer carregar os seus créditos?\n1-Sim\n2-Não");
+                    String carregarCreditos = in.readLine();
 
                     terminarSwitch = false;
+
                     while (terminarSwitch == false) {
-                        switch (apagarConta) {
-                            case "1":  //Se quiser apagar conta
-                                sql.apagarPessoa(user_logado); //apaga a conta
-                                System.out.println("Que pena. Vai fazer falta. Até um dia");
-                                System.exit(0); //Encerra o programa
+                        switch (carregarCreditos) {
+                            case "1":
+                                System.out.println("Quantos créditos quer carregar?");
+                                String nrCreditosInseridos = in.readLine();
+                                
+                                int nrCredInseridos  = Integer.parseInt(nrCreditosInseridos);
+
+                                Integer meusCreditos = creditos + nrCredInseridos;
+
+                                if (nrCredInseridos > 1 && nrCredInseridos <= 20) {
+                                    sql.updateCreditosUser(user_logado, meusCreditos);
+                                    System.out.println("Os seus créditos foram adicionados com sucesso.\nCréditos atuais: " + meusCreditos);
+                                    menuPrincipal(user_logado);
+                                } else {
+                                    System.out.println("Só pode adicionar no minimo 1 crédito e no máximo 20");
+                                }
                                 terminarSwitch = true;
                                 break;
 
-                            case "2": //Se não quiser apagar conta
-                                System.out.println("");
-                                System.out.println("Ainda bem que não apagou a sua conta. Iria fazer falta!");
-                                menuPrincipal(user_logado);
+                            case "2":
+
                                 terminarSwitch = true;
                                 break;
 
-                            default: //Se não escolher nenhuma destas opções
+                            default:
                                 System.out.println("");
                                 System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
-                                apagarConta = in.readLine();
+                                carregarCreditos = in.readLine();
                                 terminarSwitch = false;
                                 break;
                         }
                     }
+
                     break;
 
                 //TEMINAR SESSÃO
@@ -384,11 +396,11 @@ public class Menus {
                                 Date data_pub = new Date();
                                 System.out.println("");
                                 System.out.print("Qual a mensagem que pretende comentar? Indique o seu índice: ");
-                                System.out.println("\n");
-                                System.out.println("***************COMENTÁRIOS****************");
                                 Mensagem msg_comentar = escolherMsg(msg);
 
                                 id_Mensagem = sql.verIdMensagem(msg_comentar.getConteudo_msg());
+                                System.out.println("\n");
+                                System.out.println("***************COMENTÁRIOS****************");
 
                                 System.out.println("");
                                 System.out.print("Comente aqui: ");
@@ -418,6 +430,7 @@ public class Menus {
 
                 } else {
                     System.out.println("Não existem mensagens deste utilizadores");
+                    menuPessoa(pessoaEscolhida, utilizador);
                 }
 
                 //SE FOR AMIGOS -> MOSTRA TODAS -> FALTA CÓDIGO DEPOIS DOS PEDIDOS DE AMIZADE
@@ -442,23 +455,23 @@ public class Menus {
                                 System.out.println("Já tem amizade com este utilizador");
                             } else {
                                 Boolean existe = this.grafoPessoas.verificarTipoAmizadePossivel(logado, pessoaEscolhida);
-                                if(existe){
+                                if (existe) {
                                     System.out.println("Tem um amigo em comum, será um pedido normal");
                                     //CONTINUAR
-                                }else{
+                                } else {
                                     //System.out.println("Será um pedido patrocionado");
                                     // Caminho mais curto
                                     //Double db = this.grafoPessoas.shortestPathWeight(logado, pessoaEscolhida);
                                     //System.out.println(db.toString());
                                     System.out.println("A testar alcance...");
                                     Iterator it = this.grafoPessoas.getAmigos(logado).iterator();
-                                   
-                                    while(it.hasNext()){
-                                        Pessoa p = (Pessoa)it.next();
+
+                                    while (it.hasNext()) {
+                                        Pessoa p = (Pessoa) it.next();
                                         System.out.println(p.getUser_email());
                                     }
                                 }
-                                
+
                             }
                             terminarSwitch = true;
                             break;
@@ -597,12 +610,16 @@ public class Menus {
 
         it = (ArrayIterator) msg.iterator();
         Integer counter = 0;
+
         while (it.hasNext()) {
             counter++;
             Mensagem mensa = (Mensagem) it.next();
             if (escolhaMensagem.equals(counter.toString())) {
                 System.out.println("Escolheu a mensagem " + "'" + mensa.getConteudo_msg() + "'" + " para ser comentada");
                 return mensa;
+            } else {
+                System.out.println("Essa opção não é válida , selecione apenas um índice de uma mensagem");
+                escolhaMensagem = in.readLine();
             }
         }
         return null;
@@ -685,7 +702,7 @@ public class Menus {
                 System.out.println("Não há comentários");
                 System.out.println("______________________________________________________");
                 System.out.println("");
-                menuPrincipal(utilizador_logado);
+
             }
 
         }
