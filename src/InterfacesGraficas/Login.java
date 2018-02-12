@@ -8,6 +8,9 @@ package InterfacesGraficas;
 import Classes.Menus;
 import Classes.Pessoa;
 import Database.SqlConnection;
+import Exceptions.EmptyCollectionException;
+import Exceptions.EmptyQueueException;
+import Exceptions.EmptyStackException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -201,6 +204,12 @@ public class Login extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmptyQueueException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmptyStackException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EmptyCollectionException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_button1ActionPerformed

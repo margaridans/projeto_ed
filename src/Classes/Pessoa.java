@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
  */
-public class Pessoa{
+public class Pessoa implements Comparable<Pessoa>{
 
     private String user_nome, user_email, password;
     private Integer nr_creditos;
@@ -94,6 +94,17 @@ public class Pessoa{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(Pessoa o) {
+        if(this.user_nome.equals(o.getUser_nome())){
+            return 0;
+        }else if (this.user_nome.compareTo(o.getUser_nome()) == 1){
+            return 1;
+        }else{
+            return -1;
+        }
     }
 
    

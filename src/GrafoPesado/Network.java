@@ -1,5 +1,6 @@
 package GrafoPesado;
 
+import ArrayList.ArrayOrderedList;
 import Classes.Edge;
 import Classes.Pessoa;
 import Database.SqlConnection;
@@ -69,86 +70,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     /**
-     * Procurar na lista de vertex o elemento coorespondente ao nome indicado
-     *
-     * @param name nome do Place armazenado em Vertex
-     * @return referência para o Vertex
-     */
-    /*
-    protected Vertex searchVertex(String name) {
-        for (int i = 0; i < vertices.length; ++i) {
-            Vertex vertex = (Vertex) vertices[i];
-            Place place = (Place) vertex.getElement();
-            if (vertices[i] != null && place.getNome().compareTo(name) == 0) {
-                return vertex;
-            }
-        }
-        return null;
-    }
-     */
-    /**
-     * Modificar o valor do tempo de paragem em cada local da network
-     *
-     * @param name nome do place armazendo no vertex
-     * @param value valor do tempo de paragem
-     */
-    /*
-    public void setStopTimeVertex(String name, double value) {
-        Vertex vertex = searchVertex(name);
-        if (vertex != null) {
-            vertex.setStopTime(value);
-            this.vertices[getIndex((T) vertex)] = (T) vertex;
-        }
-    }
-     */
-    /**
-     * Verificar se o Edge existe na base de dados Se existir e não estiver.
-     * relacionado com nenhum Vertex é executado uma query à base de dados,
-     * retornando o Edge.
-     *
-     * Se não existir na base de dados é executado uma consulta ao web service
-     * da GOOGLE, obtendo-se desta forma a informação para a ligação
-     * nomeadamente tempo e distância e posterior armazenamento na base de dados
-     *
-     * @param edge ligação entre dois Vertex
-     * @param sql ligação à base de dados
-     * @param json tratamento e requisição de informação para um Edge
-     */
-    /*
-    private void edgeExists(Edge edge, SqlConnection sql, JsonToEdge json) {
-        Edge tempEdge;
-
-        tempEdge = sql.selectEdgeFromEdges(edge.getDestination(), edge.getOrigin());
-
-        if (tempEdge == null) {
-            json.getSimpleDistanceMatrix(edge.getDestination(), edge.getOrigin());
-        } else {
-            tempEdge = sql.selectEdgeFromEdges(edge.getDestination(), edge.getOrigin());
-            addEdge((T) searchVertex(tempEdge.getOrigin()), (T) searchVertex(tempEdge.getDestination()), tempEdge);
-        }
-    }
-     */
-    /**
-     * Verificar se existe nas ligações entre vertices conexões nulas em pelo
-     * menos um sentido se existir, é executado um pedido à base de dados na
-     * tentativa de resolver o problema
-     */
-    /*
-    public void testEdgesOfNetwork() {
-        JsonToEdge json = new JsonToEdge();
-        SqlConnection sql = new SqlConnection();
-        for (int i = 0; i < this.numVertices; i++) {
-            for (int k = 0; k < this.numVertices; k++) {
-                if (this.edgeMatrix[i][k] == null && this.edgeMatrix[k][i] != null) {
-                    edgeExists(edgeMatrix[k][i], sql, json);
-                } else if (this.edgeMatrix[i][k] != null && this.edgeMatrix[k][i] == null) {
-                    edgeExists(this.edgeMatrix[i][k], sql, json);
-                }
-            }
-        }
-    }
-     */
-    /**
      * Inserir uma ligação entre dois vertice
      *
      * @param vertex1 primeiro vertex
@@ -167,6 +88,24 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         Edge testEdge = this.edgeMatrix[vertex1][vertex2];
         
         return testEdge;
+    }
+    
+    public ArrayOrderedList<Pessoa> getAmigos(Pessoa logada){
+        ArrayOrderedList<Pessoa> listamigos = new ArrayOrderedList<>();
+        for(int i = 0 ; i < this.numVertices ; i++){
+            if(this.edgeMatrix[getIndex((T)logada)][i] != null){
+                Pessoa p = this.edgeMatrix[getIndex((T)logada)][i].getPessoa2();
+                if(p.equals(logada)){
+                    listamigos.add(this.edgeMatrix[getIndex((T)logada)][i].getPessoa1());
+                }else{
+                    listamigos.add(p);
+                }
+
+                
+            }
+        }
+        
+        return listamigos;
     }
     
     public Boolean verificarAmigoDeAmigo(Pessoa perfil1,Pessoa perfil2){

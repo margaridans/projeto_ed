@@ -20,6 +20,7 @@ import java.util.Date;
 import GrafoPesado.Network;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Iterator;
 import projeto_ed.Projeto_ed;
 
 /**
@@ -444,8 +445,16 @@ public class Menus {
                                     //CONTINUAR
                                 }else{
                                     //System.out.println("Será um pedido patrocionado");
-                                    Double db = this.grafoPessoas.shortestPathWeight(logado, pessoaEscolhida);
-                                    System.out.println(db.toString());
+                                    // Caminho mais curto
+                                    //Double db = this.grafoPessoas.shortestPathWeight(logado, pessoaEscolhida);
+                                    //System.out.println(db.toString());
+                                    System.out.println("A testar alcance...");
+                                    Iterator it = this.grafoPessoas.getAmigos(logado).iterator();
+                                   
+                                    while(it.hasNext()){
+                                        Pessoa p = (Pessoa)it.next();
+                                        System.out.println(p.getUser_email());
+                                    }
                                 }
                                 
                             }
