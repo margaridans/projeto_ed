@@ -414,10 +414,10 @@ public class SqlConnection {
 
             ResultSet r = statement.executeQuery(SQL);
 
-            Boolean hasPessoa = false;
+            //Boolean hasPessoa = false;
 
             while (r.next()) {
-                hasPessoa = true;
+             //   hasPessoa = true;
                 Pessoa tmpPessoa = new Pessoa(r.getString("USER_EMAIL"), r.getString("USER_NOME"), null, r.getInt("NR_CREDITOS"));
                 valor.addToRear(tmpPessoa);
 
@@ -436,31 +436,36 @@ public class SqlConnection {
         return valor;
     }
 
-    
-    /**
-     * 
-     * @param email1
-     * @param email2 
-     */
-    public void inserirAmizade(Amizade email1, Amizade email2) {
-        Statement statement = null;
-
+    //--------------------------------------------AMIZADE--------------------------------------------------------//
+    public ArrayUnorderedList<Amizade> getAllAmizades(){
+           Statement statement = null;
+        ArrayUnorderedList<Amizade> valor = new ArrayUnorderedList<>();
         try {
             connection.setAutoCommit(false);
+
             statement = connection.createStatement();
-            String insert = "INSERT INTO " + TABELA_AMIZADE
-                    + "(USER_EMAIL1, USER_EMAIL2) " + "VALUES ( '" + email1.getUser1()+ "'" + ",'"
-                    + email2.getUser2() + "');";
+            String SQL = "SELECT * FROM Amizade";
 
-            statement.executeUpdate(insert);
+            ResultSet r = statement.executeQuery(SQL);
 
+
+            while (r.next()) {
+                Pessoa a = getPessoa(r.getString("USER_EMAIL1"));
+                Pessoa b = getPessoa(r.getString("USER_EMAIL2"));
+                Amizade amizade = new Amizade(a,b);
+                valor.addToRear(amizade);
+
+            }
             connection.commit();
             statement.close();
 
         } catch (SQLException ex) {
             System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
         }
+        return valor;
+
     }
+    
     //--------------------------------------------MENSAGENS-------------------------------------------------//
     /**
      * Método responsável por apagar uma mensagem da base dados

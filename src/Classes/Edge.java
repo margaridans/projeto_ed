@@ -13,7 +13,7 @@ public class Edge {
 
     private Pessoa pessoa1;
     private Pessoa pessoa2;
-    private final int peso = 1;
+    private final double peso = 1;
 
     /**
      * Método construtor que permite a criação de uma nova instância de
@@ -35,7 +35,7 @@ public class Edge {
 
     }
 
-    public int getPeso() {
+    public double getPeso() {
         return this.peso;
     }
 

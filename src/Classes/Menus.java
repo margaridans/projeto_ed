@@ -9,6 +9,9 @@ import ArrayList.ArrayOrderedList;
 import Classes.Enumeracoes.TipoMensagem;
 import Database.SqlConnection;
 import ArrayList.ArrayUnorderedList;
+import Exceptions.EmptyCollectionException;
+import Exceptions.EmptyQueueException;
+import Exceptions.EmptyStackException;
 import Iterator.ArrayIterator;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,10 +31,11 @@ public class Menus {
     private Integer id_Mensagem = 0;
     private SqlConnection sql = Projeto_ed.connection;
     private String utilizador_logado = null;
-    private Network<Pessoa> grafoPessoas = new Network<>();
+    private Network<Pessoa> grafoPessoas;
 
     public Menus(String user_logado) {
         this.utilizador_logado = user_logado;
+        this.grafoPessoas = new Network<>();
     }
 
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -48,7 +52,7 @@ public class Menus {
      * @throws ParseException
      * @throws SQLException
      */
-    public void menuPrincipal(String user_logado) throws IOException, ParseException, SQLException {
+    public void menuPrincipal(String user_logado) throws IOException, ParseException, SQLException, EmptyQueueException, EmptyStackException, EmptyCollectionException {
         this.utilizador_logado = user_logado;
         //System.out.println("Existem numero de vertices: " + this.grafoPessoas.size());
         System.out.println("\n \n");
@@ -315,7 +319,7 @@ public class Menus {
      * @throws IOException
      * @throws java.text.ParseException
      */
-    public void menuPessoa(Pessoa pessoaEscolhida, String utilizador) throws IOException, ParseException, SQLException {
+    public void menuPessoa(Pessoa pessoaEscolhida, String utilizador) throws IOException, ParseException, SQLException, EmptyQueueException, EmptyStackException, EmptyCollectionException {
         String nomePessoa = pessoaEscolhida.getUser_nome();
 
         System.out.println("\n \n");
@@ -429,8 +433,22 @@ public class Menus {
                 while (terminarSwitch == false) {
                     switch (fazerPedido) {
                         case "1":
-                            //Verificar se há ligação
-
+                            Pessoa logado = projeto_ed.Projeto_ed.connection.getPessoa(utilizador_logado);
+                            Edge tmpE = this.grafoPessoas.testEdge(logado, pessoaEscolhida);
+                            if (tmpE != null) {
+                                System.out.println("Já tem amizade com este utilizador");
+                            } else {
+                                Boolean existe = this.grafoPessoas.verificarTipoAmizadePossivel(logado, pessoaEscolhida);
+                                if(existe){
+                                    System.out.println("Tem um amigo em comum, será um pedido normal");
+                                    //CONTINUAR
+                                }else{
+                                    //System.out.println("Será um pedido patrocionado");
+                                    Double db = this.grafoPessoas.shortestPathWeight(logado, pessoaEscolhida);
+                                    System.out.println(db.toString());
+                                }
+                                
+                            }
                             terminarSwitch = true;
                             break;
                         case "2":
@@ -501,25 +519,24 @@ public class Menus {
     private Pessoa escolherUser(ArrayUnorderedList<Pessoa> pessoa) throws IOException {
         it = (ArrayIterator) pessoa.iterator();
         Integer counter = 0;
-
-        while (it.hasNext()) {
-            String escolhaUser = in.readLine(); //Lê a escolha do user
+        String escolhaUser = in.readLine();
+        Pessoa p = null;
+        while (it.hasNext() && !counter.toString().equals(escolhaUser)) {
+            //Lê a escolha do user
 
             counter++;
-            Pessoa p = (Pessoa) it.next();
-            terminarSwitch = false;
-            while (terminarSwitch == false) {
-                if (escolhaUser.equals(counter.toString())) {
-                    System.out.println("Escolheu o utilizador " + p.getUser_nome());
-                    terminarSwitch = true;
-                    return p;
 
-                } else {
-                    System.out.println("Escolha novamente, esse utilizador não existe.");
-                    escolhaUser = in.readLine();
-                    terminarSwitch = false;
-                }
-            }
+            p = (Pessoa) it.next();
+
+        }
+
+        if (escolhaUser.equals(counter.toString())) {
+            System.out.println("Escolheu o utilizador " + p.getUser_nome());
+            return p;
+
+        } else {
+            System.out.println("Escolha novamente, esse utilizador não existe.");
+            escolhaUser = in.readLine();
 
         }
         return null;

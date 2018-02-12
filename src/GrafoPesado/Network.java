@@ -4,6 +4,7 @@ import Classes.Edge;
 import Classes.Pessoa;
 import Database.SqlConnection;
 import ArrayList.ArrayUnorderedList;
+import Classes.Amizade;
 import Exceptions.EmptyCollectionException;
 import Exceptions.EmptyQueueException;
 import Exceptions.EmptyStackException;
@@ -21,7 +22,7 @@ import LinkedStack.LinkedStack;
  */
 public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
-    private int[][] adjMatrix;
+    private double[][] adjMatrix;
     private Edge[][] edgeMatrix;
     //private final double COST = 1.5;
 
@@ -30,10 +31,11 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      */
     public Network() {
         numVertices = 0;
-        this.adjMatrix = new int[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
+        this.adjMatrix = new double[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
         this.edgeMatrix = new Edge[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
         vertices = (T[]) new Object[DEFAULT_CAPACITY];
         addPessoasToVertex();
+        addAmizadeToEdge();
 
     }
 
@@ -49,6 +51,21 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         while (it.hasNext()) {
             addVertex((T) it.next());
         }
+        Integer i = this.numVertices;
+    }
+    
+    
+    private void addAmizadeToEdge(){
+        SqlConnection con = projeto_ed.Projeto_ed.connection;
+        ArrayUnorderedList<Amizade> a = new ArrayUnorderedList<>();
+        a = con.getAllAmizades();
+        Iterator it = a.iterator();
+        while(it.hasNext()){
+            Amizade tmpAm = (Amizade) it.next();
+            Edge tmpEdge = new Edge(tmpAm.getUser1(),tmpAm.getUser2());
+            addEdge((T)tmpAm.getUser1(), (T)tmpAm.getUser2(), tmpEdge);
+        }
+       
     }
 
     /**
@@ -139,8 +156,44 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @param weight peso atribuído na ligação
      */
     @Override
-    public void addEdge(T vertex1, T vertex2, int weight) {
+    public void addEdge(T vertex1, T vertex2, double weight) {
         addEdge(getIndex(vertex1), getIndex(vertex2), weight);
+    }
+    
+    
+    public Edge testEdge(Pessoa logada,Pessoa perfil){
+        int vertex1 = getIndex((T)logada);
+        int vertex2 = getIndex((T)perfil);
+        Edge testEdge = this.edgeMatrix[vertex1][vertex2];
+        
+        return testEdge;
+    }
+    
+    public Boolean verificarAmigoDeAmigo(Pessoa perfil1,Pessoa perfil2){
+        Integer myIndexPessoa = getIndex((T)perfil1);
+        Integer myIndexPessoa2= getIndex((T)perfil2);
+        Edge edge = this.edgeMatrix[myIndexPessoa][myIndexPessoa2];
+        if(edge != null){
+            return true;
+        }else{
+            return false;
+        }
+        //return edge != null;
+    }
+    
+    public Boolean verificarTipoAmizadePossivel(Pessoa logada,Pessoa perfil){
+        Integer myIndexPessoa = getIndex((T)logada);
+        Boolean existe = false;
+        for(int i = 0 ; i < this.numVertices; i++){
+            if(this.edgeMatrix[myIndexPessoa][i] !=null){
+                Edge edge = edgeMatrix[myIndexPessoa][i];
+                existe = verificarAmigoDeAmigo(edge.getPessoa2(), perfil);
+                if(existe){
+                    break;
+                }
+            }
+        }
+        return existe;
     }
 
     /**
@@ -180,7 +233,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @param index2 index do segundo vertice
      * @param weight valor imposto à ligação
      */
-    private void addEdge(int index1, int index2, int weight) {
+    private void addEdge(int index1, int index2, double weight) {
         if (indexIsValid(index1) && indexIsValid(index2)) {
             this.adjMatrix[index1][index2] = weight;
             this.adjMatrix[index2][index1] = weight;
@@ -646,7 +699,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     @Override
     protected void expandCapacity() {
         T[] largerVertices = (T[]) new Object[vertices.length * 2];
-        int[][] largerAdjMatrix = new int[vertices.length * 2][vertices.length * 2];
+        double[][] largerAdjMatrix = new double[vertices.length * 2][vertices.length * 2];
 
         for (int i = 0; i < this.numVertices; ++i) {
             for (int k = 0; k < this.numVertices; ++k) {

@@ -5,6 +5,8 @@
  */
 package Classes;
 
+import java.util.Objects;
+
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
@@ -69,6 +71,31 @@ public class Pessoa{
         this.nr_creditos = nr_creditos;
     }
 
-  
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 17 * hash + Objects.hashCode(this.user_nome);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pessoa other = (Pessoa) obj;
+        if (!Objects.equals(this.user_nome, other.user_nome)) {
+            return false;
+        }
+        return true;
+    }
+
+   
 
 }
