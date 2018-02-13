@@ -105,23 +105,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return listamigos;
     }
 
-    public ArrayOrderedList<Pessoa> getNaoAmigos(Pessoa logada) {
-        ArrayOrderedList<Pessoa> listNamigos = new ArrayOrderedList<>();
-        for (int i = 0; i < this.numVertices; i++) {
-            if (this.edgeMatrix[getIndex((T) logada)][i] == null) {
-                Pessoa p = this.edgeMatrix[getIndex((T) logada)][i].getPessoa2();
-                if (p.equals(logada)) {
-                    listNamigos.add(this.edgeMatrix[getIndex((T) logada)][i].getPessoa1());
-                } else {
-                    listNamigos.add(p);
-                }
-
-            }
-        }
-
-        return listNamigos;
-    }
-
     public boolean ifAmigos(Pessoa logada) {
 
         ArrayOrderedList<Pessoa> listamigos = new ArrayOrderedList<>();
@@ -147,6 +130,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
         //return edge != null;
     }
+
+   
 
     public Boolean verificarTipoAmizadePossivel(Pessoa logada, Pessoa perfil) {
         Integer myIndexPessoa = getIndex((T) logada);

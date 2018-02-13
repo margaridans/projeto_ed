@@ -151,7 +151,7 @@ public class Menus {
                                     terminarSwitch = true;
                                     break;
                                 } else {
-                                    if (IdTipoMensagem == 1) {
+                                    /*  if (IdTipoMensagem == 1) {
                                         System.out.println("");
                                         System.out.println("Uma vez que a sua mensagem é do tipo pública vai estar vísivel para toda a gente que se encontrar registada");
                                         System.out.println("----- Teste de alcance -----");
@@ -161,7 +161,7 @@ public class Menus {
                                             Pessoa p = (Pessoa) iterator.next();
                                             System.out.println("- " + p.getUser_email());
                                         }
-                                    }
+                                    }*/
                                 }
 
                             case "2": //Se não pretende continuar
@@ -253,23 +253,22 @@ public class Menus {
 
                 //PEDIDOS DE AMIZADE
                 case "4":
+                    Pessoa logado = projeto_ed.Projeto_ed.connection.getPessoa(utilizador_logado);
                     String escolha_opcaoPedido = MenuPedidosAmizade();
                     terminarSwitch = false;
                     while (terminarSwitch == false) {
                         switch (escolha_opcaoPedido) {
                             case "1":
-                                System.out.println("********* PEDIDO PATROCIONADO *********");
-                                System.out.println("Neste caso o utilizador terá de pagar uma taxa correspondente ao número mínimo\n"
-                                        + " de utilizadores intermédios entre o caminho mais curto entre este e o destinatário");
-                                terminarSwitch = true;
+                               
+
+                                System.out.println("********* PEDIDO NORMAL *********");
+                                System.out.println("No caso do primeiro pedido o utilizador não terá nenhuma taxa a pagar, pode fazer pedido de amizade desde que sejam amigos dos seus amigos\n");
+                               
                                 break;
                             case "2":
-                                System.out.println("********* PEDIDO NORMAL *********");
-                                System.out.println("Neste caso o utilizador não terá nenhuma taxa a pagar, pode fazer pedido de amizade\n"
-                                        + "desde que sejam amigos dos seus amigos");
                                 terminarSwitch = true;
-
                                 break;
+
                             case "3":
                                 Boolean hasPedido = sql.ifExisteAmizadesPendentes(user_logado);
                                 if (hasPedido == true) {
@@ -687,8 +686,8 @@ public class Menus {
         System.out.println("* * * * * * * * * * Menu * * * * * * * * * * ");
         System.out.println("*                                          * ");
         System.out.println("*                                          * ");
-        System.out.println("*          1- Fazer pedido patrocionado    * ");
-        System.out.println("*          2- Fazer pedido amizade normal  * ");
+        System.out.println("*          1- Fazer pedido normal          * ");
+        System.out.println("*          2- Fazer pedido patrocionado    * ");
         System.out.println("*          3- Aceitar/Rejeitar pedidos     * ");
         System.out.println("*          4- Voltar atrás                 * ");
         System.out.println("*                                          * ");
@@ -722,22 +721,15 @@ public class Menus {
         String escolhaUser = in.readLine();
         Pessoa p = null;
         while (it.hasNext() && !counter.toString().equals(escolhaUser)) {
-            //Lê a escolha do user
-
             counter++;
-
             p = (Pessoa) it.next();
-
         }
-
         if (escolhaUser.equals(counter.toString())) {
             System.out.println("Escolheu o utilizador " + p.getUser_nome());
             return p;
-
         } else {
             System.out.println("Escolha novamente, esse utilizador não existe.");
             escolhaUser = in.readLine();
-
         }
         return null;
 
