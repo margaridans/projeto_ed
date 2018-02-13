@@ -21,6 +21,7 @@ import GrafoPesado.Network;
 import InterfacesGraficas.Login;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Iterator;
 import projeto_ed.Projeto_ed;
 
 /**
@@ -88,8 +89,8 @@ public class Menus {
 
                     System.out.println("");
                     System.out.print("A sua mensagem vai ser de que tipo: \n"
-                            + "1 - PRIVADA: Apenas os seus amigos podem ver as suas mensagens publicadas\n"
-                            + "2 - PÚBLICA: Todos os utilizadores podem ver as suas mensagens publicadas\n\n"
+                            + "1 - PÚBLICA: Todos os utilizadores podem ver as suas mensagens publicadas\n"
+                            + "2 - PRIVADA: Apenas os seus amigos podem ver as suas mensagens publicadas\n\n"
                             + "Como pretende guardar a sua mensagem? ");
                     int lerTipoMensagem = Integer.parseInt(in.readLine());
 
@@ -99,11 +100,11 @@ public class Menus {
                     while (terminarSwitch == false) {
                         switch (lerTipoMensagem) {
                             case 1:
-                                IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PRIVADA.getDescricao());
+                                IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PUBLICA.getDescricao());
                                 terminarSwitch = true;
                                 break;
                             case 2:
-                                IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PUBLICA.getDescricao());
+                                IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PRIVADA.getDescricao());
                                 terminarSwitch = true;
                                 break;
                             default:
@@ -122,6 +123,8 @@ public class Menus {
 
                     terminarSwitch = false;
                     while (terminarSwitch == false) {
+                        Pessoa logado = projeto_ed.Projeto_ed.connection.getPessoa(utilizador_logado);
+
                         switch (continuarMensagem) {
                             case "1": //Se sim pretende continuar
                                 Date data_pub = new Date();
@@ -133,9 +136,33 @@ public class Menus {
                                 System.out.println("*  BOA!! *");
                                 System.out.println("**********");
                                 System.out.print("Mensagem partilhada. Esteja atento agora aos comentários! ");
-                                menuPrincipal(user_logado); //Volta ao menu principal
-                                terminarSwitch = true;
-                                break;
+
+                                if (IdTipoMensagem == 2) {
+                                    System.out.println("Uma vez que a sua mensagem é do tipo privada apenas vai estar vísivel para os seus amigos");
+                                    System.out.println("----- Teste de alcance -----");
+                                    Iterator iterator = this.grafoPessoas.getAmigos(logado).iterator();
+                                    System.out.println("As pessoas que vão poder ver esta mensagem: Os teus amigos\n");
+                                    while (iterator.hasNext()) {
+                                        Pessoa p = (Pessoa) iterator.next();
+                                        System.out.println("- " + p.getUser_email());
+                                    }
+
+                                    menuPrincipal(user_logado); //Volta ao menu principal
+                                    terminarSwitch = true;
+                                    break;
+                                } else {
+                                    if (IdTipoMensagem == 1) {
+                                        System.out.println("");
+                                        System.out.println("Uma vez que a sua mensagem é do tipo pública vai estar vísivel para toda a gente que se encontrar registada");
+                                        System.out.println("----- Teste de alcance -----");
+                                        Iterator iterator = this.grafoPessoas.getNaoAmigos(logado).iterator();
+                                        System.out.println("As pessoas que vão poder ver esta mensagem: Toda a\n");
+                                        while (iterator.hasNext()) {
+                                            Pessoa p = (Pessoa) iterator.next();
+                                            System.out.println("- " + p.getUser_email());
+                                        }
+                                    }
+                                }
 
                             case "2": //Se não pretende continuar
                                 System.out.println("");
@@ -230,12 +257,18 @@ public class Menus {
                     terminarSwitch = false;
                     while (terminarSwitch == false) {
                         switch (escolha_opcaoPedido) {
-                            case "1": //Pedido patrocionado
+                            case "1":
+                                System.out.println("********* PEDIDO PATROCIONADO *********");
+                                System.out.println("Neste caso o utilizador terá de pagar uma taxa correspondente ao número mínimo\n"
+                                        + " de utilizadores intermédios entre o caminho mais curto entre este e o destinatário");
                                 terminarSwitch = true;
                                 break;
-                            case "2": //Pedido normal
-
+                            case "2":
+                                System.out.println("********* PEDIDO NORMAL *********");
+                                System.out.println("Neste caso o utilizador não terá nenhuma taxa a pagar, pode fazer pedido de amizade\n"
+                                        + "desde que sejam amigos dos seus amigos");
                                 terminarSwitch = true;
+
                                 break;
                             case "3":
                                 Boolean hasPedido = sql.ifExisteAmizadesPendentes(user_logado);
@@ -438,67 +471,126 @@ public class Menus {
                 String email = sql.getPessoaByName(nomePessoa).getUser_email();
                 ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
 
-                //SE NÃO FOREM AMIGOS -> PUBLICAS
-                System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
+                Pessoa pessoa_logada = sql.getPessoa(utilizador_logado);
+                //se não forem amigos
+                if (grafoPessoas.ifAmigos(pessoa_logada) == false) {
+                    System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
 
-                System.out.println("");
-                System.out.println("***************************************");
-                System.out.println("*              MENSAGENS              *");
-                System.out.println("***************************************");
-                System.out.println("");
-                msg = sql.getMensagensPublicas(email); //vai buscar as mensagens públicas
-
-                if (msg.size() != 0) {
-                    printMsg(msg); //imprime as mensagens públicas
                     System.out.println("");
-                    System.out.println("Pretende comentar alguma mensagem?\n1- Sim\n2- Não, pretendo sair");
-                    String pertendeComentar = in.readLine();
+                    System.out.println("***************************************");
+                    System.out.println("*              MENSAGENS              *");
+                    System.out.println("***************************************");
+                    System.out.println("");
+                    msg = sql.getMensagensPublicas(email); //vai buscar as mensagens públicas
 
-                    terminarSwitch = false;
-                    while (terminarSwitch == false) {
-                        switch (pertendeComentar) {
-                            case "1": //Caso queira comentar
-                                Date data_pub = new Date();
-                                System.out.println("");
-                                System.out.print("Qual a mensagem que pretende comentar? Indique o seu índice: ");
-                                Mensagem msg_comentar = escolherMsg(msg);
+                    if (msg.size() != 0) {
+                        printMsg(msg); //imprime as mensagens públicas
+                        System.out.println("");
+                        System.out.println("Pretende comentar alguma mensagem?\n1- Sim\n2- Não, pretendo sair");
+                        String pertendeComentar = in.readLine();
 
-                                id_Mensagem = sql.verIdMensagem(msg_comentar.getConteudo_msg());
-                                System.out.println("\n");
-                                System.out.println("***************COMENTÁRIOS****************");
+                        terminarSwitch = false;
+                        while (terminarSwitch == false) {
+                            switch (pertendeComentar) {
+                                case "1": //Caso queira comentar
+                                    Date data_pub = new Date();
+                                    System.out.println("");
+                                    System.out.print("Qual a mensagem que pretende comentar? Indique o seu índice: ");
+                                    Mensagem msg_comentar = escolherMsg(msg);
 
-                                System.out.println("");
-                                System.out.print("Comente aqui: ");
-                                String conteudo_coment = in.readLine();
-                                Pessoa pessoa_logada = sql.getPessoa(utilizador_logado);
+                                    id_Mensagem = sql.verIdMensagem(msg_comentar.getConteudo_msg());
+                                    System.out.println("\n");
+                                    System.out.println("***************COMENTÁRIOS****************");
 
-                                Comentario comentario = new Comentario(conteudo_coment, data_pub, pessoa_logada, id_Mensagem);
-                                sql.inserirComent(comentario);
-                                System.out.println("O seu comentário foi feito com sucesso");
-                                menuPessoa(pessoaEscolhida, utilizador);
-                                terminarSwitch = true;
-                                break;
+                                    System.out.println("");
+                                    System.out.print("Comente aqui: ");
+                                    String conteudo_coment = in.readLine();
 
-                            case "2": //Caso não queira comentar
-                                menuPessoa(pessoaEscolhida, utilizador);
-                                terminarSwitch = true;
-                                break;
+                                    Comentario comentario = new Comentario(conteudo_coment, data_pub, pessoa_logada, id_Mensagem);
+                                    sql.inserirComent(comentario);
+                                    System.out.println("O seu comentário foi feito com sucesso");
+                                    menuPessoa(pessoaEscolhida, utilizador);
+                                    terminarSwitch = true;
+                                    break;
 
-                            default://Caso escolha uma opção inválida
-                                System.out.println("");
-                                System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
-                                pertendeComentar = in.readLine();
-                                terminarSwitch = false;
+                                case "2": //Caso não queira comentar
+                                    menuPessoa(pessoaEscolhida, utilizador);
+                                    terminarSwitch = true;
+                                    break;
 
+                                default://Caso escolha uma opção inválida
+                                    System.out.println("");
+                                    System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
+                                    pertendeComentar = in.readLine();
+                                    terminarSwitch = false;
+
+                            }
                         }
-                    }
 
-                } else {
-                    System.out.println("Não existem mensagens deste utilizadores");
-                    menuPessoa(pessoaEscolhida, utilizador);
+                    } else {
+                        System.out.println("Não existem mensagens deste utilizadores");
+                        menuPessoa(pessoaEscolhida, utilizador);
+                    }
+                } else if (grafoPessoas.ifAmigos(pessoa_logada)) {
+                    System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
+
+                    System.out.println("");
+                    System.out.println("***************************************");
+                    System.out.println("*              MENSAGENS              *");
+                    System.out.println("***************************************");
+                    System.out.println("");
+                    msg = sql.getAllMensagens(email); //vai buscar todas as mensagens
+
+                    if (msg.size() != 0) {
+                        printMsg(msg); //imprime as mensagens públicas
+                        System.out.println("");
+                        System.out.println("Pretende comentar alguma mensagem?\n1- Sim\n2- Não, pretendo sair");
+                        String pertendeComentar = in.readLine();
+
+                        terminarSwitch = false;
+                        while (terminarSwitch == false) {
+                            switch (pertendeComentar) {
+                                case "1": //Caso queira comentar
+                                    Date data_pub = new Date();
+                                    System.out.println("");
+                                    System.out.print("Qual a mensagem que pretende comentar? Indique o seu índice: ");
+                                    Mensagem msg_comentar = escolherMsg(msg);
+
+                                    id_Mensagem = sql.verIdMensagem(msg_comentar.getConteudo_msg());
+                                    System.out.println("\n");
+                                    System.out.println("***************COMENTÁRIOS****************");
+
+                                    System.out.println("");
+                                    System.out.print("Comente aqui: ");
+                                    String conteudo_coment = in.readLine();
+
+                                    Comentario comentario = new Comentario(conteudo_coment, data_pub, pessoa_logada, id_Mensagem);
+                                    sql.inserirComent(comentario);
+                                    System.out.println("O seu comentário foi feito com sucesso");
+                                    menuPessoa(pessoaEscolhida, utilizador);
+                                    terminarSwitch = true;
+                                    break;
+
+                                case "2": //Caso não queira comentar
+                                    menuPessoa(pessoaEscolhida, utilizador);
+                                    terminarSwitch = true;
+                                    break;
+
+                                default://Caso escolha uma opção inválida
+                                    System.out.println("");
+                                    System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
+                                    pertendeComentar = in.readLine();
+                                    terminarSwitch = false;
+
+                            }
+                        }
+
+                    } else {
+                        System.out.println("Não existem mensagens deste utilizadores");
+                        menuPessoa(pessoaEscolhida, utilizador);
+                    }
                 }
 
-                //SE FOR AMIGOS -> MOSTRA TODAS -> FALTA CÓDIGO DEPOIS DOS PEDIDOS DE AMIZADE
                 break;
 
             //FAZER PEDIDO DE AMIZADE
@@ -554,12 +646,6 @@ public class Menus {
                                         }
                                     }
 
-                                    //System.out.println("A testar alcance...");
-                                    //Iterator it = this.grafoPessoas.getAmigos(logado).iterator();
-                                    /*while (it.hasNext()) {
-                                        Pessoa p = (Pessoa) it.next();
-                                        System.out.println(p.getUser_email());
-                                    }*/
                                 }
 
                             }
