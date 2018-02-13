@@ -40,6 +40,16 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
     }
 
+    public void printVertex(Pessoa logada) {
+
+        for (int i = 0; i < vertices.length-1; i++) {
+            Pessoa pessoa = (Pessoa) vertices[i];
+            if (!pessoa.equals(logada)) {
+                System.out.println("" + pessoa.getUser_email());
+            }
+        }
+    }
+
     /**
      * Método para adicionar pessoas a cada vértice, ou seja, o número de
      * pessoas na base dados vai ser igual ao número de vértices
@@ -130,8 +140,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
         //return edge != null;
     }
-
-   
 
     public Boolean verificarTipoAmizadePossivel(Pessoa logada, Pessoa perfil) {
         Integer myIndexPessoa = getIndex((T) logada);

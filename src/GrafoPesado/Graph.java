@@ -30,6 +30,9 @@ public class Graph <T> implements GraphADT<T> {
         this.adjMatrix = new boolean[200][200];
         this.vertices = (T[]) new Object[200];
     }
+    
+    
+  
 
     @Override
     public void addEdge(T vertex1, T vertex2) {
