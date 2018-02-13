@@ -526,16 +526,33 @@ public class Menus {
                                     System.out.println("Têm um amigo em comum --> assim sendo será um pedido normal");
                                     sql.fazerPedidoAmizade(logado, pessoaEscolhida);
                                 } else {
-                                    System.out.println("Não têm um amigo em comum --> assim sendo será um pedido patrocionado");
-                                    // Caminho mais curto
                                     double nrCreditos = this.grafoPessoas.shortestPathWeight(logado, pessoaEscolhida);
-                                    System.out.println(nrCreditos);
-                                    sql.fazerPedidoAmizade(logado, pessoaEscolhida);
+                                    System.out.println("Não têm um amigo em comum --> assim sendo será um pedido patrocionado.\nIrá pagar " + nrCreditos + ".\nPretende continuar?\n 1- Sim\n2- Não");
+                                    String continuarPedidoPago = in.readLine();
 
-                                    int nrCredRetirados = (int) nrCreditos;
+                                    while (terminarSwitch == false) {
+                                        switch (continuarPedidoPago) {
+                                            case "1":
+                                                // Caminho mais curto
+                                                sql.fazerPedidoAmizade(logado, pessoaEscolhida);
+                                                int nrCredRetirados = (int) nrCreditos;
 
-                                    Integer meusCreditos = creditos - nrCredRetirados;
-                                    sql.updateCreditosUser(utilizador_logado, meusCreditos);
+                                                Integer meusCreditos = creditos - nrCredRetirados;
+                                                sql.updateCreditosUser(utilizador_logado, meusCreditos);
+                                                terminarSwitch = true;
+                                                break;
+
+                                            case "2":
+                                                menuPessoa(pessoaEscolhida, utilizador);
+                                                terminarSwitch = true;
+                                                break;
+                                            default:
+                                                System.out.println("Opção inválida. Apenas pode escolher 1- Sim     |     2- Não");
+                                                continuarPedidoPago = in.readLine();
+                                                terminarSwitch = false;
+                                                break;
+                                        }
+                                    }
 
                                     //System.out.println("A testar alcance...");
                                     //Iterator it = this.grafoPessoas.getAmigos(logado).iterator();
