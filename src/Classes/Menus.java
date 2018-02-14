@@ -29,17 +29,17 @@ import projeto_ed.Projeto_ed;
  * @author Marisa Machado - 8140186
  */
 public class Menus {
-    
+
     private Integer id_Mensagem = 0;
     private SqlConnection sql = Projeto_ed.connection;
     private String utilizador_logado = null;
     private Network<Pessoa> grafoPessoas;
-    
+
     public Menus(String user_logado) {
         this.utilizador_logado = user_logado;
         this.grafoPessoas = new Network<>();
     }
-    
+
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     ArrayIterator it;
     Boolean terminarSwitch = false;
@@ -59,8 +59,7 @@ public class Menus {
         //System.out.println("Existem numero de vertices: " + this.grafoPessoas.size());
 
         Pessoa pes_logada = sql.getPessoa(user_logado);
-        
-        grafoPessoas.printVertex(pes_logada);
+
         System.out.println("\n \n");
         System.out.println("* * * * * * * * * * * * Menu * * * * * * * * * * * *");
         System.out.println("*                                                  * ");
@@ -74,12 +73,12 @@ public class Menus {
         System.out.println("*                                                  * ");
         System.out.println("*                                                  * ");
         System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * *  * ");
-        
+
         System.out.print("O que pretende fazer? ");
         String escolha = in.readLine();
-        
+
         if (null != escolha) {
-            
+
             switch (escolha) {
                 //ESCREVER MENSAGEM
                 case "1":
@@ -90,16 +89,16 @@ public class Menus {
 
                     //Onde o utilizador vai escrever a mensagem
                     String conteudo = escreverMensagem();
-                    
+
                     System.out.println("");
                     System.out.print("A sua mensagem vai ser de que tipo: \n"
                             + "1 - PÚBLICA: Todos os utilizadores podem ver as suas mensagens publicadas\n"
                             + "2 - PRIVADA: Apenas os seus amigos podem ver as suas mensagens publicadas\n\n"
                             + "Como pretende guardar a sua mensagem? ");
                     int lerTipoMensagem = Integer.parseInt(in.readLine());
-                    
+
                     Integer IdTipoMensagem = null;
-                    
+
                     terminarSwitch = false;
                     while (terminarSwitch == false) {
                         switch (lerTipoMensagem) {
@@ -118,17 +117,17 @@ public class Menus {
                                 break;
                         }
                     }
-                    
+
                     System.out.println("\n");
                     System.out.println("Está prestes a partilhar a sua mensagem com os seus amigos...\n\n"
                             + "Tem a certeza que pretende continuar?\n"
                             + "1- Sim\n2- Não ");
                     String continuarMensagem = in.readLine();
-                    
+
                     terminarSwitch = false;
                     while (terminarSwitch == false) {
                         Pessoa logado = projeto_ed.Projeto_ed.connection.getPessoa(utilizador_logado);
-                        
+
                         switch (continuarMensagem) {
                             case "1": //Se sim pretende continuar
                                 Date data_pub = new Date();
@@ -140,7 +139,7 @@ public class Menus {
                                 System.out.println("*  BOA!! *");
                                 System.out.println("**********");
                                 System.out.print("Mensagem partilhada. Esteja atento agora aos comentários! ");
-                                
+
                                 if (IdTipoMensagem == 2) {
                                     System.out.println("Uma vez que a sua mensagem é do tipo privada apenas vai estar vísivel para os seus amigos");
                                     System.out.println("----- Teste de alcance -----");
@@ -150,24 +149,21 @@ public class Menus {
                                         Pessoa p = (Pessoa) iterator.next();
                                         System.out.println("- " + p.getUser_email());
                                     }
-                                    
+
                                     menuPrincipal(user_logado); //Volta ao menu principal
                                     terminarSwitch = true;
                                     break;
                                 } else {
-                                    /*  if (IdTipoMensagem == 1) {
+                                    if (IdTipoMensagem == 1) {
                                         System.out.println("");
                                         System.out.println("Uma vez que a sua mensagem é do tipo pública vai estar vísivel para toda a gente que se encontrar registada");
                                         System.out.println("----- Teste de alcance -----");
-                                        Iterator iterator = this.grafoPessoas.getNaoAmigos(logado).iterator();
-                                        System.out.println("As pessoas que vão poder ver esta mensagem: Toda a\n");
-                                        while (iterator.hasNext()) {
-                                            Pessoa p = (Pessoa) iterator.next();
-                                            System.out.println("- " + p.getUser_email());
-                                        }
-                                    }*/
+                                        System.out.println("As pessoas que vão poder ver esta mensagem: Toda a gente\n");
+                                        this.grafoPessoas.printVertex(logado);
+                                    }
                                 }
-                            
+                                break;
+
                             case "2": //Se não pretende continuar
                                 System.out.println("");
                                 System.out.println("*************");
@@ -189,11 +185,11 @@ public class Menus {
                 //GERIR MINHAS MENSAGENS
                 case "2":
                     ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
-                    
+
                     System.out.println("\n");
                     System.out.println("************** AS MINHAS MENSAGENS**************");
                     System.out.println("");
-                    
+
                     msg = sql.getAllMensagens(user_logado); //vai buscar todas as minhas mensagens
 
                     if (msg.size() == 0) {
@@ -205,7 +201,7 @@ public class Menus {
                         System.out.println("");
                         System.out.println("Deseja eliminar alguma mensagem?\n1-Sim\n2-Não");
                         String desejaEliminar = in.readLine();
-                        
+
                         terminarSwitch = false;
                         while (terminarSwitch == false) {
                             switch (desejaEliminar) {
@@ -219,7 +215,7 @@ public class Menus {
                                     menuPrincipal(user_logado); //Volta ao menu principal
                                     terminarSwitch = true;
                                     break;
-                                
+
                                 case "2": //Se não desejar eliminar
                                     System.out.println("");
                                     System.out.println("Ainda bem que não quis eliminar as suas mensagens!");
@@ -263,25 +259,37 @@ public class Menus {
                     while (terminarSwitch == false) {
                         switch (escolha_opcaoPedido) {
                             case "1":
-                                
+
                                 System.out.println("********* PEDIDO NORMAL *********");
                                 System.out.println("No caso do primeiro pedido o utilizador não terá nenhuma taxa a pagar, pode fazer pedido de amizade desde que sejam amigos dos seus amigos\n");
-                                
+
                                 break;
                             case "2":
                                 terminarSwitch = true;
                                 break;
-                            
+
                             case "3":
+
                                 Boolean hasPedido = sql.ifExisteAmizadesPendentes(user_logado);
+                                Integer counter = 0;
                                 if (hasPedido == true) {
-                                    System.out.println("Você tem um pedido de amizade pendente");
+                                    ArrayUnorderedList<Pedido> pedidoAmizade = new ArrayUnorderedList<>();
+                                    pedidoAmizade = sql.getPedidosPendentes(user_logado); 
+
                                     String nomeOrigemPedido = sql.getOrigemPedidoAmizade(user_logado);
-                                    System.out.println("Pessoa que fez o pedido: " + nomeOrigemPedido);
-                                    
+                                    System.out.println("Você tem " + pedidoAmizade.size() + " pedido(s) de amizade pendente(s) ");
+
+                                    for (int i = 0; i < pedidoAmizade.size(); i++) {
+                                        counter++;
+                                        System.out.println("Pedido nº " + counter + "- " + "Pedido amizade de ");
+                                        System.out.println("");
+
+                                    }
+                                    System.out.print("Indique o índice do pedido que pretende responder? ");
+                                    Pedido escolhaPedido = escolherPedidoAmizade(pedidoAmizade);
                                     System.out.println("1 - Aceitar      |      2 - Rejeitar       |    3 - Ignorar");
                                     String rspostaPedido = in.readLine();
-                                    
+                                   
                                     while (terminarSwitch == false) {
                                         switch (rspostaPedido) {
                                             case "1":
@@ -306,7 +314,7 @@ public class Menus {
                                                 break;
                                         }
                                     }
-                                    
+
                                 } else {
                                     System.out.println("Você não tem pedidos de amizade");
                                     MenuPedidosAmizade();
@@ -330,32 +338,32 @@ public class Menus {
                 case "5":
                     String nome_pessoaLogada = sql.getPessoa(user_logado).getUser_nome(); //nome da pessoa logada
                     Integer creditos = sql.getPessoa(user_logado).getNr_creditos();
-                    
+
                     System.out.println("");
                     System.out.println("*********************************");
                     System.out.println("*       DEFINIÇÕES DE CONTA     *");
                     System.out.println("*********************************");
                     System.out.println("");
-                    
+
                     System.out.println("Nome: " + nome_pessoaLogada);
                     System.out.println("Email: " + user_logado);
                     System.out.println("Número de créditos: " + creditos);
                     System.out.println("");
                     System.out.println("1- Quer carregar os seus créditos?\n2- Quer cancelar sua conta?\n3- Sair");
                     String opcaoFeita = in.readLine();
-                    
+
                     terminarSwitch = false;
-                    
+
                     while (terminarSwitch == false) {
                         switch (opcaoFeita) {
                             case "1":
                                 System.out.println("Quantos créditos quer carregar?");
                                 String nrCreditosInseridos = in.readLine();
-                                
+
                                 int nrCredInseridos = Integer.parseInt(nrCreditosInseridos);
-                                
+
                                 Integer meusCreditos = creditos + nrCredInseridos;
-                                
+
                                 if (nrCredInseridos > 1 && nrCredInseridos <= 20) {
                                     sql.updateCreditosUser(user_logado, meusCreditos);
                                     System.out.println("Os seus créditos foram adicionados com sucesso.\nCréditos atuais: " + meusCreditos);
@@ -365,11 +373,11 @@ public class Menus {
                                 }
                                 terminarSwitch = true;
                                 break;
-                            
+
                             case "2":
                                 System.out.println("Tem a certeza que pretende apagar a sua conta?\n1- Sim\n2- Não");
                                 String apagarConta = in.readLine();
-                                
+
                                 while (terminarSwitch == false) {
                                     switch (apagarConta) {
                                         case "1":
@@ -378,12 +386,12 @@ public class Menus {
                                             System.exit(0); //Encerra o programa
                                             terminarSwitch = true;
                                             break;
-                                        
+
                                         case "2":
                                             menuPrincipal(user_logado);
                                             terminarSwitch = true;
                                             break;
-                                        
+
                                         default:
                                             System.out.println("");
                                             System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
@@ -392,12 +400,12 @@ public class Menus {
                                             break;
                                     }
                                 }
-                            
+
                             case "3":
                                 menuPrincipal(user_logado);
                                 terminarSwitch = true;
                                 break;
-                            
+
                             default:
                                 System.out.println("");
                                 System.out.println("Escolha uma opção válida: 1 - Carregar créditos   |    2 - Apagar conta   |    3 - Sair");
@@ -406,7 +414,7 @@ public class Menus {
                                 break;
                         }
                     }
-                    
+
                     break;
 
                 //TEMINAR SESSÃO
@@ -436,7 +444,7 @@ public class Menus {
      */
     public void menuPessoa(Pessoa pessoaEscolhida, String utilizador) throws IOException, ParseException, SQLException, EmptyQueueException, EmptyStackException, EmptyCollectionException {
         String nomePessoa = pessoaEscolhida.getUser_nome();
-        
+
         System.out.println("\n \n");
         System.out.println("* * * * * * * * * * * * Menu * * * * * * * * * * * * * *");
         System.out.println("*            Bem vindo ao perfil de " + nomePessoa + "          *");
@@ -450,9 +458,9 @@ public class Menus {
         System.out.println("*                                                      *");
         System.out.println("* * * * * * * * * * * * * * * * * * * * *  * * * * * * *");
         System.out.println("O que pretende fazer? ");
-        
+
         String escolha = in.readLine();
-        
+
         switch (escolha) {
             //VER INFORMAÇÕES AMIGO/NÃO AMIGO
             case "1":
@@ -461,7 +469,7 @@ public class Menus {
                 System.out.println("*              INFORMAÇÃO DO USER " + nomePessoa.toUpperCase() + "                *");
                 System.out.println("************************************************************");
                 System.out.println("");
-                
+
                 System.out.println("Nome: " + nomePessoa);
                 System.out.println("Email: " + sql.getPessoaByName(nomePessoa).getUser_email());
                 System.out.println("Número de créditos: " + sql.getPessoaByName(nomePessoa).getNr_creditos());
@@ -472,12 +480,12 @@ public class Menus {
             case "2":
                 String email = sql.getPessoaByName(nomePessoa).getUser_email();
                 ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
-                
+
                 Pessoa pessoa_logada = sql.getPessoa(utilizador_logado);
                 //se não forem amigos
                 if (grafoPessoas.ifAmigos(pessoa_logada) == false) {
                     System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
-                    
+
                     System.out.println("");
                     System.out.println("***************************************");
                     System.out.println("*              MENSAGENS              *");
@@ -490,7 +498,7 @@ public class Menus {
                         System.out.println("");
                         System.out.println("Pretende comentar alguma mensagem?\n1- Sim\n2- Não, pretendo sair");
                         String pertendeComentar = in.readLine();
-                        
+
                         terminarSwitch = false;
                         while (terminarSwitch == false) {
                             switch (pertendeComentar) {
@@ -499,43 +507,43 @@ public class Menus {
                                     System.out.println("");
                                     System.out.print("Qual a mensagem que pretende comentar? Indique o seu índice: ");
                                     Mensagem msg_comentar = escolherMsg(msg);
-                                    
+
                                     id_Mensagem = sql.verIdMensagem(msg_comentar.getConteudo_msg());
                                     System.out.println("\n");
                                     System.out.println("***************COMENTÁRIOS****************");
-                                    
+
                                     System.out.println("");
                                     System.out.print("Comente aqui: ");
                                     String conteudo_coment = in.readLine();
-                                    
+
                                     Comentario comentario = new Comentario(conteudo_coment, data_pub, pessoa_logada, id_Mensagem);
                                     sql.inserirComent(comentario);
                                     System.out.println("O seu comentário foi feito com sucesso");
                                     menuPessoa(pessoaEscolhida, utilizador);
                                     terminarSwitch = true;
                                     break;
-                                
+
                                 case "2": //Caso não queira comentar
                                     menuPessoa(pessoaEscolhida, utilizador);
                                     terminarSwitch = true;
                                     break;
-                                
+
                                 default://Caso escolha uma opção inválida
                                     System.out.println("");
                                     System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
                                     pertendeComentar = in.readLine();
                                     terminarSwitch = false;
-                                
+
                             }
                         }
-                        
+
                     } else {
                         System.out.println("Não existem mensagens deste utilizadores");
                         menuPessoa(pessoaEscolhida, utilizador);
                     }
                 } else if (grafoPessoas.ifAmigos(pessoa_logada)) {
                     System.out.println("Uma vez que não é amigo do utilizador " + nomePessoa + " só pode ver as suas mensagens públicas");
-                    
+
                     System.out.println("");
                     System.out.println("***************************************");
                     System.out.println("*              MENSAGENS              *");
@@ -548,7 +556,7 @@ public class Menus {
                         System.out.println("");
                         System.out.println("Pretende comentar alguma mensagem?\n1- Sim\n2- Não, pretendo sair");
                         String pertendeComentar = in.readLine();
-                        
+
                         terminarSwitch = false;
                         while (terminarSwitch == false) {
                             switch (pertendeComentar) {
@@ -557,54 +565,54 @@ public class Menus {
                                     System.out.println("");
                                     System.out.print("Qual a mensagem que pretende comentar? Indique o seu índice: ");
                                     Mensagem msg_comentar = escolherMsg(msg);
-                                    
+
                                     id_Mensagem = sql.verIdMensagem(msg_comentar.getConteudo_msg());
                                     System.out.println("\n");
                                     System.out.println("***************COMENTÁRIOS****************");
-                                    
+
                                     System.out.println("");
                                     System.out.print("Comente aqui: ");
                                     String conteudo_coment = in.readLine();
-                                    
+
                                     Comentario comentario = new Comentario(conteudo_coment, data_pub, pessoa_logada, id_Mensagem);
                                     sql.inserirComent(comentario);
                                     System.out.println("O seu comentário foi feito com sucesso");
                                     menuPessoa(pessoaEscolhida, utilizador);
                                     terminarSwitch = true;
                                     break;
-                                
+
                                 case "2": //Caso não queira comentar
                                     menuPessoa(pessoaEscolhida, utilizador);
                                     terminarSwitch = true;
                                     break;
-                                
+
                                 default://Caso escolha uma opção inválida
                                     System.out.println("");
                                     System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
                                     pertendeComentar = in.readLine();
                                     terminarSwitch = false;
-                                
+
                             }
                         }
-                        
+
                     } else {
                         System.out.println("Não existem mensagens deste utilizadores");
                         menuPessoa(pessoaEscolhida, utilizador);
                     }
                 }
-                
+
                 break;
 
             //FAZER PEDIDO DE AMIZADE
             case "3":
                 Integer creditos = sql.getPessoa(utilizador_logado).getNr_creditos();
-                
+
                 System.out.println("");
                 System.out.println("Ao fazer o pedido de amizade e este for aceite vai poder ver todas as mensagens do utilizador " + nomePessoa);
                 System.out.println("");
                 System.out.println("Está prestes a fazer o pedido de amizade a " + nomePessoa + ".\nTem a certeza que pretende continuar?\n1-Sim\n2-Não");
                 String fazerPedido = in.readLine();
-                
+
                 terminarSwitch = false;
                 while (terminarSwitch == false) {
                     switch (fazerPedido) {
@@ -620,9 +628,15 @@ public class Menus {
                                     sql.fazerPedidoAmizade(logado, pessoaEscolhida);
                                 } else {
                                     double nrCreditos = this.grafoPessoas.shortestPathWeight(logado, pessoaEscolhida);
-                                    System.out.println("Não têm um amigo em comum --> assim sendo será um pedido patrocionado.\nIrá pagar " + nrCreditos + ".\nPretende continuar?\n 1- Sim\n2- Não");
+                                    if (nrCreditos == 2.147483647E9) {
+                                        System.out.println("Uma vez que é um utilizador novo e ainda não têm amizades/ligações com ninguém apenas lhe vai ser cobrado 1 crédito pela amizade.");
+                                        nrCreditos = 1.00;
+                                    } else {
+                                        System.out.println("Não têm um amigo em comum --> assim sendo será um pedido patrocionado.\nIrá pagar " + nrCreditos);
+                                    }
+                                    System.out.println("Tem a certeza que pretende continuar?\n1- Sim\n2- Não");
                                     String continuarPedidoPago = in.readLine();
-                                    
+
                                     while (terminarSwitch == false) {
                                         switch (continuarPedidoPago) {
                                             case "1":
@@ -641,14 +655,14 @@ public class Menus {
                                                         sql.fazerPedidoAmizade(logado, pessoaEscolhida);
                                                         Integer meusCreditos = creditos - nrCredRetirados;
                                                         sql.updateCreditosUser(utilizador_logado, meusCreditos);
-                                                        System.out.println("O pedido de amizade foi feito com sucesso, espere que " + pessoaEscolhida + " responda ao seu pedido");
+                                                        System.out.println("O pedido de amizade foi feito com sucesso, espere que " + pessoaEscolhida.getUser_nome() + " responda ao seu pedido");
                                                         menuPessoa(pessoaEscolhida, utilizador);
                                                     }
                                                 }
-                                                
+
                                                 terminarSwitch = true;
                                                 break;
-                                            
+
                                             case "2":
                                                 menuPessoa(pessoaEscolhida, utilizador);
                                                 terminarSwitch = true;
@@ -660,9 +674,9 @@ public class Menus {
                                                 break;
                                         }
                                     }
-                                    
+
                                 }
-                                
+
                             }
                             terminarSwitch = true;
                             break;
@@ -710,9 +724,9 @@ public class Menus {
         System.out.println("*                                          * ");
         System.out.println("* * * * * * * * * * * * * * * * * * * * *  * ");
         System.out.println("O que pretende fazer? ");
-        
+
         String escolhaMenuAmizade = in.readLine();
-        
+
         return escolhaMenuAmizade;
     }
 
@@ -748,7 +762,7 @@ public class Menus {
             escolhaUser = in.readLine();
         }
         return null;
-        
+
     }
 
     /**
@@ -759,10 +773,10 @@ public class Menus {
      * imprimir
      */
     private void printAllUsers(ArrayUnorderedList<Pessoa> pessoa) {
-        
+
         Integer counter = 0;
         it = (ArrayIterator) pessoa.iterator();
-        
+
         System.out.println();
         System.out.println("Escolha um utilizador através do seu índice: ");
         while (it.hasNext()) {
@@ -772,7 +786,7 @@ public class Menus {
             System.out.println("");
             System.out.println("Qual o utilizador que pretende escolher? ");
         }
-        
+
     }
 
     //--------------------------------------------ACERCA DAS MENSAGENS-------------------------------------------------//
@@ -791,10 +805,10 @@ public class Menus {
      */
     private Mensagem escolherMsg(ArrayOrderedList<Mensagem> msg) throws IOException {
         String escolhaMensagem = in.readLine();
-        
+
         it = (ArrayIterator) msg.iterator();
         Integer counter = 0;
-        
+
         while (it.hasNext()) {
             counter++;
             Mensagem mensa = (Mensagem) it.next();
@@ -807,7 +821,28 @@ public class Menus {
             }
         }
         return null;
-        
+
+    }
+
+    private Pedido escolherPedidoAmizade(ArrayUnorderedList<Pedido> pedido) throws IOException {
+        String indicePedido = in.readLine();
+
+        it = (ArrayIterator) pedido.iterator();
+        Integer counter = 0;
+
+        while (it.hasNext()) {
+            counter++;
+            Pedido pedAmizade = (Pedido) it.next();
+            if (indicePedido.equals(counter.toString())) {
+                System.out.println("Escolheu o pedido nº  " + "'" + counter + "'" + " para ser respondido");
+                return pedAmizade;
+            } else {
+                System.out.println("Essa opção não é válida , selecione apenas um índice de um pedido");
+                indicePedido = in.readLine();
+            }
+        }
+        return null;
+
     }
 
     /**
@@ -821,7 +856,7 @@ public class Menus {
      */
     private Mensagem escolherMsgEliminada(ArrayOrderedList<Mensagem> msg) throws IOException {
         String escolhaMsgEliminada = in.readLine();
-        
+
         it = (ArrayIterator) msg.iterator();
         Integer counter = 0;
         while (it.hasNext()) {
@@ -833,7 +868,7 @@ public class Menus {
             }
         }
         return null;
-        
+
     }
 
     /**
@@ -845,13 +880,13 @@ public class Menus {
      * @throws IOException
      */
     public String escreverMensagem() throws IOException {
-        
+
         System.out.println("");
         System.out.print("Escreva aqui: ");
         String lerMensagem = in.readLine();
-        
+
         String mensagem_conteudo = lerMensagem;
-        
+
         return mensagem_conteudo;
     }
 
@@ -866,19 +901,19 @@ public class Menus {
         Integer counter = 0;
         it = (ArrayIterator) msg.iterator();
         ArrayOrderedList<Comentario> comentario_mensagem;
-        
+
         while (it.hasNext()) {
             counter++;
             Mensagem mens = (Mensagem) it.next();
             System.out.println("Mensagem " + counter + ": " + mens.getConteudo_msg());
             System.out.println("Publicada em: " + mens.getData_publicacao().toLocaleString());
             System.out.println("");
-            
+
             Integer idMensagem = sql.verIdMensagem(mens.getConteudo_msg());
             //Se exister comentários para aquela mensagem
             if (sql.ifExisteComentariosMensagem(idMensagem) == true) {
                 Comentario comentario = new Comentario();
-                
+
                 comentario_mensagem = sql.getComentarioById(idMensagem); //ele vai buscar os comentário
                 printComentario(comentario_mensagem); //e vai imprimir
 
@@ -886,11 +921,11 @@ public class Menus {
                 System.out.println("Não há comentários");
                 System.out.println("______________________________________________________");
                 System.out.println("");
-                
+
             }
-            
+
         }
-        
+
     }
 
     //--------------------------------------------ACERCA DOS COMENTÁRIOS-------------------------------------------------//
@@ -903,7 +938,7 @@ public class Menus {
     private void printComentario(ArrayOrderedList<Comentario> coment) throws ParseException {
         Integer counter = 0;
         it = (ArrayIterator) coment.iterator();
-        
+
         System.out.println();
         while (it.hasNext()) {
             counter++;
@@ -913,6 +948,6 @@ public class Menus {
             System.out.println("");
         }
         System.out.println("______________________________________________________");
-        
+
     }
 }

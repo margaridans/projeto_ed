@@ -42,10 +42,10 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
     public void printVertex(Pessoa logada) {
 
-        for (int i = 0; i < vertices.length-1; i++) {
+        for (int i = 0; i < size(); i++) {
             Pessoa pessoa = (Pessoa) vertices[i];
             if (!pessoa.equals(logada)) {
-                System.out.println("" + pessoa.getUser_email());
+                System.out.println("- " + pessoa.getUser_email());
             }
         }
     }

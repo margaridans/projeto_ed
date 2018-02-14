@@ -14,6 +14,7 @@ import org.sqlite.SQLiteConfig;
 import ArrayList.ArrayUnorderedList;
 import Classes.Amizade;
 import Classes.Comentario;
+import Classes.Pedido;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -407,6 +408,40 @@ public class SqlConnection {
             System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
         }
         return valor;
+    }
+   
+    public ArrayUnorderedList<Pedido> getPedidosPendentes(String emailLogado) throws SQLException {
+
+        Statement statement = null;
+        ArrayUnorderedList<Pedido> valor = new ArrayUnorderedList<>();
+        try {
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM PedidoAmizade WHERE USER_DESTINO  = '" + emailLogado + "'" + "AND ID_ESTADO = 1";
+
+            ResultSet r = statement.executeQuery(SQL);
+
+            while (r.next()) {
+                Pessoa a = getPessoa(r.getString("USER_ORIGEM"));
+                Pessoa b = getPessoa(r.getString("USER_DESTINO"));
+                Pedido tmpPedido = new Pedido(a, b, r.getInt("ID_ESTADO"));
+                valor.addToRear(tmpPedido);
+
+            }
+
+            /*if (!hasPessoa) {
+                System.out.println("Não existem pessoas");
+                valor = null;
+            }*/
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+
     }
 
     /**
