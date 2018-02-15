@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package projeto_ed;
 
 import Database.SqlConnection;
@@ -19,7 +15,7 @@ public class Projeto_ed {
 
     public Projeto_ed() {
         connection = new SqlConnection();
-        Login login = new Login();
+        Login login = new Login(); //Inicia a interface gráfica do login
     }
 
   
