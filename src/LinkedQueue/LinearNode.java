@@ -21,7 +21,9 @@ public class LinearNode<T> {
     }
 
     /**
-     * Crie um nó armazenando o elemento especificado
+     *
+     * Método construtor vazio que permite criar uma nova instância de
+     * {@link LinearNode} com um elemento específico
      *
      * @param element elemento a ser armazenado
      */
@@ -31,10 +33,9 @@ public class LinearNode<T> {
     }
 
     /**
+     * Método que retorna uma referência do nó que se segue a este
      *
-     * Retorna o nó que se segue a este
-     *
-     * @return LinearNode referência para o próximo nó
+     * @return uma referência do nó que se segue a este
      */
     public LinearNode<T> getNext() {
         return this.next;
@@ -50,9 +51,9 @@ public class LinearNode<T> {
     }
 
     /**
-     * Retorna o elemento armazenado neste nó
+     * Método que retorna uma referência do elemento armazenado neste nó
      *
-     * @return T elemento armazenado no nó
+     * @return uma referência do elemento armazenado neste nó
      */
     public T getElement() {
         return this.element;
