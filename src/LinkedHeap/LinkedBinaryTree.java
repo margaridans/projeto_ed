@@ -1,4 +1,3 @@
-
 package LinkedHeap;
 
 import ArrayList.ArrayUnorderedList;
@@ -10,19 +9,17 @@ import LinkedQueue.LinkedQueue;
 import java.util.Iterator;
 
 /**
- * @author Bernardino Silva - 8140277
- * @author Rui Bessa - 8140210
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  * @param <T>
  */
 public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
-    protected int count;
-    protected BinaryTreeNode<T> root;
+    protected int count; //Contagem de elementos na árvore
+    protected BinaryTreeNode<T> root; //Referência para o root
 
-    
-    
     /**
-     * Creates an empty binary tree
+     * Criar uma árvore binária vazia
      */
     public LinkedBinaryTree() {
         this.count = 0;
@@ -30,9 +27,10 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
     }
 
     /**
-     * Creates a binary tree with the specified element as its root.
      *
-     * @param element the element that will become the root of the new binary tree
+     * Cria uma árvore binária com o elemento especificado a ser a sua raiz.
+     *
+     * @param element o elemento que se tornará a raiz tree
      */
     public LinkedBinaryTree(T element) {
         this.count = 1;
@@ -69,11 +67,19 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
     @Override
     public T find(T targetElement) throws ElementNotFoundException {
         BinaryTreeNode<T> current = findAgain(targetElement, root);
-        if (current == null)
-            throw new ElementNotFoundException("binary tree");
+        if (current == null) {
+            throw new ElementNotFoundException("Árvore binária");
+        }
         return (current.element);
     }
 
+    /**
+     *
+     * Executa uma travessia inorder nesta árvore binária ao chamar um método
+     * inorder sobrecarregado e recursivo que começa com a raiz.
+     *
+     * @return um iterador de ordem sobre esta árvore binária
+     */
     @Override
     public Iterator<T> iteratorInOrder() {
         ArrayUnorderedList<T> tempList = new ArrayUnorderedList<>();
@@ -82,10 +88,11 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
     }
 
     /**
-     * Performs a recursive in order traversal.
+     * É uma travessia em-ordem que é realizada ao visitar o filho esquerdo do
+     * nó, o nó, e só depois visitar o filho direito
      *
-     * @param node     the node to be used as the root for this traversal
-     * @param tempList the temporary list for use in this traversal
+     * @param node nó a ser usado como a raiz para esta travessia
+     * @param tempList lista temporária para uso nesta travessia
      */
     protected void inorder(BinaryTreeNode<T> node, ArrayUnorderedList<T> tempList) {
         if (node != null) {
@@ -95,6 +102,13 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
         }
     }
 
+    /**
+     *
+     * Executa um percurso de pré-ordem nessa árvore binária ao chamar um método
+     * de pré-ordem recursivo que começa com a raiz.
+     *
+     * @return um iterador sobre os elementos desta árvore binária
+     */
     @Override
     public Iterator<T> iteratorPreOrder() {
         ArrayUnorderedList<T> tempList = new ArrayUnorderedList<>();
@@ -103,10 +117,11 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
     }
 
     /**
-     * Performs a recursive pre order traversal
+     * É uma travessia pré-ordem que é realizada ao visitar cada nó e só depois
+     * visita os seus filhos: esquerdo/direito
      *
-     * @param node     node to be used as the root for this traversal
-     * @param tempList the temporary list for use in this traversal
+     * @param node nó a ser usado como a raiz para esta travessia
+     * @param tempList lista temporária para uso nesta travessia
      */
     protected void preOrder(BinaryTreeNode<T> node, ArrayUnorderedList<T> tempList) {
         if (node != null) {
@@ -116,6 +131,12 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
         }
     }
 
+    /**
+     * Executa um percurso de pós-ordem nessa árvore binária ao chamar um método
+     * de pós-ordem recursivo que começa com a raiz.
+     *
+     * @return um iterador sobre os elementos desta árvore binária
+     */
     @Override
     public Iterator<T> iteratorPostOrder() {
         ArrayUnorderedList<T> tempList = new ArrayUnorderedList<>();
@@ -124,10 +145,12 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
     }
 
     /**
-     * Performs a recursive postOrder traversal
+     * É uma travessia pós-ordem que é realizada ao visitar primeiros os filhos:
+     * esquerdo/direito e só depois visita o nó
      *
-     * @param node     to be used as the root for this traversal
-     * @param tempList the temporary list for use in this traversal
+     *
+     * @param node nó a ser usado como a raiz para esta travessia
+     * @param tempList lista temporária para uso nesta travessia
      */
     protected void postOrder(BinaryTreeNode<T> node, ArrayUnorderedList<T> tempList) {
         if (node != null) {
@@ -137,8 +160,15 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
         }
     }
 
+    /**
+     *
+     * Executa uma passagem de nível na árvore binária, usando uma fila
+     *
+     * @return um iterador sobre os elementos desta árvore binária
+     * @throws EmptyCollectionException
+     */
     @Override
-    public Iterator<T> iteratorLevelOrder() throws EmptyCollectionException  {
+    public Iterator<T> iteratorLevelOrder() throws EmptyCollectionException {
         LinkedQueue<T> nodes = new LinkedQueue<>();
         ArrayUnorderedList<T> templist = new ArrayUnorderedList<>();
         BinaryTreeNode<T> current;
@@ -158,20 +188,24 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
     }
 
     /**
-     * Returns a reference to the specified target element if it is found in
-     * this binary tree.
      *
-     * @param targetElement the element being sought in this tree
-     * @param next          the element to begin searching from
+     * Retorna uma referência ao elemento-alvo especificado se for encontrada
+     * nessa árvore binária.
+     *
+     * @param targetElement elemento que está a ser procurado na árvore
+     * @param next o elemento para começar a procurar.
      */
     private BinaryTreeNode<T> findAgain(T targetElement, BinaryTreeNode<T> next) {
-        if (next == null)
+        if (next == null) {
             return null;
-        if (next.element.equals(targetElement))
+        }
+        if (next.element.equals(targetElement)) {
             return next;
+        }
         BinaryTreeNode<T> temp = findAgain(targetElement, next.left);
-        if (temp == null)
+        if (temp == null) {
             temp = findAgain(targetElement, next.right);
+        }
         return temp;
     }
 }

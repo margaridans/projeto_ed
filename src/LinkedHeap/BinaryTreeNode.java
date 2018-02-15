@@ -1,11 +1,12 @@
 package LinkedHeap;
 
 /**
- * BinaryTreenode represents a node in a binaryTree with a left and right child.
+ * BinaryTreenode representa um nó numa árvore binária com um filho à esquerda e
+ * à direita.
  *
- * @param <T> T Element
- * @author Bernardino Silva - 8140277
- * @author Rui Bessa - 8140210
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
+ * @param <T>
  */
 public class BinaryTreeNode<T> {
 
@@ -14,9 +15,10 @@ public class BinaryTreeNode<T> {
     protected BinaryTreeNode<T> right;
 
     /**
-     * Creates a new tree node with the specified data-
      *
-     * @param element the element that will become a part of the new tree node
+     * Cria um novo nó da árvore com os dados especificados
+     *
+     * @param element o elemento que se tornará parte do novo nó da árvore
      */
     public BinaryTreeNode(T element) {
         this.element = element;
@@ -25,10 +27,9 @@ public class BinaryTreeNode<T> {
     }
 
     /**
-     * Returns the number of non-null children of this node. This method may be
-     * able to be written more efficiently.
+     * Retorna o número de filhos não nulos deste nó. 
      *
-     * @return the integer number of non-null children of this node
+     * @return o número inteiro de filhos não nulos desse nó
      */
     public int numChildren() {
         int children = 0;

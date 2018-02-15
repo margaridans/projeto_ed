@@ -1,20 +1,21 @@
 package LinkedHeap;
 
 /**
- * HeapNode creates a binary tree node with a parent pointer for use in heaps.
  *
- * @param <T> T Element
- * @author Bernardino Silva - 8140277
- * @author Rui Bessa - 8140210
+ * HeapNode cria um nó de árvore binária com um ponteiro pai para uso em heaps.
+ *
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
+ * @param <T>
  */
 public class HeapNode<T> extends BinaryTreeNode<T> {
 
     protected HeapNode<T> parent;
 
     /**
-     * Creates a new heap node with the specified data.
+     * Cria um novo nó de heaps com os dados especificados.
      *
-     * @param object the data to be contained within the new heap nodes.
+     * @param object os dados que vão pertencer aos novos nós de heap.
      */
     public HeapNode(T object) {
         super(object);

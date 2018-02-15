@@ -4,8 +4,8 @@ import Exceptions.EmptyCollectionException;
 import interfaces.HeapADT;
 
 /**
- * @author Bernardino Silva - 8140277
- * @author Rui Bessa - 8140210
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  * @param <T>
  */
 public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
@@ -13,51 +13,55 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
     public HeapNode<T> lastNode;
 
     /**
-     * Creates an empty LinkedHeap
+     * Cria uma LinkedHeap vazia
      */
     public LinkedHeap() {
         super();
     }
 
     /**
-     * Adds the specified element to this heap in the appropriate position according to its key value.
-     * Note that equal elements are to the right
      *
-     * @param object the element to added to this heap.
+     * Adiciona o elemento especificado a esta heap na posição apropriada de
+     * acordo com seu valor-chave.
+     *
+     * @param object O elemento a ser adicionado a esta heap.
      */
     @Override
     public void addElement(T object) {
         HeapNode<T> node = new HeapNode<>(object);
 
-        if (root == null)
+        if (root == null) {
             root = node;
-        else {
+        } else {
             HeapNode<T> next_parent = getNextParentAdd();
-            if (next_parent.left == null)
+            if (next_parent.left == null) {
                 next_parent.left = node;
-            else
+            } else {
                 next_parent.right = node;
+            }
 
             node.parent = next_parent;
         }
         lastNode = node;
         ++count;
 
-        if (count > 1)
+        if (count > 1) {
             heapifyAdd();
+        }
     }
 
     /**
-     * Remove the element with the lowest value in this heap and returns a reference to it.
-     * Throws an EmptyCollectionException if tha heap is empty.
+     * Remova o elemento com o valor mais baixo neste heap e retorna uma
+     * referência para ele.
      *
-     * @return the element with the lowest value in this heap
-     * @throws EmptyCollectionException is an empty collection exception occurs.
+     * @return O elemento com o valor mais baixo neste heap
+     * @throws EmptyCollectionException é lançada se a heap estiver vazia.
      */
     @Override
     public T removeMin() throws EmptyCollectionException {
-        if (isEmpty())
+        if (isEmpty()) {
             throw new EmptyCollectionException("Empty Heap");
+        }
 
         T minElement = root.element;
 
@@ -66,10 +70,11 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
             lastNode = null;
         } else {
             HeapNode<T> next_last = getNewLastNode();
-            if (lastNode.parent.left == lastNode)
+            if (lastNode.parent.left == lastNode) {
                 lastNode.parent.left = null;
-            else
+            } else {
                 lastNode.parent.right = null;
+            }
 
             root.element = lastNode.element;
             lastNode = next_last;
@@ -80,41 +85,53 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
         return minElement;
     }
 
+    /**
+     * Metodo que retorna uma referência ao elemento com o valor mais baixo
+     * neste heap.
+     *
+     * @return uma referência ao elemento com o valor mais baixo neste heap
+     * @throws EmptyCollectionException é lançada se a heap estiver vazia.
+     */
     @Override
     public T findMin() throws EmptyCollectionException {
-        if (isEmpty())
+        if (isEmpty()) {
             throw new EmptyCollectionException("Empty Heap");
+        }
         return root.element;
     }
 
     /**
-     * Returns the node that will be the parent of this new node.
+     * Método que retorna o nó que será o pai deste novo nó
      *
-     * @return the node that will be a parent if the new node.
+     * @return o nó que será o pai deste novo nó
      */
     private HeapNode<T> getNextParentAdd() {
         HeapNode<T> result = lastNode;
 
-        while ((result != root) && (result.parent.left != result))
+        while ((result != root) && (result.parent.left != result)) {
             result = result.parent;
+        }
 
-        if (result != root)
-            if (result.parent.right == null)
+        if (result != root) {
+            if (result.parent.right == null) {
                 result = result.parent;
-            else {
+            } else {
                 result = (HeapNode<T>) result.parent.right;
-                while (result.left != null)
+                while (result.left != null) {
                     result = (HeapNode<T>) result.left;
+                }
             }
-        else
-            while (result.left != null)
+        } else {
+            while (result.left != null) {
                 result = (HeapNode<T>) result.left;
+            }
+        }
 
         return result;
     }
 
     /**
-     * Reorders this heap after adding a node
+     * Reordena a heap após a inserção
      */
     private void heapifyAdd() {
         T temp;
@@ -131,7 +148,7 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
     }
 
     /**
-     * Reorders this heap after removing the root element
+     * Reordena a heap após a remoção
      */
     private void heapifyRemove() {
         T temp;
@@ -140,16 +157,17 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
         HeapNode<T> right = (HeapNode<T>) node.right;
         HeapNode<T> next;
 
-        if ((left == null) && (right == null))
+        if ((left == null) && (right == null)) {
             next = null;
-        else if (left == null)
+        } else if (left == null) {
             next = right;
-        else if (right == null)
+        } else if (right == null) {
             next = left;
-        else if (((Comparable) left.element).compareTo(right.element) < 0)
+        } else if (((Comparable) left.element).compareTo(right.element) < 0) {
             next = left;
-        else
+        } else {
             next = right;
+        }
 
         temp = node.element;
         while ((next != null) && (((Comparable) next.element).compareTo(temp) < 0)) {
@@ -158,47 +176,54 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
             left = (HeapNode<T>) node.left;
             right = (HeapNode<T>) node.right;
 
-            if ((left == null) && (right == null))
+            if ((left == null) && (right == null)) {
                 next = null;
-            else if (left == null)
+            } else if (left == null) {
                 next = right;
-            else if (right == null)
+            } else if (right == null) {
                 next = left;
-            else if (((Comparable) left.element).compareTo(right.element) < 0)
+            } else if (((Comparable) left.element).compareTo(right.element) < 0) {
                 next = left;
-            else
+            } else {
                 next = right;
+            }
         }
         node.element = temp;
     }
 
     /**
-     * Returns the node that will be the new last node after a remove.
      *
-     * @return the node that will be the new last node after a remove.
+     * Retorna o nó que será o último nó após uma remoção. Retorna uma
+     * referência para o novo último nó na heap
+     *
+     * @return o nó que será o último após uma remoção.
      */
     private HeapNode<T> getNewLastNode() {
         HeapNode<T> result = lastNode;
 
-        while ((result != root) && (result.parent.left == result))
+        while ((result != root) && (result.parent.left == result)) {
             result = result.parent;
+        }
 
-        if (result != root)
+        if (result != root) {
             result = (HeapNode<T>) result.parent.left;
+        }
 
-        while (result.right != null)
+        while (result.right != null) {
             result = (HeapNode<T>) result.right;
+        }
 
         return result;
     }
 
     /**
-     * Remove all elements from the list
+     * Remove todos os elementos da heap
      *
-     * @throws EmptyCollectionException is an empty collection exception occurs
+     * @throws EmptyCollectionException é lançada se a heap estiver vazia.
      */
     public void removeAllElements() throws EmptyCollectionException {
-        while (!isEmpty())
+        while (!isEmpty()) {
             this.removeMin();
+        }
     }
 }
