@@ -11,45 +11,47 @@ import Exceptions.EmptyCollectionException;
 public interface StackADT<T> {
 
     /**
-     * Adds the specified element to the top of this stack
+     * Adds one element to the top of this stack.
      *
-     * @param element generic element to be pushed onto stack
+     * @param element element to be pushed onto stack
      */
     public void push(T element);
 
     /**
-     * Removes the element at the top of this stack and
-     * returns a reference to it
+     * Removes and returns the top element from this stack.
      *
-     * @return T element removed from top of stack
+     * @return T element removed from the top of the stack
      * @throws Exceptions.EmptyCollectionException
      */
-    public T pop() throws EmptyCollectionException ;
+    public T pop()  throws EmptyCollectionException;
 
     /**
-     * Returns a reference to the element at the top of this stack.
-     * The element is not removed from the stack
+     * Returns without removing the top element of this stack.
      *
-     * @return T element on top of stack
+     * @return T element on top of the stack
      * @throws Exceptions.EmptyCollectionException
      */
-    public T peek() throws EmptyCollectionException ;
+    public T peek()  throws EmptyCollectionException;
 
     /**
-     * Verify that the list is empty
+     * Returns true if this stack contains no elements.
      *
-     * @return true if empty, false if not
+     * @return boolean whether or not this stack is empty
      */
     public boolean isEmpty();
 
     /**
-     * Get the number of elements in the list
+     * Returns the number of elements in this stack.
      *
-     * @return number of elements
+     * @return int number of elements in this stack
      */
     public int size();
 
+    /**
+     * Returns a string representation of this stack.
+     *
+     * @return String representation of this stack
+     */
     @Override
     public String toString();
-
 }

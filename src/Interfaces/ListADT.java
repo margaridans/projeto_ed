@@ -1,7 +1,5 @@
 package interfaces;
 
-import Exceptions.ElementNotFoundException;
-import Exceptions.EmptyCollectionException;
 import java.util.Iterator;
 
 /**
@@ -12,85 +10,78 @@ import java.util.Iterator;
 public interface ListADT<T> extends Iterable<T> {
 
     /**
-     * Removes and returns the first element from this arrayList.
+     * Removes and returns the first element from this list.
      *
-     * @return the first element from the arrayList
-     * @throws EmptyCollectionException is an empty collection exception occurs
+     * @return the first element from this list
      */
-    public T removeFirst() throws EmptyCollectionException;
-
-    /***
-     * Removes and returns the last element from this arrayList.
-     *
-     * @return the last element from this arrayList
-     * @throws EmptyCollectionException is an empty collection exception occurs
-     */
-    public T removeLast() throws EmptyCollectionException;
+    public T removeFirst();
 
     /**
-     * Removes and returns the element from this arrayList.
+     * Removes and returns the last element from this list.
      *
-     * @param element The element to be removed from the arrayList
-     * @return The element removed from this arrayList
-     * @throws ElementNotFoundException if element not found
-     * @throws EmptyCollectionException is an empty collection exception occurs
+     * @return the last element from this list
      */
-    public T remove(T element) throws EmptyCollectionException, ElementNotFoundException;
-
+    public T removeLast();
 
     /**
-     * Returns a reference to the first element in this arrayList.
+     * Removes and returns the specified element from this list.
      *
-     * @return a reference to the first element in this arrayList.
-     * @throws EmptyCollectionException is an empty collection exception occurs
+     * @param element the element to be removed from the list
+     * @return 
      */
-    public T first() throws EmptyCollectionException;
+    public T remove(T element);
 
     /**
-     * Returns a reference to the last element in this arrayList.
+     * Returns a reference to the first element in this list.
      *
-     * @return a reference to the last element in this arrayList.
-     * @throws EmptyCollectionException is an empty collection exception occurs
+     * @return a reference to the first element in this list
      */
-    public T last() throws EmptyCollectionException;
+    public T first();
 
     /**
-     * Returns true if this arrayList contains the specified target element.
+     * Returns a reference to the last element in this list.
      *
-     * @param target the target that is being sought in the arrayList.
-     * @return true if the arrayList contains this element
-     * @throws EmptyCollectionException is an empty collection exception occurs
+     * @return a reference to the last element in this list
      */
-    public boolean contains(T target) throws EmptyCollectionException;
+    public T last();
 
     /**
-     * Return true if the arrayList contains no elements.
+     * Returns true if this list contains the specified target element.
      *
-     * @return true if this arrayList contains no elements.
+     * @param target the target that is being sought in the list
+     * @return true if the list contains this element
+     */
+    public boolean contains(T target);
+
+    /**
+     * Returns true if this list contains no elements.
+     *
+     * @return true if this list contains no elements
      */
     public boolean isEmpty();
 
     /**
-     * Returns the number of elements in this arrayList
+     * Returns the number of elements in this list.
      *
-     * @return the integer representation of number of elements in this arrayList
+     * @return the integer representation of number of elements in this list
      */
     public int size();
 
     /**
-     * Returns an iterator for the elements in this arrayList.
+     * Returns an iterator for the elements in this list.
      *
-     * @return an iterator over the elements in this arrayList
+     * @return an iterator over the elements in this list
      */
     @Override
     public Iterator<T> iterator();
 
     /**
-     * Returns a string representation of this arrayList.
+     * Returns a string representation of this list.
      *
-     * @return a string representation of this arrayList
+     * @return a string representation of this list
      */
     @Override
     public String toString();
-
 }
+
+

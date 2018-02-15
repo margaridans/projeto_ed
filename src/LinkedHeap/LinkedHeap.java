@@ -86,20 +86,6 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
         return minElement;
     }
 
-    /**
-     * Metodo que retorna uma referência ao elemento com o valor mais baixo
-     * neste heap.
-     *
-     * @return uma referência ao elemento com o valor mais baixo neste heap
-     * @throws EmptyCollectionException é lançada se a heap estiver vazia.
-     */
-    @Override
-    public T findMin() throws EmptyCollectionException {
-        if (isEmpty()) {
-            throw new EmptyCollectionException("Heap vazia");
-        }
-        return root.element;
-    }
 
     /**
      * Método que retorna o nó que será o pai deste novo nó
@@ -226,5 +212,10 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
         while (!isEmpty()) {
             this.removeMin();
         }
+    }
+
+    @Override
+    public T findMin() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

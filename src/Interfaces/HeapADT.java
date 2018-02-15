@@ -12,15 +12,15 @@ public interface HeapADT<T> extends BinaryTreeADT<T> {
     /**
      * Adds the specified object to this heap.
      *
-     * @param object the element to added to this heap.
+     * @param obj the element to added to this head
      */
-    public void addElement(T object);
+    public void addElement(T obj);
 
     /**
      * Removes element with the lowest value from this heap.
      *
-     * @return the element with the lowest value from this heap.
-     * @throws EmptyCollectionException is an empty collection exception occurs
+     * @return the element with the lowest value from this heap
+     * @throws Exceptions.EmptyCollectionException
      */
     public T removeMin() throws EmptyCollectionException;
 
@@ -28,7 +28,6 @@ public interface HeapADT<T> extends BinaryTreeADT<T> {
      * Returns a reference to the element with the lowest value in this heap.
      *
      * @return a reference to the element with the lowest value in this heap
-     * @throws EmptyCollectionException is an empty collection exception occurs
      */
-    public T findMin() throws EmptyCollectionException;
+    public T findMin();
 }

@@ -12,7 +12,7 @@ import Exceptions.EmptyCollectionException;
 public interface NetworkADT<T> extends GraphADT<T> {
 
     /**
-     * Inserts an edge between two vertices of this graph
+     * Inserts an edge between two vertices of this graph.
      *
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
@@ -21,13 +21,13 @@ public interface NetworkADT<T> extends GraphADT<T> {
     public void addEdge(T vertex1, T vertex2, double weight);
 
     /**
-     * Returns the weight of the shortest path in this network
+     * Returns the weight of the shortest path in this network.
      *
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
      * @return the weight of the shortest path in this network
-     * @throws EmptyCollectionException is an empty collection exception occurs
+     * @throws Exceptions.EmptyCollectionException
      */
-    public double shortestPathWeight(T vertex1, T vertex2) throws EmptyCollectionException;
+    public double shortestPathWeight(T vertex1, T vertex2)  throws EmptyCollectionException;
 
 }

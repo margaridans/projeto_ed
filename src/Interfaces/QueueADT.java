@@ -2,6 +2,7 @@ package interfaces;
 
 import Exceptions.EmptyCollectionException;
 
+
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
@@ -17,38 +18,37 @@ public interface QueueADT<T> {
     public void enqueue(T element);
 
     /**
-     * Removes and returns the element at the front of this queue
+     * Removes and returns the element at the front of this queue.
      *
      * @return the element at the front of this queue
      * @throws Exceptions.EmptyCollectionException
      */
-    public T dequeue() throws EmptyCollectionException ;
+    public T dequeue()  throws EmptyCollectionException;
 
     /**
-     * Returns without removing the element at the front of this queue the first
-     * element in this queue
+     * Returns without removing the element at the front of this queue.
      *
-     * @return the element at the front of this queue
+     * @return the first element in this queue
      * @throws Exceptions.EmptyCollectionException
      */
-    public T first() throws EmptyCollectionException ;
+    public T first()  throws EmptyCollectionException;
 
     /**
-     * Returns a string representation of this queue.
+     * Returns true if this queue contains no elements.
      *
-     * @return the string representation of this queue
+     * @return true if this queue is empty
      */
     public boolean isEmpty();
 
     /**
-     * Returns the number of elements in this queue
+     * Returns the number of elements in this queue.
      *
-     * @return the integer representation of this size of queue
+     * @return the integer representation of the size of this queue
      */
     public int size();
 
     /**
-     * Returns a string representation of this queue
+     * Returns a string representation of this queue.
      *
      * @return the string representation of this queue
      */

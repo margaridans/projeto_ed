@@ -9,6 +9,7 @@ import java.util.Iterator;
  * @param <T>
  */
 public interface GraphADT<T> {
+
     /**
      * Adds a vertex to this graph, associating object with vertex.
      *
@@ -43,11 +44,10 @@ public interface GraphADT<T> {
      * Returns a breadth first iterator starting with the given vertex.
      *
      * @param startVertex the starting vertex
-     * @return a breadth first iterator beginning at
-     * the given vertex
+     * @return a breadth first iterator beginning at the given vertex
      * @throws Exceptions.EmptyCollectionException
      */
-    public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException ;
+    public Iterator iteratorBFS(T startVertex)  throws EmptyCollectionException;
 
     /**
      * Returns a depth first iterator starting with the given vertex.
@@ -56,19 +56,19 @@ public interface GraphADT<T> {
      * @return a depth first iterator starting at the given vertex
      * @throws Exceptions.EmptyCollectionException
      */
-    public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException;
+    public Iterator iteratorDFS(T startVertex)  throws EmptyCollectionException;
 
     /**
-     * Returns an iterator that contains the shortest path between
-     * the two vertices.
+     * Returns an iterator that contains the shortest path between the two
+     * vertices.
      *
-     * @param startVertex  the starting vertex
+     * @param startVertex the starting vertex
      * @param targetVertex the ending vertex
-     * @return an iterator that contains the shortest
-     * path between the two vertices
+     * @return an iterator that contains the shortest path between the two
+     * vertices
      * @throws Exceptions.EmptyCollectionException
      */
-    public Iterator iteratorShortestPath(T startVertex, T targetVertex) throws EmptyCollectionException;
+    public Iterator iteratorShortestPath(T startVertex, T targetVertex)  throws EmptyCollectionException;
 
     /**
      * Returns true if this graph is empty, false otherwise.
@@ -83,7 +83,7 @@ public interface GraphADT<T> {
      * @return true if this graph is connected
      * @throws Exceptions.EmptyCollectionException
      */
-    public boolean isConnected() throws EmptyCollectionException ;
+    public boolean isConnected()  throws EmptyCollectionException;
 
     /**
      * Returns the number of vertices in this graph.

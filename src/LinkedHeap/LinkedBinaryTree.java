@@ -7,6 +7,8 @@ import interfaces.BinaryTreeADT;
 import LinkedQueue.LinkedQueue;
 
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Margarida Sousa - 8140092
@@ -197,18 +199,21 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
      * Executa uma passagem de nível na árvore binária, usando uma fila
      *
      * @return um iterador sobre os elementos desta árvore binária
-     * @throws EmptyCollectionException
      */
     @Override
-    public Iterator<T> iteratorLevelOrder() throws EmptyCollectionException {
+    public Iterator<T> iteratorLevelOrder() throws ElementNotFoundException {
         LinkedQueue<T> nodes = new LinkedQueue<>();
         ArrayUnorderedList<T> templist = new ArrayUnorderedList<>();
-        BinaryTreeNode<T> current;
+        BinaryTreeNode<T> current = null;
 
         nodes.enqueue((T) root);
 
         while (!nodes.isEmpty()) {
-            current = (BinaryTreeNode<T>) nodes.dequeue();
+            try {
+                current = (BinaryTreeNode<T>) nodes.dequeue();
+            } catch (EmptyCollectionException ex) {
+                Logger.getLogger(LinkedBinaryTree.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             if (current != null) {
                 templist.addToRear(current.element);
