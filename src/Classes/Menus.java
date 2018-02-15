@@ -10,8 +10,6 @@ import Enumeracoes.TipoMensagem;
 import Database.SqlConnection;
 import ArrayList.ArrayUnorderedList;
 import Exceptions.EmptyCollectionException;
-import Exceptions.EmptyQueueException;
-import Exceptions.EmptyStackException;
 import Iterator.ArrayIterator;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,11 +51,9 @@ public class Menus {
      * @throws IOException
      * @throws ParseException
      * @throws SQLException
-     * @throws Exceptions.EmptyQueueException
-     * @throws Exceptions.EmptyStackException
      * @throws Exceptions.EmptyCollectionException
      */
-    public void menuPrincipal(String user_logado) throws IOException, ParseException, SQLException, EmptyQueueException, EmptyStackException, EmptyCollectionException {
+    public void menuPrincipal(String user_logado) throws IOException, ParseException, SQLException, EmptyCollectionException {
         this.utilizador_logado = user_logado;
         //System.out.println("Existem numero de vertices: " + this.grafoPessoas.size());
         Pessoa pes_logada = sql.getPessoa(user_logado);
@@ -511,11 +507,9 @@ public class Menus {
      * @throws IOException
      * @throws java.text.ParseException
      * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyQueueException
-     * @throws Exceptions.EmptyStackException
      * @throws Exceptions.EmptyCollectionException
      */
-    public void menuPessoa(Pessoa pessoaEscolhida, String utilizador) throws IOException, ParseException, SQLException, EmptyQueueException, EmptyStackException, EmptyCollectionException {
+    public void menuPessoa(Pessoa pessoaEscolhida, String utilizador) throws IOException, ParseException, SQLException, EmptyCollectionException {
         String nomePessoa = pessoaEscolhida.getUser_nome();
 
         System.out.println("\n \n");

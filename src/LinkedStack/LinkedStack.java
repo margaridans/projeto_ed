@@ -1,6 +1,6 @@
 
 package LinkedStack;
-import Exceptions.EmptyStackException;
+import Exceptions.EmptyCollectionException;
 import interfaces.StackADT;
 
 /**
@@ -31,9 +31,9 @@ public class LinkedStack<T> implements StackADT <T> {
     }
 
     @Override
-    public T pop () throws EmptyStackException {
+    public T pop () throws EmptyCollectionException  {
         if (isEmpty()) {
-            throw new EmptyStackException();
+            throw new EmptyCollectionException ();
         } else {
             T result = (T)this.top.getElement();
             this.top = this.top.getNext();
@@ -43,9 +43,9 @@ public class LinkedStack<T> implements StackADT <T> {
     }
 
     @Override
-    public T peek () throws EmptyStackException {
+    public T peek () throws EmptyCollectionException  {
         if (isEmpty()) {
-            throw new EmptyStackException();
+            throw new EmptyCollectionException ();
         } else {
             return (T) this.top.getElement();
         }

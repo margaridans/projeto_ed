@@ -1,6 +1,6 @@
 package interfaces;
 
-import Exceptions.EmptyQueueException;
+import Exceptions.EmptyCollectionException;
 
 /**
  * @author Margarida Sousa - 8140092
@@ -20,18 +20,18 @@ public interface QueueADT<T> {
      * Removes and returns the element at the front of this queue
      *
      * @return the element at the front of this queue
-     * @throws EmptyQueueException if Queue is empty
+     * @throws Exceptions.EmptyCollectionException
      */
-    public T dequeue() throws EmptyQueueException;
+    public T dequeue() throws EmptyCollectionException ;
 
     /**
      * Returns without removing the element at the front of this queue the first
      * element in this queue
      *
      * @return the element at the front of this queue
-     * @throws EmptyQueueException if an empty Queue exception occurs
+     * @throws Exceptions.EmptyCollectionException
      */
-    public T first() throws EmptyQueueException;
+    public T first() throws EmptyCollectionException ;
 
     /**
      * Returns a string representation of this queue.

@@ -1,6 +1,6 @@
 package LinkedQueue;
 
-import Exceptions.EmptyQueueException;
+import Exceptions.EmptyCollectionException;
 import interfaces.QueueADT;
 
 /**
@@ -65,9 +65,9 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     @Override
-    public T dequeue() throws EmptyQueueException {
+    public T dequeue() throws EmptyCollectionException  {
         if (isEmpty()) {
-            throw new EmptyQueueException("The QUEUE is Empty");
+            throw new EmptyCollectionException ("The QUEUE is Empty");
         } else {
             T result = this.first.getElement();
             this.first = this.first.getNext();
@@ -77,9 +77,9 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     @Override
-    public T first() throws EmptyQueueException {
+    public T first() throws EmptyCollectionException  {
         if (isEmpty()) {
-            throw new EmptyQueueException("The QUEUE is Empty");
+            throw new EmptyCollectionException ("The QUEUE is Empty");
         } else {
             return this.first.getElement();
         }

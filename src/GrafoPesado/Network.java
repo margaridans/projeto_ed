@@ -7,8 +7,6 @@ import Database.SqlConnection;
 import ArrayList.ArrayUnorderedList;
 import Classes.Amizade;
 import Exceptions.EmptyCollectionException;
-import Exceptions.EmptyQueueException;
-import Exceptions.EmptyStackException;
 import interfaces.NetworkADT;
 import java.util.Iterator;
 import LinkedHeap.LinkedHeap;
@@ -201,7 +199,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     @Override
-    public boolean isConnected() throws EmptyQueueException {
+    public boolean isConnected() throws EmptyCollectionException  {
 
         if (isEmpty()) {
             return false;
@@ -219,7 +217,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     @Override
-    public double shortestPathWeight(T vertex1, T vertex2) throws EmptyQueueException, EmptyStackException, EmptyCollectionException {
+    public double shortestPathWeight(T vertex1, T vertex2) throws  EmptyCollectionException {
         double result = 0;
 
         if (!indexIsValid(getIndex(vertex1)) || !indexIsValid(getIndex(vertex2))) {
@@ -281,7 +279,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * vazia
      * @throws EmptyStackException exceção lançada no caso da Queue estar vazia
      */
-    public Iterator<Integer> iteratorShortestPath(int startIndex, int targetIndex) throws EmptyCollectionException, EmptyStackException {
+    public Iterator<Integer> iteratorShortestPath(int startIndex, int targetIndex) throws EmptyCollectionException {
         int index;
         double weight;
         int[] predecessor = new int[numVertices];
@@ -444,7 +442,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     @Override
-    public Iterator iteratorBFS(T startVertex) throws EmptyQueueException {
+    public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException  {
         return iteratorBFS(getIndex(startVertex));
     }
 
@@ -455,7 +453,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @return an iterator.
      * @throws EmptyStackException se a stack estiver vazia
      */
-    private Iterator<T> iteratorBFS(int startIndex) throws EmptyQueueException {
+    private Iterator<T> iteratorBFS(int startIndex) throws EmptyCollectionException  {
         Integer x;
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();
@@ -492,7 +490,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     @Override
-    public Iterator iteratorDFS(T startVertex) throws EmptyStackException {
+    public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException  {
         return iteratorDFS(getIndex(startVertex));
     }
 
@@ -504,7 +502,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @return an iterator.
      * @throws EmptyStackException se a stack estiver vazia
      */
-    private Iterator<T> iteratorDFS(int startIndex) throws EmptyStackException {
+    private Iterator<T> iteratorDFS(int startIndex) throws EmptyCollectionException  {
         Integer x;
         LinkedStack<Integer> traversalStack = new LinkedStack<>();
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();

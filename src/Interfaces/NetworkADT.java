@@ -1,8 +1,6 @@
 package interfaces;
 
 import Exceptions.EmptyCollectionException;
-import Exceptions.EmptyQueueException;
-import Exceptions.EmptyStackException;
 
 /**
  * NetworkADT defines the interface to a network
@@ -28,10 +26,8 @@ public interface NetworkADT<T> extends GraphADT<T> {
      * @param vertex1 the first vertex
      * @param vertex2 the second vertex
      * @return the weight of the shortest path in this network
-     * @throws EmptyQueueException if Queue is empty
-     * @throws EmptyStackException if a peek is attempted on empty stack
      * @throws EmptyCollectionException is an empty collection exception occurs
      */
-    public double shortestPathWeight(T vertex1, T vertex2) throws EmptyQueueException, EmptyStackException, EmptyCollectionException;
+    public double shortestPathWeight(T vertex1, T vertex2) throws EmptyCollectionException;
 
 }

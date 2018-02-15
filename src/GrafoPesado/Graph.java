@@ -1,8 +1,7 @@
 package GrafoPesado;
 
 import ArrayList.ArrayUnorderedList;
-import Exceptions.EmptyQueueException;
-import Exceptions.EmptyStackException;
+import Exceptions.EmptyCollectionException;
 import interfaces.GraphADT;
 import java.util.Iterator;
 import LinkedQueue.LinkedQueue;
@@ -173,7 +172,7 @@ public class Graph <T> implements GraphADT<T> {
     }
 
     @Override
-    public Iterator iteratorBFS(T startVertex) throws EmptyQueueException {
+    public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException  {
         return iteratorBFS(getIndex(startVertex));
     }
 
@@ -184,7 +183,7 @@ public class Graph <T> implements GraphADT<T> {
      * @return iterator with list of visited items
      * @throws EmptyQueueException if an Empty Queue occurs
      */
-    private Iterator<T> iteratorBFS(int startIndex) throws EmptyQueueException {
+    private Iterator<T> iteratorBFS(int startIndex) throws EmptyCollectionException  {
         Integer x;
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList();
@@ -215,7 +214,7 @@ public class Graph <T> implements GraphADT<T> {
     }
 
     @Override
-    public Iterator iteratorDFS(T startVertex) throws EmptyStackException {
+    public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException  {
         return iteratorDFS(getIndex(startVertex));
     }
 
@@ -225,7 +224,7 @@ public class Graph <T> implements GraphADT<T> {
      * @param startIndex start index
      * @return iterator with list of visited items
      */
-    private Iterator<T> iteratorDFS(int startIndex) throws EmptyStackException {
+    private Iterator<T> iteratorDFS(int startIndex) throws EmptyCollectionException  {
         Integer x;
         boolean found;
         LinkedStack<Integer> traversalStack = new LinkedStack();
@@ -268,7 +267,7 @@ public class Graph <T> implements GraphADT<T> {
     }
 
     @Override
-    public Iterator iteratorShortestPath(T startVertex, T targetVertex) throws EmptyQueueException, EmptyStackException {
+    public Iterator iteratorShortestPath(T startVertex, T targetVertex) throws EmptyCollectionException {
         return iteratorShortestPath(getIndex(startVertex), getIndex(targetVertex));
     }
 
@@ -279,7 +278,7 @@ public class Graph <T> implements GraphADT<T> {
      * @param targetIndex stop index
      * @return an iterator
      */
-    private Iterator<T> iteratorShortestPath(int startIndex, int targetIndex) throws EmptyQueueException, EmptyStackException {
+    private Iterator<T> iteratorShortestPath(int startIndex, int targetIndex) throws EmptyCollectionException {
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList();
 
         if (!indexIsValid(startIndex) || !indexIsValid(targetIndex)) {
@@ -303,7 +302,7 @@ public class Graph <T> implements GraphADT<T> {
      * @param targetIndex stop index
      * @return an Iterator
      */
-    private Iterator<Integer> iteratorShortestPathIndices(int startIndex, int targetIndex) throws EmptyQueueException, EmptyStackException {
+    private Iterator<Integer> iteratorShortestPathIndices(int startIndex, int targetIndex) throws EmptyCollectionException {
         int index = startIndex;
         int[] pathLength = new int[this.numVertices];
         int[] predecessor = new int[this.numVertices];
@@ -368,7 +367,7 @@ public class Graph <T> implements GraphADT<T> {
     }
 
     @Override
-    public boolean isConnected() throws EmptyQueueException {
+    public boolean isConnected() throws EmptyCollectionException  {
         if (isEmpty()) {
             return false;
         }

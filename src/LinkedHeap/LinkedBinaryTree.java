@@ -4,7 +4,6 @@ package LinkedHeap;
 import ArrayList.ArrayUnorderedList;
 import Exceptions.ElementNotFoundException;
 import Exceptions.EmptyCollectionException;
-import Exceptions.EmptyQueueException;
 import interfaces.BinaryTreeADT;
 import LinkedQueue.LinkedQueue;
 
@@ -139,7 +138,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
     }
 
     @Override
-    public Iterator<T> iteratorLevelOrder() throws EmptyCollectionException, EmptyQueueException {
+    public Iterator<T> iteratorLevelOrder() throws EmptyCollectionException  {
         LinkedQueue<T> nodes = new LinkedQueue<>();
         ArrayUnorderedList<T> templist = new ArrayUnorderedList<>();
         BinaryTreeNode<T> current;

@@ -9,8 +9,6 @@ import Classes.Menus;
 import Classes.Pessoa;
 import Database.SqlConnection;
 import Exceptions.EmptyCollectionException;
-import Exceptions.EmptyQueueException;
-import Exceptions.EmptyStackException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -199,7 +197,7 @@ public class Login extends javax.swing.JFrame {
                 Projeto_ed inicio = new Projeto_ed();
 
             }
-        } catch (SQLException | IOException | ParseException | EmptyQueueException | EmptyStackException | EmptyCollectionException ex) {
+        } catch (SQLException | IOException | ParseException | EmptyCollectionException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_button1ActionPerformed

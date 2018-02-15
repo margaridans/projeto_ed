@@ -1,6 +1,7 @@
 package interfaces;
 
-import Exceptions.EmptyStackException;
+import Exceptions.EmptyCollectionException;
+
 
 /**
  * @author Margarida Sousa - 8140092
@@ -21,18 +22,18 @@ public interface StackADT<T> {
      * returns a reference to it
      *
      * @return T element removed from top of stack
-     * @throws EmptyStackException if a pop is attempted on empty stack
+     * @throws Exceptions.EmptyCollectionException
      */
-    public T pop() throws EmptyStackException;
+    public T pop() throws EmptyCollectionException ;
 
     /**
      * Returns a reference to the element at the top of this stack.
      * The element is not removed from the stack
      *
      * @return T element on top of stack
-     * @throws EmptyStackException if a peek is attempted on empty stack
+     * @throws Exceptions.EmptyCollectionException
      */
-    public T peek() throws EmptyStackException;
+    public T peek() throws EmptyCollectionException ;
 
     /**
      * Verify that the list is empty

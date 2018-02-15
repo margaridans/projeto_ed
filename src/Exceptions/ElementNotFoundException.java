@@ -6,26 +6,22 @@ package Exceptions;
  */
 public class ElementNotFoundException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
+    /**
+     *
+     * Cria uma nova instância de ElementNotFoundException sem mensagem
+     * detalhada.
+     */
     public ElementNotFoundException() {
-        super();
     }
 
-    public ElementNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    public ElementNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public ElementNotFoundException(String message) {
-        super(message);
-    }
-
-    public ElementNotFoundException(Throwable cause) {
-        super(cause);
+    /**
+     * Constrói uma instância de ElementNotFoundException com a mensagem
+     * detalhada especificada
+     *
+     * @param msg mensagem detalhada
+     */
+    public ElementNotFoundException(String msg) {
+        super(msg);
     }
 
 }

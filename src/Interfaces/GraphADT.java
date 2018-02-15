@@ -1,7 +1,6 @@
 package interfaces;
 
-import Exceptions.EmptyQueueException;
-import Exceptions.EmptyStackException;
+import Exceptions.EmptyCollectionException;
 import java.util.Iterator;
 
 /**
@@ -46,18 +45,18 @@ public interface GraphADT<T> {
      * @param startVertex the starting vertex
      * @return a breadth first iterator beginning at
      * the given vertex
-     * @throws EmptyQueueException if an empty Queue exception occurs
+     * @throws Exceptions.EmptyCollectionException
      */
-    public Iterator iteratorBFS(T startVertex) throws EmptyQueueException;
+    public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException ;
 
     /**
      * Returns a depth first iterator starting with the given vertex.
      *
      * @param startVertex the starting vertex
      * @return a depth first iterator starting at the given vertex
-     * @throws EmptyStackException if a pop is attempted on empty stack
+     * @throws Exceptions.EmptyCollectionException
      */
-    public Iterator iteratorDFS(T startVertex) throws EmptyStackException;
+    public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException;
 
     /**
      * Returns an iterator that contains the shortest path between
@@ -67,10 +66,9 @@ public interface GraphADT<T> {
      * @param targetVertex the ending vertex
      * @return an iterator that contains the shortest
      * path between the two vertices
-     * @throws EmptyQueueException if an empty Queue exception occurs
-     * @throws EmptyStackException if a pop is attempted on empty stack
+     * @throws Exceptions.EmptyCollectionException
      */
-    public Iterator iteratorShortestPath(T startVertex, T targetVertex) throws EmptyQueueException, EmptyStackException;
+    public Iterator iteratorShortestPath(T startVertex, T targetVertex) throws EmptyCollectionException;
 
     /**
      * Returns true if this graph is empty, false otherwise.
@@ -83,9 +81,9 @@ public interface GraphADT<T> {
      * Returns true if this graph is connected, false otherwise.
      *
      * @return true if this graph is connected
-     * @throws EmptyQueueException if an empty Queue exception occurs
+     * @throws Exceptions.EmptyCollectionException
      */
-    public boolean isConnected() throws EmptyQueueException;
+    public boolean isConnected() throws EmptyCollectionException ;
 
     /**
      * Returns the number of vertices in this graph.

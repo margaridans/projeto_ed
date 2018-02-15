@@ -2,7 +2,6 @@ package interfaces;
 
 import Exceptions.ElementNotFoundException;
 import Exceptions.EmptyCollectionException;
-import Exceptions.EmptyQueueException;
 import java.util.Iterator;
 
 
@@ -94,8 +93,7 @@ public interface BinaryTreeADT<T> {
      *
      * @return an iterator over the elements of this binary tree
      * @throws EmptyCollectionException if an empty collection exception occurs
-     * @throws EmptyQueueException if an empty Queue exception occurs
      */
-    public Iterator<T> iteratorLevelOrder() throws EmptyCollectionException, EmptyQueueException;
+    public Iterator<T> iteratorLevelOrder() throws EmptyCollectionException;
 
 }

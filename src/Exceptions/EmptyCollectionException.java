@@ -6,9 +6,20 @@ package Exceptions;
  */
 public class EmptyCollectionException extends Exception {
 
-   public EmptyCollectionException() {
+    /**
+     *
+     * Cria uma nova instância de EmptyCollectionException sem mensagem
+     * detalhada.
+     */
+    public EmptyCollectionException() {
     }
 
+    /**
+     * Constrói uma instância de EmptyCollectionException com a mensagem
+     * detalhada especificada
+     *
+     * @param msg mensagem detalhada
+     */
     public EmptyCollectionException(String msg) {
         super(msg);
     }
