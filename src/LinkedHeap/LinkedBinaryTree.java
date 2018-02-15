@@ -12,6 +12,7 @@ import java.util.Iterator;
 /**
  * @author Bernardino Silva - 8140277
  * @author Rui Bessa - 8140210
+ * @param <T>
  */
 public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
@@ -33,7 +34,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
      */
     public LinkedBinaryTree(T element) {
         this.count = 1;
-        this.root = new BinaryTreeNode<T>(element);
+        this.root = new BinaryTreeNode<>(element);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
         try {
             T temp = find(targetElement);
             found = true;
-        } catch (Exception ElementNotFound) {
+        } catch (ElementNotFoundException ElementNotFound) {
             found = false;
         }
         return found;
@@ -73,7 +74,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     @Override
     public Iterator<T> iteratorInOrder() {
-        ArrayUnorderedList<T> tempList = new ArrayUnorderedList<T>();
+        ArrayUnorderedList<T> tempList = new ArrayUnorderedList<>();
         inorder(root, tempList);
         return tempList.iterator();
     }
@@ -136,8 +137,8 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     @Override
     public Iterator<T> iteratorLevelOrder() throws EmptyCollectionException, EmptyQueueException {
-        LinkedQueue<T> nodes = new LinkedQueue<T>();
-        ArrayUnorderedList<T> templist = new ArrayUnorderedList<T>();
+        LinkedQueue<T> nodes = new LinkedQueue<>();
+        ArrayUnorderedList<T> templist = new ArrayUnorderedList<>();
         BinaryTreeNode<T> current;
 
         nodes.enqueue((T) root);

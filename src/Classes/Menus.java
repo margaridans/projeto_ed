@@ -31,7 +31,7 @@ import projeto_ed.Projeto_ed;
 public class Menus {
 
     private Integer id_Mensagem = 0;
-    private SqlConnection sql = Projeto_ed.connection;
+    private final SqlConnection sql = Projeto_ed.connection;
     private String utilizador_logado = null;
     private Network<Pessoa> grafoPessoas;
 

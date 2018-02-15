@@ -6,6 +6,7 @@ import interfaces.HeapADT;
 /**
  * @author Bernardino Silva - 8140277
  * @author Rui Bessa - 8140210
+ * @param <T>
  */
 public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
 
@@ -26,7 +27,7 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
      */
     @Override
     public void addElement(T object) {
-        HeapNode<T> node = new HeapNode<T>(object);
+        HeapNode<T> node = new HeapNode<>(object);
 
         if (root == null)
             root = node;

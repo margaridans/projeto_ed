@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
+ * @param <T>
  */
 public class ArrayIterator<T> implements Iterator<T> {
 

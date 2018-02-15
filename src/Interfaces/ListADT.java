@@ -82,6 +82,7 @@ public interface ListADT<T> extends Iterable<T> {
      *
      * @return an iterator over the elements in this arrayList
      */
+    @Override
     public Iterator<T> iterator();
 
     /**

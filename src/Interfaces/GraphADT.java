@@ -99,5 +99,6 @@ public interface GraphADT<T> {
      *
      * @return a string representation of the adjacency matrix
      */
+    @Override
     public String toString();
 }

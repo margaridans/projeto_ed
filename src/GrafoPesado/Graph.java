@@ -198,15 +198,15 @@ public class Graph <T> implements GraphADT<T> {
 
         while (!traversalQueue.isEmpty()) {
             x = traversalQueue.dequeue();
-            resultList.addToRear(vertices[x.intValue()]);
+            resultList.addToRear(vertices[x]);
 
             /**
              * Find all vertices adjacent to x that have not been visited and
              * queue them up.
              */
             for (int i = 0; i < this.numVertices; ++i) {
-                if (adjMatrix[x.intValue()][i] && !visited[i]) {
-                    traversalQueue.enqueue(new Integer(i));
+                if (adjMatrix[x][i] && !visited[i]) {
+                    traversalQueue.enqueue(i);
                     visited[i] = true;
                 }
             }
@@ -240,7 +240,7 @@ public class Graph <T> implements GraphADT<T> {
             visited[i] = false;
         }
 
-        traversalStack.push(new Integer(startIndex));
+        traversalStack.push(startIndex);
         resultList.addToRear(vertices[startIndex]);
         visited[startIndex] = true;
 
@@ -253,8 +253,8 @@ public class Graph <T> implements GraphADT<T> {
              * on the stack
              */
             for (int i = 0; (i < this.numVertices) && !found; ++i) {
-                if (this.adjMatrix[x.intValue()][i] && !visited[i]) {
-                    traversalStack.push(new Integer(i));
+                if (this.adjMatrix[x][i] && !visited[i]) {
+                    traversalStack.push(i);
                     resultList.addToRear(this.vertices[i]);
                     visited[i] = true;
                     found = true;
@@ -289,7 +289,7 @@ public class Graph <T> implements GraphADT<T> {
         Iterator<Integer> iterator = iteratorShortestPathIndices(startIndex, targetIndex);
 
         while (iterator.hasNext()) {
-            resultList.addToRear(this.vertices[((Integer) iterator.next().intValue())]);
+            resultList.addToRear(this.vertices[(iterator.next())]);
         }
 
         return resultList.iterator();
@@ -307,8 +307,8 @@ public class Graph <T> implements GraphADT<T> {
         int index = startIndex;
         int[] pathLength = new int[this.numVertices];
         int[] predecessor = new int[this.numVertices];
-        LinkedQueue<Integer> traversalQueue = new LinkedQueue<Integer>();
-        ArrayUnorderedList<Integer> resultList = new ArrayUnorderedList<Integer>();
+        LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
+        ArrayUnorderedList<Integer> resultList = new ArrayUnorderedList<>();
 
         if (!indexIsValid(startIndex) || !indexIsValid(targetIndex) || (startIndex == targetIndex)) {
             return resultList.iterator();
@@ -319,13 +319,13 @@ public class Graph <T> implements GraphADT<T> {
             visited[i] = false;
         }
 
-        traversalQueue.enqueue(new Integer(startIndex));
+        traversalQueue.enqueue(startIndex);
         visited[startIndex] = true;
         pathLength[startIndex] = 0;
         predecessor[startIndex] = -1;
 
         while (!traversalQueue.isEmpty() && (index != targetIndex)) {
-            index = (traversalQueue.dequeue()).intValue();
+            index = (traversalQueue.dequeue());
 
             /**
              * Update the pathLength for each unvisited vertex adjacent to the
@@ -335,7 +335,7 @@ public class Graph <T> implements GraphADT<T> {
                 if (this.adjMatrix[index][i] && !visited[i]) {
                     pathLength[i] = pathLength[index] + 1;
                     predecessor[i] = index;
-                    traversalQueue.enqueue(new Integer(i));
+                    traversalQueue.enqueue(i);
                     visited[i] = true;
                 }
             }
@@ -346,17 +346,17 @@ public class Graph <T> implements GraphADT<T> {
             return resultList.iterator();
         }
 
-        LinkedStack<Integer> stack = new LinkedStack<Integer>();
+        LinkedStack<Integer> stack = new LinkedStack<>();
         index = targetIndex;
-        stack.push(new Integer(index));
+        stack.push(index);
 
         do {
             index = predecessor[index];
-            stack.push(new Integer(index));
+            stack.push(index);
         } while (index != startIndex);
 
         while (!stack.isEmpty()) {
-            resultList.addToRear(((Integer) stack.pop()));
+            resultList.addToRear((stack.pop()));
         }
 
         return resultList.iterator();
@@ -388,81 +388,5 @@ public class Graph <T> implements GraphADT<T> {
         return this.numVertices;
     }
 
-    /**
-     * Returns minimum spanning tree of the graph
-     *
-     * @return mst graph
-     * @throws EmptyStackException throws Exception if stack is empty
-     * @throws EmptyQueueException throws Exception is queue is empty
-     */
-    public Graph mstGraph() throws EmptyStackException, EmptyQueueException {
-        int x, y;
-        int[] edge = new int[2];
-        LinkedStack<int[]> vertexStack = new LinkedStack<int[]>();
-        Graph<T> resultGraph = new Graph<T>();
-
-        if (isEmpty() || !isConnected()) {
-            return resultGraph;
-        }
-
-        resultGraph.adjMatrix = new boolean[numVertices][numVertices];
-
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                resultGraph.adjMatrix[i][j] = false;
-            }
-        }
-
-        resultGraph.vertices = (T[]) (new Object[numVertices]);
-        boolean[] visited = new boolean[numVertices];
-
-        for (int i = 0; i < numVertices; i++) {
-            visited[i] = false;
-        }
-
-        edge[0] = 0;
-        resultGraph.vertices[0] = this.vertices[0];
-        resultGraph.numVertices++;
-        visited[0] = true;
-
-        /**
-         * Add all edges that are adjacent to vertex 0 to the stack.
-         */
-        for (int i = 0; i < numVertices; i++) {
-            if (!visited[i] && this.adjMatrix[0][i]) {
-                edge[1] = i;
-                vertexStack.push(edge.clone());
-                visited[i] = true;
-            }
-        }
-
-        while ((resultGraph.size() < this.size()) && !vertexStack.isEmpty()) {
-            /**
-             * Pop an edge off the stack and add it to the resultGraph.
-             */
-            edge = vertexStack.pop();
-            x = edge[0];
-            y = edge[1];
-            resultGraph.vertices[y] = this.vertices[y];
-            resultGraph.numVertices++;
-            resultGraph.adjMatrix[x][y] = true;
-            resultGraph.adjMatrix[y][x] = true;
-            visited[y] = true;
-
-            /**
-             * Add all unvisited edges that are adjacent to vertex y to the
-             * stack.
-             */
-            for (int i = 0; i < numVertices; i++) {
-                if (!visited[i] && this.adjMatrix[i][y]) {
-                    edge[0] = y;
-                    edge[1] = i;
-                    vertexStack.push(edge.clone());
-                    visited[i] = true;
-                }
-            }
-        }
-
-        return resultGraph;
-    }
+   
 }

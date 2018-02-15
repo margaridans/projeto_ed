@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
  */
-public class Pessoa implements Comparable<Pessoa>{
+public class Pessoa implements Comparable<Pessoa> {
 
     private String user_nome, user_email, password;
     private Integer nr_creditos;
@@ -29,9 +29,9 @@ public class Pessoa implements Comparable<Pessoa>{
         this.user_nome = user_nome;
         this.user_email = user_email;
         this.password = password;
-        this.nr_creditos= nr_creditos;
+        this.nr_creditos = nr_creditos;
     }
-    
+
     /**
      * Método construtor que permite a criação de uma instância de
      * {@link Pessoa} vazia
@@ -90,23 +90,22 @@ public class Pessoa implements Comparable<Pessoa>{
             return false;
         }
         final Pessoa other = (Pessoa) obj;
-        if (!Objects.equals(this.user_nome, other.user_nome)) {
+        return Objects.equals(this.user_nome, other.user_nome);
+        /* if (!Objects.equals(this.user_nome, other.user_nome)) {
             return false;
         }
-        return true;
+        return true;*/
     }
 
     @Override
     public int compareTo(Pessoa o) {
-        if(this.user_nome.equals(o.getUser_nome())){
+        if (this.user_nome.equals(o.getUser_nome())) {
             return 0;
-        }else if (this.user_nome.compareTo(o.getUser_nome()) == 1){
+        } else if (this.user_nome.compareTo(o.getUser_nome()) == 1) {
             return 1;
-        }else{
+        } else {
             return -1;
         }
     }
-
-   
 
 }

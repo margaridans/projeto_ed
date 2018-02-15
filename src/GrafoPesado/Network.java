@@ -23,7 +23,7 @@ import LinkedStack.LinkedStack;
  */
 public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
-    private double[][] adjMatrix;
+    private double[][] adjcMatrix;
     private Edge[][] edgeMatrix;
     //private final double COST = 1.5;
 
@@ -32,7 +32,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      */
     public Network() {
         numVertices = 0;
-        this.adjMatrix = new double[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
+        this.adjcMatrix = new double[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
         this.edgeMatrix = new Edge[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
         vertices = (T[]) new Object[DEFAULT_CAPACITY];
         addPessoasToVertex();
@@ -133,12 +133,12 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         Integer myIndexPessoa = getIndex((T) perfil1);
         Integer myIndexPessoa2 = getIndex((T) perfil2);
         Edge edge = this.edgeMatrix[myIndexPessoa][myIndexPessoa2];
-        if (edge != null) {
+        /*if (edge != null) {
             return true;
         } else {
             return false;
-        }
-        //return edge != null;
+        }*/
+        return edge != null;
     }
 
     public Boolean verificarTipoAmizadePossivel(Pessoa logada, Pessoa perfil) {
@@ -195,8 +195,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      */
     private void addEdge(int index1, int index2, double weight) {
         if (indexIsValid(index1) && indexIsValid(index2)) {
-            this.adjMatrix[index1][index2] = weight;
-            this.adjMatrix[index2][index1] = weight;
+            this.adjcMatrix[index1][index2] = weight;
+            this.adjcMatrix[index2][index1] = weight;
         }
     }
 
@@ -231,14 +231,14 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         Iterator<Integer> iterator = iteratorShortestPath(getIndex(vertex1), getIndex(vertex2));
 
         if (iterator.hasNext()) {
-            index1 = iterator.next().intValue();
+            index1 = iterator.next();
         } else {
             return Double.POSITIVE_INFINITY;
         }
 
         while (iterator.hasNext()) {
-            index2 = (iterator.next()).intValue();
-            result += this.adjMatrix[index1][index2];
+            index2 = (iterator.next());
+            result += this.adjcMatrix[index1][index2];
             index1 = index2;
         }
         return result;
@@ -306,7 +306,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
          */
         for (int i = 0; i < numVertices; ++i) {
             if (!visited[i]) {
-                pathWeight[i] = pathWeight[startIndex] + adjMatrix[startIndex][i];
+                pathWeight[i] = pathWeight[startIndex] + adjcMatrix[startIndex][i];
                 predecessor[i] = startIndex;
                 traversalMinHeap.addElement(pathWeight[i]);
             }
@@ -329,21 +329,21 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
              */
             for (int i = 0; i < numVertices; ++i) {
                 if (!visited[i]) {
-                    if ((adjMatrix[index][i] < Double.POSITIVE_INFINITY)
-                            && (pathWeight[index] + adjMatrix[index][i]) < pathWeight[i]) {
-                        pathWeight[i] = pathWeight[index] + adjMatrix[index][i];
+                    if ((adjcMatrix[index][i] < Double.POSITIVE_INFINITY)
+                            && (pathWeight[index] + adjcMatrix[index][i]) < pathWeight[i]) {
+                        pathWeight[i] = pathWeight[index] + adjcMatrix[index][i];
                         predecessor[i] = index;
                     }
-                    traversalMinHeap.addElement(new Double(pathWeight[i]));
+                    traversalMinHeap.addElement(pathWeight[i]);
                 }
             }
         } while (!traversalMinHeap.isEmpty() && !visited[targetIndex]);
 
         index = targetIndex;
-        stack.push(new Integer(index));
+        stack.push(index);
         do {
             index = predecessor[index];
-            stack.push(new Integer(index));
+            stack.push(index);
         } while (index != startIndex);
 
         while (!stack.isEmpty()) {
@@ -366,7 +366,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         for (int i = 0; i < numVertices; i++) {
             if ((pathWeight[i] == weight) && !visited[i]) {
                 for (int k = 0; k < numVertices; k++) {
-                    if ((adjMatrix[i][k] < Double.POSITIVE_INFINITY) && visited[k]) {
+                    if ((adjcMatrix[i][k] < Double.POSITIVE_INFINITY) && visited[k]) {
                         return i;
                     }
                 }
@@ -389,8 +389,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         vertices[numVertices] = vertex;
 
         for (int i = 0; i < numVertices; ++i) {
-            this.adjMatrix[numVertices][i] = Integer.MAX_VALUE;
-            this.adjMatrix[i][numVertices] = Integer.MAX_VALUE;
+            this.adjcMatrix[numVertices][i] = Integer.MAX_VALUE;
+            this.adjcMatrix[i][numVertices] = Integer.MAX_VALUE;
         }
         ++numVertices;
     }
@@ -420,14 +420,14 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
             for (int i = index; i < numVertices; ++i) {
                 for (int k = 0; k < numVertices; ++k) {
-                    this.adjMatrix[i][k] = this.adjMatrix[i + 1][k];
+                    this.adjcMatrix[i][k] = this.adjcMatrix[i + 1][k];
                     this.edgeMatrix[i][k] = this.edgeMatrix[i + 1][k];
                 }
             }
 
             for (int i = index; i < numVertices; ++i) {
                 for (int k = 0; k < numVertices; ++k) {
-                    this.adjMatrix[k][i] = this.adjMatrix[k][i + 1];
+                    this.adjcMatrix[k][i] = this.adjcMatrix[k][i + 1];
                     this.edgeMatrix[k][i] = this.edgeMatrix[k][i + 1];
                 }
             }
@@ -437,8 +437,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     @Override
     public void removeEdge(T vertex1, T vertex2) {
         if (indexIsValid(getIndex(vertex1)) && indexIsValid(getIndex(vertex2))) {
-            this.adjMatrix[getIndex(vertex1)][getIndex(vertex2)] = Integer.MAX_VALUE;
-            this.adjMatrix[getIndex(vertex2)][getIndex(vertex1)] = Integer.MAX_VALUE;
+            this.adjcMatrix[getIndex(vertex1)][getIndex(vertex2)] = Integer.MAX_VALUE;
+            this.adjcMatrix[getIndex(vertex2)][getIndex(vertex1)] = Integer.MAX_VALUE;
 
         }
     }
@@ -458,7 +458,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     private Iterator<T> iteratorBFS(int startIndex) throws EmptyQueueException {
         Integer x;
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
-        ArrayUnorderedList<T> resultList = new ArrayUnorderedList<T>();
+        ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();
 
         // Verificar se o startIndex é válido
         if (!indexIsValid(startIndex)) {
@@ -472,18 +472,18 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
 
         //atribuir à queue o valor do startIndex - Ponto de partida do iterador.
-        traversalQueue.enqueue(new Integer(startIndex));
+        traversalQueue.enqueue(startIndex);
         visited[startIndex] = true; // startIndex  - Visited = true;
 
         // Executar o ciclo equanto o número de elementos na queue for > 0
         while (!traversalQueue.isEmpty()) {
             x = traversalQueue.dequeue(); // Obter o valor da Queue
-            resultList.addToRear(vertices[x.intValue()]); //Adicionar a UnorderedList
+            resultList.addToRear(vertices[x]); //Adicionar a UnorderedList
 
             //Encontrar todos os vertices adjacentes a x que ainda não foram visitados e adicioná-los à Queue
             for (int i = 0; i < numVertices; ++i) {
-                if ((adjMatrix[x.intValue()][i] < Double.POSITIVE_INFINITY) && !visited[i]) {
-                    traversalQueue.enqueue(new Integer(i));
+                if ((adjcMatrix[x][i] < Double.POSITIVE_INFINITY) && !visited[i]) {
+                    traversalQueue.enqueue(i);
                     visited[i] = true;
                 }
             }
@@ -507,7 +507,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     private Iterator<T> iteratorDFS(int startIndex) throws EmptyStackException {
         Integer x;
         LinkedStack<Integer> traversalStack = new LinkedStack<>();
-        ArrayUnorderedList<T> resultList = new ArrayUnorderedList<T>();
+        ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();
         boolean[] visited = new boolean[numVertices];
         boolean found;
 
@@ -519,7 +519,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
             visited[i] = false;
         }
 
-        traversalStack.push(new Integer(startIndex));
+        traversalStack.push(startIndex);
         resultList.addToRear(vertices[startIndex]);
         visited[startIndex] = true;
 
@@ -528,8 +528,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
             found = false;
 
             for (int i = 0; (i < numVertices) && !found; ++i) {
-                if ((this.adjMatrix[x.intValue()][i] < Double.POSITIVE_INFINITY) && !visited[i]) {
-                    traversalStack.push(new Integer(i));
+                if ((this.adjcMatrix[x][i] < Double.POSITIVE_INFINITY) && !visited[i]) {
+                    traversalStack.push(i);
                     resultList.addToRear(vertices[i]);
                     visited[i] = true;
                     found = true;
@@ -542,90 +542,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return resultList.iterator();
     }
 
-    /**
-     * Obter a minimum spanning tree
-     *
-     * @return uma network
-     * @throws EmptyQueueException se a Queue estiver vazia
-     * @throws EmptyCollectionException se não existir elementos na coleção
-     */
-    /* public Network mstNetwork() throws EmptyQueueException, EmptyCollectionException {
-        int x, y;
-        int index;
-        double weight;
-        int[] edge = new int[2];
-        LinkedHeap<Double> minHeap = new LinkedHeap();
-        Network<T> resultGraph = new Network();
-
-        if (isEmpty() || !isConnected()) {
-            return resultGraph;
-        }
-
-        resultGraph.adjMatrix = new int[numVertices][numVertices];
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                resultGraph.adjMatrix[i][j] = Double.POSITIVE_INFINITY;
-            }
-        }
-        resultGraph.vertices = (T[]) (new Object[numVertices]);
-
-        boolean[] visited = new boolean[numVertices];
-        for (int i = 0; i < numVertices; i++) {
-            visited[i] = false;
-        }
-
-        edge[0] = 0;
-        resultGraph.vertices[0] = this.vertices[0];
-        resultGraph.numVertices++;
-        visited[0] = true;
-
-        /**
-         * Adicionar todas as arestas, que são adjacentes ao vertice inicial à
-         * heap
-     */
- /*
-        for (int i = 0; i < numVertices; i++) {
-            minHeap.addElement(new Double(adjMatrix[0][i]));
-        }
-
-        while ((resultGraph.size() < this.size()) && !minHeap.isEmpty()) {
-            //Obter o edge com o min weight
-            do {
-                weight = (minHeap.removeMin()).doubleValue();
-                edge = getEdgeWithWeightOf(weight, visited);
-            } while (!indexIsValid(edge[0]) || !indexIsValid(edge[1]));
-
-            x = edge[0];
-            y = edge[1];
-            if (!visited[x]) {
-                index = x;
-            } else {
-                index = y;
-            }
-            //Adicionar uma nova ligação a resultGraph
-            resultGraph.vertices[index] = this.vertices[index];
-            visited[index] = true;
-            resultGraph.numVertices++;
-
-            resultGraph.adjMatrix[x][y] = this.adjMatrix[x][y];
-            resultGraph.adjMatrix[y][x] = this.adjMatrix[y][x];
-
-            /**
-             * Adicionar todas as ligações, que são adjacentes ao vertice à heap
-     */
- /*
-            for (int i = 0; i < numVertices; i++) {
-                if (!visited[i] && (this.adjMatrix[i][index]
-                        < Double.POSITIVE_INFINITY)) {
-                    edge[0] = index;
-                    edge[1] = i;
-                    minHeap.addElement(new Double(adjMatrix[index][i]));
-                }
-            }
-        }
-        return resultGraph;
-    }
-     */
+   
     /**
      * Obter o índice do Edge que tem associado o peso na ligação especificada
      *
@@ -641,7 +558,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
              * O símbolo ^ significa Bit-aBit XOU OR
              */
             {
-                if ((adjMatrix[i][k] == weight) && (visited[i] ^ visited[k])) {
+                if ((adjcMatrix[i][k] == weight) && (visited[i] ^ visited[k])) {
                     edge[0] = i;
                     edge[1] = k;
                     return edge;
@@ -663,12 +580,12 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
         for (int i = 0; i < this.numVertices; ++i) {
             for (int k = 0; k < this.numVertices; ++k) {
-                largerAdjMatrix[i][k] = this.adjMatrix[i][k];
+                largerAdjMatrix[i][k] = this.adjcMatrix[i][k];
             }
             largerVertices[i] = this.vertices[i];
         }
         this.vertices = largerVertices;
-        this.adjMatrix = largerAdjMatrix;
+        this.adjcMatrix = largerAdjMatrix;
         expandEdgeCapacity();
     }
 

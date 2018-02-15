@@ -59,6 +59,7 @@ public interface BinaryTreeADT<T> {
      *
      * @return a string representation of the binary tree.
      */
+    @Override
     public String toString();
 
     /**

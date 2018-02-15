@@ -3,8 +3,10 @@ import Exceptions.EmptyStackException;
 import interfaces.StackADT;
 
 /**
- * @author Bernardino Silva - 8140277
- * @author Rui Bessa - 8140210
+ * @param <T> T Element
+ *
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  */
 public class LinkedStack<T> implements StackADT <T> {
 
@@ -21,7 +23,7 @@ public class LinkedStack<T> implements StackADT <T> {
 
     @Override
     public void push (T element) {
-        LinearNode<T> newNode = new LinearNode<T>(element);
+        LinearNode<T> newNode = new LinearNode<>(element);
         newNode.setNext(this.top);
         this.top = newNode;
         ++size;
@@ -50,10 +52,11 @@ public class LinkedStack<T> implements StackADT <T> {
 
     @Override
     public boolean isEmpty () {
-        if (this.size == 0) {
+        return this.size == 0;
+        /* if (this.size == 0) {
             return true;
         }
-        return false;
+        return false;*/
     }
 
     @Override

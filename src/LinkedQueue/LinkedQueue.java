@@ -4,9 +4,10 @@ import Exceptions.EmptyQueueException;
 import interfaces.QueueADT;
 
 /**
- * @param <T> T Element
- * @author Bernardino Silva - 8140277
- * @author Rui Bessa - 8140210
+ * @param <T> T element
+ *
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
  */
 public class LinkedQueue<T> implements QueueADT<T> {
 
@@ -25,7 +26,7 @@ public class LinkedQueue<T> implements QueueADT<T> {
 
     @Override
     public void enqueue(T element) {
-        LinearNode<T> newNode = new LinearNode<T>(element);
+        LinearNode<T> newNode = new LinearNode<>(element);
 
         if (isEmpty()) {
             this.first = newNode;
@@ -60,10 +61,11 @@ public class LinkedQueue<T> implements QueueADT<T> {
 
     @Override
     public boolean isEmpty() {
-        if (this.size == 0) {
+        return this.size == 0;
+        /*if (this.size == 0) {
             return true;
         }
-        return false;
+        return false;*/
     }
 
     @Override

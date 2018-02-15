@@ -22,7 +22,7 @@ import java.util.Date;
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
  */
-public class SqlConnection {
+public final class SqlConnection {
 
     private final String DRIVER = "org.sqlite.JDBC";
     private final String TABELA_PESSOA = "Pessoa";
@@ -320,9 +320,9 @@ public class SqlConnection {
 
         String SQL = "SELECT * FROM PedidoAmizade WHERE USER_DESTINO  = '" + emailLogado + "'" + "AND ID_ESTADO = 1";
         connection.commit();
+        Statement stmt = null;
 
-        /*Executa o sql*/
-        Statement stmt = connection.createStatement();
+        stmt = connection.createStatement();
         ResultSet resultado = stmt.executeQuery(SQL);
 
         if (resultado.next()) {
@@ -339,9 +339,10 @@ public class SqlConnection {
 
         String SQL = "SELECT * FROM PedidoAmizade WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'" + "AND ID_ESTADO = 1";
         connection.commit();
+        Statement stmt = null;
 
         /*Executa o sql*/
-        Statement stmt = connection.createStatement();
+       stmt = connection.createStatement();
         ResultSet resultado = stmt.executeQuery(SQL);
 
         if (resultado.next()) {
@@ -409,7 +410,7 @@ public class SqlConnection {
         }
         return valor;
     }
-   
+
     public ArrayUnorderedList<Pedido> getPedidosPendentes(String emailLogado) throws SQLException {
 
         Statement statement = null;
@@ -880,11 +881,12 @@ public class SqlConnection {
         Comentario coment = null;
         boolean result = false;
 
+        Statement stmt = null;
         String SQL = "SELECT * FROM Comentario WHERE ID_MENSAGEM  = '" + id_mensagem + "'";
         connection.commit();
 
         /*Executa o sql*/
-        Statement stmt = connection.createStatement();
+        stmt = connection.createStatement();
         ResultSet resultado = stmt.executeQuery(SQL);
 
         if (resultado.next()) {
@@ -909,12 +911,13 @@ public class SqlConnection {
         connection.setAutoCommit(false);
         Pessoa user = null;
         boolean result = false;
+        Statement stmt = null;
 
         String SQL = "SELECT * FROM Pessoa WHERE User_email  = '" + email + "'";
         connection.commit();
 
         /*Executa o sql*/
-        Statement stmt = connection.createStatement();
+        stmt = connection.createStatement();
         ResultSet resultado = stmt.executeQuery(SQL);
 
         if (resultado.next()) {
@@ -938,10 +941,11 @@ public class SqlConnection {
         connection.setAutoCommit(false);
         Pessoa user = null;
         boolean result = false;
+        Statement stmt = null;
+
         String SQL = "SELECT * FROM Pessoa WHERE User_email  = '" + email + "'" + "AND Password = '" + password + "'";
         connection.commit();
-        // executa o SQL.
-        Statement stmt = connection.createStatement();
+        stmt = connection.createStatement();
         ResultSet resultado = stmt.executeQuery(SQL);
 
         if (resultado.next()) {
