@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Classes;
 
 import ArrayList.ArrayOrderedList;
@@ -55,79 +50,113 @@ public class Mensagem implements Comparable<Mensagem> {
         this.email_user = email_user;
     }
 
-    public Mensagem(String conteudo_msg, Date data_publicacao, Integer tipoMensagem) {
-        this.conteudo_msg = conteudo_msg;
-        this.data_publicacao = data_publicacao;
-        this.IdtipoMensagem = tipoMensagem;
-    }
-
     /**
-     * Método construtor que permite a criação de uma instância de
-     * {@link Mensagem} vazia
+     * Método construtor vazio que permite a criação de uma instância de
+     * {@link Mensagem}
      */
     public Mensagem() {
     }
 
-    public int getId_mensagem() {
-        return id_mensagem;
-    }
-
-    public void setId_mensagem(int id_mensagem) {
-        this.id_mensagem = id_mensagem;
-    }
-
+    /**
+     * Método que retorna o conteúdo da mensagem
+     *
+     * @return o conteúdo da mensagem
+     */
     public String getConteudo_msg() {
         return conteudo_msg;
     }
 
+    /**
+     *
+     * Método que define o valor da variavel conteudo_msg
+     *
+     * @param conteudo_msg valor para o qual a variavel conteudo_msg vai ser
+     * alterada
+     */
     public void setConteudo_msg(String conteudo_msg) {
         this.conteudo_msg = conteudo_msg;
     }
 
+    /**
+     * Método que retorna a data da publicação da mensagem
+     *
+     * @return a data da publicação da mensagem
+     */
     public Date getData_publicacao() {
         return data_publicacao;
     }
 
+    /**
+     *
+     * Método que define o valor da variavel data_publicacao
+     *
+     * @param data_publicacao valor para o qual a variavel data_publicacao vai
+     * ser alterada
+     */
     public void setData_publicacao(Date data_publicacao) {
         this.data_publicacao = data_publicacao;
     }
 
+    /**
+     * Método que retorna o tipo da mensagem (Privada/Pública)
+     *
+     * @return o tipo da mensagem
+     */
     public Integer getTipoMensagem() {
         return IdtipoMensagem;
     }
 
+    /**
+     *
+     * Método que define o valor da variavel tipoMensagem
+     *
+     * @param tipoMensagem valor para o qual a variavel tipoMensagem vai ser
+     * alterada
+     */
     public void setTipoMensagem(Integer tipoMensagem) {
         this.IdtipoMensagem = tipoMensagem;
     }
 
+    /**
+     * Método que retorna o email do utilizador que escreveu a mensagem
+     *
+     * @return o email do utilizador
+     */
     public Pessoa getEmail_user() {
         return email_user;
     }
 
+    /**
+     *
+     * Método que define o valor da variavel email_user
+     *
+     * @param email_user valor para o qual a variavel email_user vai ser
+     * alterada
+     */
     public void setEmail_user(Pessoa email_user) {
         this.email_user = email_user;
     }
 
-    
-    /*
+    /**
+     * Método que serve para fazer a comparação entre mensagens. O que é usado
+     * para comparar as mensagens é a sua data
+     *
+     * @param msg mensagem que vai ser comparada
+     * @return 0 se forem iguais, 1 se a data que lá está for menor que a data
+     * recebida e -1 caso seja o contrário do último caso mencionado
+     */
     @Override
     public int compareTo(Mensagem msg) {
-        return data_publicacao.compareTo(msg.getData_publicacao());
-    }
-    */
-    
-    @Override
-    public int compareTo(Mensagem msg) {
-       long myDateMiliSec = this.data_publicacao.getTime();
-       long otherDateMiliSec = msg.getData_publicacao().getTime();
-     
-       if(myDateMiliSec > otherDateMiliSec){
-           return -1;
-       }else if(myDateMiliSec < otherDateMiliSec){
-           return 1;
-           
-       }else{
-           return 0;
-       }
+        long myDateMiliSec = this.data_publicacao.getTime();
+        long otherDateMiliSec = msg.getData_publicacao().getTime();
+
+        if (myDateMiliSec > otherDateMiliSec) {
+            return -1;
+        } else if (myDateMiliSec < otherDateMiliSec) {
+            return 1;
+
+        } else {
+            return 0;
+        }
     }
 }

@@ -342,16 +342,16 @@ public class Menus {
                                 Boolean hasPedido = sql.ifExisteAmizadesPendentes(user_logado);
                                 Integer counter = 0;
                                 if (hasPedido == true) {
-                                    ArrayUnorderedList<Pedido> pedidoAmizade = new ArrayUnorderedList<>();
+                                    ArrayUnorderedList<PedidoAmizade> pedidoAmizade = new ArrayUnorderedList<>();
 
                                     pedidoAmizade = sql.getPedidosPendentes(user_logado);
 
                                     it = (ArrayIterator) pedidoAmizade.iterator();
-                                    Pedido pedido = null;
+                                    PedidoAmizade pedido = null;
                                     System.out.println("Você tem " + pedidoAmizade.size() + " pedido(s) de amizade pendente(s) ");
 
                                     while (it.hasNext()) {
-                                        pedido = (Pedido) it.next();
+                                        pedido = (PedidoAmizade) it.next();
                                         counter++;
                                         System.out.println("");
                                         System.out.print("Pedido nº " + counter + "- " + "Pedido amizade de " + pedido.getUser_origem().getUser_email());
@@ -895,7 +895,7 @@ public class Menus {
 
     }
 
-    private Pedido escolherPedidoAmizade(ArrayUnorderedList<Pedido> pedido) throws IOException {
+    private PedidoAmizade escolherPedidoAmizade(ArrayUnorderedList<PedidoAmizade> pedido) throws IOException {
         String indicePedido = in.readLine();
 
         it = (ArrayIterator) pedido.iterator();
@@ -903,7 +903,7 @@ public class Menus {
 
         while (it.hasNext()) {
             counter++;
-            Pedido pedAmizade = (Pedido) it.next();
+            PedidoAmizade pedAmizade = (PedidoAmizade) it.next();
             if (indicePedido.equals(counter.toString())) {
                 System.out.println("Escolheu o pedido nº  " + "'" + counter + "'" + " para ser respondido");
                 return pedAmizade;

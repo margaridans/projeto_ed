@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Classes;
 
 /**
@@ -19,8 +14,8 @@ public class Amizade {
      * Método construtor que permite a criação de uma nova instância de
      * {@link Amizade}
      *
-     * @param user1 utilizador 1 que vai fazer parte da amizade 
-     * @param user2 utilizador 2 que vai fazer parte da amizade 
+     * @param user1 utilizador 1 que vai fazer parte da amizade
+     * @param user2 utilizador 2 que vai fazer parte da amizade
      */
     public Amizade(Pessoa user1, Pessoa user2) {
         this.user1 = user1;
@@ -28,33 +23,47 @@ public class Amizade {
     }
 
     /**
-     * Método construtor que permite a criação de uma instância de
-     * {@link Amizade} vazia
+     * Método construtor vazio que permite a criação de uma instância de
+     * {@link Amizade}
      */
     public Amizade() {
 
     }
 
-    public Integer getId_amizade() {
-        return id_amizade;
-    }
-
-    public void setId_amizade(Integer id_amizade) {
-        this.id_amizade = id_amizade;
-    }
-
+    /**
+     * Método que retorna o utilizador 1
+     *
+     * @return o utilizador 1
+     */
     public Pessoa getUser1() {
         return user1;
     }
 
+    /**
+     * Método que define o valor da variavel user1
+     *
+     * @param user1 valor para o qual a variavel user1 vai ser
+     * alterada
+     */
     public void setUser1(Pessoa user1) {
         this.user1 = user1;
     }
 
+    /**
+     * Método que retorna o utilizador 2
+     *
+     * @return o utilizador 2
+     */
     public Pessoa getUser2() {
         return user2;
     }
 
+       /**
+     * Método que define o valor da variavel user2
+     *
+     * @param user2 valor para o qual a variavel user1 vai ser
+     * alterada
+     */
     public void setUser2(Pessoa user2) {
         this.user2 = user2;
     }

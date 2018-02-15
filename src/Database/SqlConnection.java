@@ -14,7 +14,7 @@ import org.sqlite.SQLiteConfig;
 import ArrayList.ArrayUnorderedList;
 import Classes.Amizade;
 import Classes.Comentario;
-import Classes.Pedido;
+import Classes.PedidoAmizade;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -411,10 +411,10 @@ public final class SqlConnection {
         return valor;
     }
 
-    public ArrayUnorderedList<Pedido> getPedidosPendentes(String emailLogado) throws SQLException {
+    public ArrayUnorderedList<PedidoAmizade> getPedidosPendentes(String emailLogado) throws SQLException {
 
         Statement statement = null;
-        ArrayUnorderedList<Pedido> valor = new ArrayUnorderedList<>();
+        ArrayUnorderedList<PedidoAmizade> valor = new ArrayUnorderedList<>();
         try {
             connection.setAutoCommit(false);
 
@@ -426,7 +426,7 @@ public final class SqlConnection {
             while (r.next()) {
                 Pessoa a = getPessoa(r.getString("USER_ORIGEM"));
                 Pessoa b = getPessoa(r.getString("USER_DESTINO"));
-                Pedido tmpPedido = new Pedido(a, b, r.getInt("ID_ESTADO"));
+                PedidoAmizade tmpPedido = new PedidoAmizade(a, b, r.getInt("ID_ESTADO"));
                 valor.addToRear(tmpPedido);
 
             }
@@ -681,6 +681,53 @@ public final class SqlConnection {
     }
 
     /**
+     * Método responsável por ir buscar à base dados todas as mensagens que
+     * existem daquele utilizador
+     *
+     * @param email_user email do utilizador que queremos ver as mensagens
+     * @return numa Unordered List todas as mensagens presentes na base dados
+     * daquele utilizador
+     * @throws ParseException - é lançada quando encontra erros de análise,
+     * nesta caso na transição da data de String para Date
+     */
+    public ArrayOrderedList<Mensagem> getAllMensagens(String email_user) throws ParseException {
+        Statement statement = null;
+        ArrayOrderedList<Mensagem> valor = new ArrayOrderedList<>();
+        try {
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM Mensagem WHERE USER_EMAIL = '" + email_user + "'";
+
+            ResultSet r = statement.executeQuery(SQL);
+
+            Boolean hasMensagem = false;
+
+            while (r.next()) {
+                String data = r.getString("DATA_PUBLICACAO");
+                Date data_pub = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+
+                hasMensagem = true;
+                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"), null);
+
+                valor.add(tmpMensagem);
+
+            }
+
+            /*if (!hasMensagem) {
+                System.out.println("Não existem mensagens");
+                valor = null;
+            }*/
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+    }
+
+    /**
      * Método responsável por ir buscar à base dados todas as mensagens do tipo
      * públicas que existem daquele utilizador
      *
@@ -737,7 +784,7 @@ public final class SqlConnection {
      * @throws ParseException - é lançada quando encontra erros de análise,
      * nesta caso na transição da data de String para Date
      */
-    public ArrayOrderedList<Mensagem> getAllMensagens(String email_user) throws ParseException {
+    public ArrayOrderedList<Mensagem> Mensagem(String email_user) throws ParseException {
         Statement statement = null;
         ArrayOrderedList<Mensagem> valor = new ArrayOrderedList<>();
         try {
@@ -755,7 +802,7 @@ public final class SqlConnection {
                 Date data_pub = new SimpleDateFormat("dd/MM/yyyy").parse(data);
 
                 hasMensagem = true;
-                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"));
+                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"), null);
 
                 valor.add(tmpMensagem);
 
