@@ -7,16 +7,16 @@ import Iterator.ArrayIterator;
 import java.util.Iterator;
 
 /**
- * @param <T> T Element
- * @author Bernardino Silva - 8140277
- * @author Rui Bessa - 8140210
+ * @author Margarida Sousa - 8140092
+ * @author Marisa Machado - 8140186
+ * @param <T>
  */
 public class ArrayList<T> implements ListADT<T> {
 
     private final int DEFAULT_CAPACITY = 100;
     private int first;
     protected int last;
-    private int position;
+    private int counter;
     protected T[] list;
 
     /**
@@ -25,7 +25,7 @@ public class ArrayList<T> implements ListADT<T> {
     public ArrayList() {
         this.first = 0;
         this.last = 0;
-        this.position = -1;
+        this.counter = 0;
         this.list = (T[]) new Object[this.DEFAULT_CAPACITY];
     }
 
@@ -37,7 +37,7 @@ public class ArrayList<T> implements ListADT<T> {
     public ArrayList(int initialCapacity) {
         this.first = 0;
         this.last = 0;
-        this.position = -1;
+        this.counter = -1;
         this.list = (T[]) new Object[initialCapacity];
     }
 
@@ -80,7 +80,7 @@ public class ArrayList<T> implements ListADT<T> {
         if (contains(element)) {
             throw new ElementNotFoundException("Element not Found");
         } else {
-            result = this.list[this.position];
+            result = this.list[this.counter];
             --(this.last);
             //Shift The appropriate elements
             for (int i = 0; i < this.last; ++i) {
@@ -117,7 +117,7 @@ public class ArrayList<T> implements ListADT<T> {
             while (!contain && i < this.last) {
                 if (target.equals(this.list[i])) {
                     contain = true;
-                    this.position = i;
+                    this.counter = i;
                 } else {
                     ++i;
                 }

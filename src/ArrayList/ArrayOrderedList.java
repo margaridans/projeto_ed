@@ -40,14 +40,14 @@ public class ArrayOrderedList<T> extends ArrayList<T> implements OrderedListADT<
 
         Comparable<T> temp = (Comparable<T>) element;
 
-        int scan = 0;
-        while (scan < super.last && temp.compareTo((T) super.list[scan]) > 0)
-            scan++;
+        int count = 0;
+        while (count < super.last && temp.compareTo((T) super.list[count]) > 0)
+            count++;
 
-        for (int scan2 = super.last; scan2 > scan; scan2--)
+        for (int scan2 = super.last; scan2 > count; scan2--)
             super.list[scan2] = super.list[scan2 - 1];
 
-        super.list[scan] = element;
+        super.list[count] = element;
         super.last++;
     }
 

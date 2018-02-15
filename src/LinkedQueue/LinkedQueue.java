@@ -15,6 +15,32 @@ public class LinkedQueue<T> implements QueueADT<T> {
     private LinearNode<T> first;
     private LinearNode<T> rear;
 
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public LinearNode<T> getFirst() {
+        return first;
+    }
+
+    public void setFirst(LinearNode<T> first) {
+        this.first = first;
+    }
+
+    public LinearNode<T> getRear() {
+        return rear;
+    }
+
+    public void setRear(LinearNode<T> rear) {
+        this.rear = rear;
+    }
+
+    
+    
     /**
      * Creates an empty LinkedQueue
      */
