@@ -13,11 +13,11 @@ import java.util.Iterator;
  */
 public class ArrayList<T> implements ListADT<T> {
 
-    private final int DEFAULT_CAPACITY = 100;
-    private int first;
-    protected int last;
-    private int counter;
-    protected T[] list;
+    private final int DEFAULT_CAPACITY = 100; //tamanho especifico do array
+    private int first; //cabeça
+    protected int last; //cauda
+    private int counter; 
+    protected T[] list; //array do tipo T
 
     /**
      *
