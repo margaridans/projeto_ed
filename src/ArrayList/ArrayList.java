@@ -20,7 +20,8 @@ public class ArrayList<T> implements ListADT<T> {
     protected T[] list;
 
     /**
-     * Creates an empty list using the default capacity
+     *
+     * Cria uma lista vazia usando a capacidade padrão
      */
     public ArrayList() {
         this.first = 0;
@@ -30,9 +31,9 @@ public class ArrayList<T> implements ListADT<T> {
     }
 
     /**
-     * Creates an empty list using the specified capacity
+     * Cria uma lista vazia usando a capacidade específica
      *
-     * @param initialCapacity Initial capacity of array
+     * @param initialCapacity capacidade inicial do array
      */
     public ArrayList(int initialCapacity) {
         this.first = 0;
@@ -46,7 +47,7 @@ public class ArrayList<T> implements ListADT<T> {
         T result;
 
         if (isEmpty()) {
-            throw new EmptyCollectionException("Empty List");
+            throw new EmptyCollectionException("Lista vazia");
         } else {
             result = this.list[0];
             --(this.last);
@@ -64,7 +65,7 @@ public class ArrayList<T> implements ListADT<T> {
         T result;
 
         if (isEmpty()) {
-            throw new EmptyCollectionException("Empty List");
+            throw new EmptyCollectionException("Lista vazia");
         } else {
             --(this.last);
             result = this.list[this.last];
@@ -78,11 +79,11 @@ public class ArrayList<T> implements ListADT<T> {
         T result;
 
         if (contains(element)) {
-            throw new ElementNotFoundException("Element not Found");
+            throw new ElementNotFoundException("Elemento não encontrado");
         } else {
             result = this.list[this.counter];
             --(this.last);
-            //Shift The appropriate elements
+            //Desloca os elementos apropriados
             for (int i = 0; i < this.last; ++i) {
                 this.list[i] = this.list[i + 1];
             }
@@ -93,7 +94,7 @@ public class ArrayList<T> implements ListADT<T> {
     @Override
     public T first() throws EmptyCollectionException {
         if (isEmpty()) {
-            throw new EmptyCollectionException("Empty List");
+            throw new EmptyCollectionException("Lista vazia");
         } else {
             return this.list[this.first];
         }
@@ -102,7 +103,7 @@ public class ArrayList<T> implements ListADT<T> {
     @Override
     public T last() throws EmptyCollectionException {
         if (isEmpty()) {
-            throw new EmptyCollectionException("Empty List");
+            throw new EmptyCollectionException("Lista vazia");
         } else {
             return this.list[this.last - 1];
         }
@@ -151,7 +152,7 @@ public class ArrayList<T> implements ListADT<T> {
     }
 
     /**
-     * Expand capacity if this list is full
+     * Expande a capacidade se a lista estiver cheia
      */
     protected void expandCapacity() {
         T[] temporaryArray = (T[]) new Object[this.list.length * 2];

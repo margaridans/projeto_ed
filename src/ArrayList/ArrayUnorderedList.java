@@ -12,16 +12,16 @@ import interfaces.UnorderedListADT;
 public class ArrayUnorderedList<T> extends ArrayList<T> implements UnorderedListADT<T> {
 
     /**
-     * Creates an empty list using the default capacity
+     * Cria uma lista vazia usando a capacidade padrão
      */
     public ArrayUnorderedList() {
         super();
     }
 
     /**
-     * Creates an empty list using the default capacity
+     * Cria uma lista vazia usando a capacidade específica
      *
-     * @param initialCapacity Capacity of array list
+     * @param initialCapacity capacidade inicial do array
      */
     public ArrayUnorderedList(int initialCapacity) {
         super(initialCapacity);
@@ -33,7 +33,7 @@ public class ArrayUnorderedList<T> extends ArrayList<T> implements UnorderedList
             expandCapacity();
         }
 
-        //Shift the elements
+        //Desloca os elementos
         for (int i = last; i > 0; --i) {
             list[i] = list[i - 1];
         }
@@ -57,17 +57,17 @@ public class ArrayUnorderedList<T> extends ArrayList<T> implements UnorderedList
         if (size() == list.length) {
             expandCapacity();
         }
-
-        int i = 0;
-
+       
+        int i = 0;    
         while (i < last && !target.equals(list[i])) {
             ++i;
         }
-
+        
         if (i == last) {
-            throw new ElementNotFoundException("Element Not Found - UnorderedList");
+            throw new ElementNotFoundException("Elemento não encontrado");
         }
         ++i;
+        
         for (int k = last; k > i; --k) {
             list[k] = list[k - 1];
         }
