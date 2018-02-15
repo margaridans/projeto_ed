@@ -28,8 +28,9 @@ public class ArrayIterator<T> implements Iterator<T> {
     }
 
     /**
-     * 
-     * @return 
+     * Método que retorna true se houver mais elementos
+     *
+     * @return true se houver mais elementos, false caso não haja mais elementos
      */
     @Override
     public boolean hasNext() {
@@ -37,8 +38,9 @@ public class ArrayIterator<T> implements Iterator<T> {
     }
 
     /**
-     * 
-     * @return 
+     * Método que retorna o próximo elemento da iteração
+     *
+     * @return o próximo elemento da iteração
      */
     @Override
     public T next() {
