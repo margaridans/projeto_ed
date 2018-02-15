@@ -15,6 +15,15 @@ public class LinkedQueue<T> implements QueueADT<T> {
     private LinearNode<T> first;
     private LinearNode<T> rear;
 
+    /**
+     * Cria uma LinkedQueue vazia
+     */
+    public LinkedQueue() {
+        this.size = 0;
+        this.first = null;
+        this.rear = null;
+    }
+
     public int getSize() {
         return size;
     }
@@ -39,17 +48,6 @@ public class LinkedQueue<T> implements QueueADT<T> {
         this.rear = rear;
     }
 
-    
-    
-    /**
-     * Creates an empty LinkedQueue
-     */
-    public LinkedQueue() {
-        this.size = 0;
-        this.first = null;
-        this.rear = null;
-    }
-
     @Override
     public void enqueue(T element) {
         LinearNode<T> newNode = new LinearNode<>(element);
@@ -65,9 +63,9 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     @Override
-    public T dequeue() throws EmptyCollectionException  {
+    public T dequeue() throws EmptyCollectionException {
         if (isEmpty()) {
-            throw new EmptyCollectionException ("The QUEUE is Empty");
+            throw new EmptyCollectionException("A queue está vazia");
         } else {
             T result = this.first.getElement();
             this.first = this.first.getNext();
@@ -77,9 +75,9 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     @Override
-    public T first() throws EmptyCollectionException  {
+    public T first() throws EmptyCollectionException {
         if (isEmpty()) {
-            throw new EmptyCollectionException ("The QUEUE is Empty");
+            throw new EmptyCollectionException("A queue está vazia");
         } else {
             return this.first.getElement();
         }

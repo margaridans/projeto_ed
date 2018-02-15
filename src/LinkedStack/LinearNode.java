@@ -1,18 +1,18 @@
 package LinkedStack;
 
 /**
- * @param <T> T Element
+ * @param <T> T element
  *
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
  */
 public class LinearNode<T> {
 
-    private LinearNode<T> next;
-    private T element;
+    private LinearNode<T> next; //referência ao próximo nó na lista
+    private T element;// elemento armazenado no nó
 
     /**
-     * Create a stored empty node
+     * Cria um nó vazio
      */
     public LinearNode() {
         this.next = null;
@@ -20,9 +20,9 @@ public class LinearNode<T> {
     }
 
     /**
-     * Create a node storing the specified element
+     * Crie um nó armazenando o elemento especificado
      *
-     * @param element element to be stored
+     * @param element elemento a ser armazenado
      */
     public LinearNode(T element) {
         this.next = null;
@@ -30,39 +30,39 @@ public class LinearNode<T> {
     }
 
     /**
-     * Returns the node that follows this one
      *
-     * @return LinearNode reference to next node
+     * Retorna o nó que se segue a este
+     *
+     * @return LinearNode referência para o próximo nó
      */
     public LinearNode<T> getNext() {
         return this.next;
     }
 
     /**
-     * Sts the node that follows this one
+     * Define o nó que se segue a este
      *
-     * @param node node to follow this one
+     * @param node nó que se segue
      */
     public void setNext(LinearNode<T> node) {
         this.next = node;
     }
 
     /**
-     * Returns the element stored in this node
+     * Retorna o elemento armazenado neste nó
      *
-     * @return T elemnt stored at this node
+     * @return T elemento armazenado no nó
      */
     public T getElement() {
         return this.element;
     }
 
     /**
-     * Sets the element stored in this node
+     * Define o elemento armazenado neste nó
      *
-     * @param element T element stored at this node
+     * @param element elemento T armazenado neste nó
      */
     public void setElement(T element) {
         this.element = element;
     }
-
 }
