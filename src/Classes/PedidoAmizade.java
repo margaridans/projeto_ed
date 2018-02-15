@@ -7,9 +7,9 @@ package Classes;
 public class PedidoAmizade {
 
     private Integer id_pedidoAmizade;
-    private Pessoa user_origem;
-    private Pessoa user_destino;
-    private Integer id_estado;
+    private Pessoa user_origem; //pessoa que fez o pedido de amizade
+    private Pessoa user_destino; //pessoa que recebeu o pedido de amizade
+    private Integer id_estado; //estado do pedido de amizade (1-Pendente/2-Aceite/3-Recusado)
 
     /**
      * Método construtor que permite a criação de uma nova instância de

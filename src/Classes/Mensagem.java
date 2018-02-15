@@ -10,11 +10,11 @@ import java.util.Date;
 public class Mensagem implements Comparable<Mensagem> {
 
     private int id_mensagem;
-    private String conteudo_msg;
-    private Date data_publicacao;
-    private Integer IdtipoMensagem;
-    private Pessoa email_user;
-    private ArrayOrderedList<Comentario> comentarios;
+    private String conteudo_msg; //conteudo da mensagem
+    private Date data_publicacao; //data da publicação da mensagem
+    private Integer IdtipoMensagem; //id do tipo da mensagem (1-Pública/2-Privada)
+    private Pessoa email_user; //email do utilizador que fez a mensagem
+    private ArrayOrderedList<Comentario> comentarios; //array de comentários associados a uma mensagem
 
     /**
      * Método construtor que permite a criação de uma nova instância de

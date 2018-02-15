@@ -8,8 +8,8 @@ import java.util.Objects;
  */
 public class Pessoa implements Comparable<Pessoa> {
 
-    private String user_nome, user_email, password;
-    private Integer nr_creditos;
+    private String user_nome, user_email, password; //nome, email e password do utilizador
+    private Integer nr_creditos; //número de créditos do utilizador
 
     /**
      * Método construtor que permite a criação de uma nova instância de

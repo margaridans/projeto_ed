@@ -7,8 +7,8 @@ package Classes;
 public class Amizade {
 
     private Integer id_amizade;
-    private Pessoa user1;
-    private Pessoa user2;
+    private Pessoa user1; //utilizador 1 da amizade
+    private Pessoa user2; //utilizador 2 da amizade
 
     /**
      * Método construtor que permite a criação de uma nova instância de

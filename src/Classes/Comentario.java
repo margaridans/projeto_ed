@@ -9,10 +9,10 @@ import java.util.Date;
 public class Comentario implements Comparable<Comentario> {
 
     private int id_comentario;
-    private String comentario;
-    private Date data_comentario;
-    private Pessoa email_user;
-    private Integer id_mensagem;
+    private String comentario; //conteudo do comentário
+    private Date data_comentario; //data do comentário
+    private Pessoa email_user; //email do utilizador que fez o comentário
+    private Integer id_mensagem; //id da mensagem à qual o comentário foi feito
 
     /**
      * Método construtor que permite a criação de uma nova instância de

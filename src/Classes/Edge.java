@@ -6,9 +6,9 @@ package Classes;
  */
 public class Edge {
 
-    private Pessoa pessoa1;
-    private Pessoa pessoa2;
-    private final double peso = 1;
+    private Pessoa pessoa1; //pessoa 1 que faz parte da ligação
+    private Pessoa pessoa2; //pessoa 2 que faz parte da ligação
+    private final double peso = 1; //peso da ligação que vamos assumir sempre como 1
 
     /**
      * Método construtor que permite a criação de uma nova instância de
