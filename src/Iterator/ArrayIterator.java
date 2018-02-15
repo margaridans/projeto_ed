@@ -1,8 +1,6 @@
 package Iterator;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 
 /**
  * @author Margarida Sousa - 8140092
@@ -11,19 +9,20 @@ import java.util.NoSuchElementException;
  */
 public class ArrayIterator<T> implements Iterator<T> {
 
-    private int size;
-    private int current;
-    private T[] elements;
+    private int size; //tamanho máximo do array
+    private int current; //posição atual
+    private T[] elements; //guarda referência para o arrayList
 
     /**
-     * Constructor method that allows you to create a new {@link ArrayIterator}
-     * instance
      *
-     * @param collection item list
-     * @param size number of the elements in this list
+     * Método construtor que permite que você crie uma nova instância do
+     * {@link ArrayIterator}
+     *
+     * @param elements arrayList
+     * @param size número de elementos de«o arrayList
      */
-    public ArrayIterator(T[] collection, int size) {
-        this.elements = collection;
+    public ArrayIterator(T[] elements, int size) {
+        this.elements = elements;
         this.size = size;
         this.current = 0;
     }
@@ -35,12 +34,6 @@ public class ArrayIterator<T> implements Iterator<T> {
 
     @Override
     public T next() {
-        if (!hasNext()) {
-            throw new NoSuchElementException();
-        }
-
-        current++;
-        return this.elements[current - 1];
-
+        return elements[current++];
     }
 }
