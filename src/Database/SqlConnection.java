@@ -66,7 +66,7 @@ public final class SqlConnection {
         }
     }
 
-    //--------------------------------------------CRIAR TABELAS-------------------------------------------------//
+    //-------------------------------------------------------------CRIAR TABELAS-----------------------------------------------------------
     /**
      * Criação da tabela que vai permitir armazenar pessoas
      */
@@ -209,7 +209,7 @@ public final class SqlConnection {
         }
     }
 
-    //------------------------------------------INSERIR DADOS NAS TABELAS-----------------------------------------------//
+    //-------------------------------------------------INSERIR DADOS NAS TABELAS-----------------------------------------------------------
     /**
      * Inserir utilizadores na tabela Pessoas
      *
@@ -290,6 +290,9 @@ public final class SqlConnection {
         }
     }
 
+    /**
+     * Inserir os estados dos pedidos de amizade na tabela PedidoAmizade
+     */
     public void inserirEstadoPedido() {
         Statement statement = null;
 
@@ -311,134 +314,6 @@ public final class SqlConnection {
         } catch (SQLException ex) {
             System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
         }
-    }
-
-    public boolean ifExisteAmizadesPendentes(String emailLogado) throws SQLException {
-        connection.setAutoCommit(false);
-        Pessoa user = null;
-        boolean result = false;
-
-        String SQL = "SELECT * FROM PedidoAmizade WHERE USER_DESTINO  = '" + emailLogado + "'" + "AND ID_ESTADO = 1";
-        connection.commit();
-        Statement stmt = null;
-
-        stmt = connection.createStatement();
-        ResultSet resultado = stmt.executeQuery(SQL);
-
-        if (resultado.next()) {
-            result = true;
-        }
-        stmt.close();
-        return result;
-    }
-
-    public boolean ifExisteJaPedido(String emailOrigem, String emailDestino) throws SQLException {
-        connection.setAutoCommit(false);
-        Pessoa user = null;
-        boolean result = false;
-
-        String SQL = "SELECT * FROM PedidoAmizade WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'" + "AND ID_ESTADO = 1";
-        connection.commit();
-        Statement stmt = null;
-
-        /*Executa o sql*/
-       stmt = connection.createStatement();
-        ResultSet resultado = stmt.executeQuery(SQL);
-
-        if (resultado.next()) {
-            result = true;
-        }
-        stmt.close();
-        return result;
-    }
-
-    public void aceitarPedido(String emailOrigem, String emailDestino) throws SQLException {
-        Statement statement = null;
-
-        try {
-            connection.setAutoCommit(false);
-            statement = connection.createStatement();
-            String update = "UPDATE PedidoAmizade SET ID_ESTADO = 2 WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'";
-            String insert = "INSERT INTO Amizade (USER_EMAIL1, USER_EMAIL2) VALUES ('" + emailOrigem + "'" + ",'" + emailDestino + "')";
-
-            statement.executeUpdate(update);
-            statement.executeUpdate(insert);
-
-            connection.commit();
-            statement.close();
-
-        } catch (SQLException ex) {
-            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-        }
-
-    }
-
-    public void rejeitarPedido(String emailOrigem, String emailDestino) throws SQLException {
-        Statement statement = null;
-
-        try {
-            connection.setAutoCommit(false);
-            statement = connection.createStatement();
-            String update = "UPDATE PedidoAmizade SET ID_ESTADO = 3 WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'";
-
-            statement.executeUpdate(update);
-
-            connection.commit();
-            statement.close();
-
-        } catch (SQLException ex) {
-            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-        }
-
-    }
-
-    public String getOrigemPedidoAmizade(String emailLogado) throws SQLException {
-        Statement statement = null;
-        String valor = null;
-        try {
-            connection.setAutoCommit(false);
-            statement = connection.createStatement();
-            String SQL = "SELECT * FROM PedidoAmizade WHERE USER_DESTINO  = '" + emailLogado + "'" + "AND ID_ESTADO = 1";
-
-            ResultSet r = statement.executeQuery(SQL);
-            valor = r.getString("USER_ORIGEM");
-            connection.commit();
-            statement.close();
-
-        } catch (SQLException ex) {
-            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-        }
-        return valor;
-    }
-
-    public ArrayUnorderedList<PedidoAmizade> getPedidosPendentes(String emailLogado) throws SQLException {
-
-        Statement statement = null;
-        ArrayUnorderedList<PedidoAmizade> valor = new ArrayUnorderedList<>();
-        try {
-            connection.setAutoCommit(false);
-
-            statement = connection.createStatement();
-            String SQL = "SELECT * FROM PedidoAmizade WHERE USER_DESTINO  = '" + emailLogado + "'" + "AND ID_ESTADO = 1";
-
-            ResultSet r = statement.executeQuery(SQL);
-
-            while (r.next()) {
-                Pessoa a = getPessoa(r.getString("USER_ORIGEM"));
-                Pessoa b = getPessoa(r.getString("USER_DESTINO"));
-                PedidoAmizade tmpPedido = new PedidoAmizade(a, b, r.getInt("ID_ESTADO"));
-                valor.addToRear(tmpPedido);
-
-            }
-
-            connection.commit();
-            statement.close();
-
-        } catch (SQLException ex) {
-            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-        }
-        return valor;
-
     }
 
     /**
@@ -469,7 +344,7 @@ public final class SqlConnection {
         }
     }
 
-    //--------------------------------------------UTILIZADOR------------------------------------------------//
+    //----------------------------------------------------------------UTILIZADOR-------------------------------------------------------
     /**
      * Método responsável por eliminar uma pessoa da base dados
      *
@@ -588,6 +463,13 @@ public final class SqlConnection {
         return valor;
     }
 
+    /**
+     * Método responsável por atualizar os créditos do utilizador
+     *
+     * @param email email do utilizador ao qual os créditos vão ser alterados
+     * @param nrCreditos número de créditos para o qual o valor de créditos vai
+     * ser alterado
+     */
     public void updateCreditosUser(String email, Integer nrCreditos) {
         Statement statement = null;
 
@@ -606,57 +488,7 @@ public final class SqlConnection {
         }
     }
 
-    //--------------------------------------------AMIZADE--------------------------------------------------------//
-    public ArrayUnorderedList<Amizade> getAllAmizades() {
-        Statement statement = null;
-        ArrayUnorderedList<Amizade> valor = new ArrayUnorderedList<>();
-        try {
-            connection.setAutoCommit(false);
-
-            statement = connection.createStatement();
-            String SQL = "SELECT * FROM Amizade";
-
-            ResultSet r = statement.executeQuery(SQL);
-
-            while (r.next()) {
-                Pessoa a = getPessoa(r.getString("USER_EMAIL1"));
-                Pessoa b = getPessoa(r.getString("USER_EMAIL2"));
-                Amizade amizade = new Amizade(a, b);
-                valor.addToRear(amizade);
-
-            }
-            connection.commit();
-            statement.close();
-
-        } catch (SQLException ex) {
-            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-        }
-        return valor;
-
-    }
-
-    public void fazerPedidoAmizade(Pessoa emailOrigem, Pessoa emailDestino) {
-        Statement statement = null;
-
-        try {
-            connection.setAutoCommit(false);
-            statement = connection.createStatement();
-            String insert = "INSERT INTO " + TABELA_PEDIDO_AMIZADE
-                    + "(USER_ORIGEM, USER_DESTINO, ID_ESTADO) " + "VALUES ( '" + emailOrigem.getUser_email() + "'" + ",'"
-                    + emailDestino.getUser_email() + "'" + ",'"
-                    + "1" + "');";
-
-            statement.executeUpdate(insert);
-
-            connection.commit();
-            statement.close();
-
-        } catch (SQLException ex) {
-            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-        }
-    }
-
-    //--------------------------------------------MENSAGENS-------------------------------------------------//
+    //-----------------------------------------------------------------MENSAGENS--------------------------------------------------------
     /**
      * Método responsável por apagar uma mensagem da base dados
      *
@@ -775,53 +607,6 @@ public final class SqlConnection {
     }
 
     /**
-     * Método responsável por ir buscar à base dados todas as mensagens que
-     * existem daquele utilizador
-     *
-     * @param email_user email do utilizador que queremos ver as mensagens
-     * @return numa Unordered List todas as mensagens presentes na base dados
-     * daquele utilizador
-     * @throws ParseException - é lançada quando encontra erros de análise,
-     * nesta caso na transição da data de String para Date
-     */
-    public ArrayOrderedList<Mensagem> Mensagem(String email_user) throws ParseException {
-        Statement statement = null;
-        ArrayOrderedList<Mensagem> valor = new ArrayOrderedList<>();
-        try {
-            connection.setAutoCommit(false);
-
-            statement = connection.createStatement();
-            String SQL = "SELECT * FROM Mensagem WHERE USER_EMAIL = '" + email_user + "'";
-
-            ResultSet r = statement.executeQuery(SQL);
-
-            Boolean hasMensagem = false;
-
-            while (r.next()) {
-                String data = r.getString("DATA_PUBLICACAO");
-                Date data_pub = new SimpleDateFormat("dd/MM/yyyy").parse(data);
-
-                hasMensagem = true;
-                Mensagem tmpMensagem = new Mensagem(r.getString("CONTEUDO_MSG"), data_pub, r.getInt("ID_TIPO_MENSAGEM"), null);
-
-                valor.add(tmpMensagem);
-
-            }
-
-            /*if (!hasMensagem) {
-                System.out.println("Não existem mensagens");
-                valor = null;
-            }*/
-            connection.commit();
-            statement.close();
-
-        } catch (SQLException ex) {
-            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
-        }
-        return valor;
-    }
-
-    /**
      * Método responsável por fazer uma pesquisa à base dados para encontrar o
      * id do tipo de mensagem que corresponde ao tipo de mensagem inserida pelo
      * utilizador
@@ -875,7 +660,7 @@ public final class SqlConnection {
 
     }
 
-    //--------------------------------------------COMENTÁRIOS-------------------------------------------------//
+    //---------------------------------------------------------------COMENTÁRIOS-------------------------------------------------------
     /**
      * Este método é responsável por ir buscar os comentários correspondentes a
      * uma mensagem
@@ -943,7 +728,224 @@ public final class SqlConnection {
         return result;
     }
 
-    //--------------------------------------------ACERCA LOGIN-------------------------------------------------//
+//----------------------------------------------------------PEDIDOS DE AMIZADE & AMIZADE-----------------------------------------------------------
+    /**
+     * Método responsável por ir buscar à base dados todas as amizade que
+     * existem
+     *
+     * @return numa Unordered List todas as amizades presentes na base dados
+     */
+    public ArrayUnorderedList<Amizade> getAllAmizades() {
+        Statement statement = null;
+        ArrayUnorderedList<Amizade> valor = new ArrayUnorderedList<>();
+        try {
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM Amizade";
+
+            ResultSet r = statement.executeQuery(SQL);
+
+            while (r.next()) {
+                Pessoa a = getPessoa(r.getString("USER_EMAIL1"));
+                Pessoa b = getPessoa(r.getString("USER_EMAIL2"));
+                Amizade amizade = new Amizade(a, b);
+                valor.addToRear(amizade);
+
+            }
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+
+    }
+
+    /**
+     * Método responsável por fazer o pedido de amizade, ou seja, por inserir na
+     * base dados na tabela Pedido de amizade um pedido de amizade realizado,
+     * com estado =1 pois o pedido aquando de ser feito fica pendente até ser
+     * aceite/rejeitado
+     *
+     * @param emailOrigem pessoa que enviou o pedido de amizade
+     * @param emailDestino pessoa que recebeu o pedido de amizade
+     */
+    public void fazerPedidoAmizade(Pessoa emailOrigem, Pessoa emailDestino) {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String insert = "INSERT INTO " + TABELA_PEDIDO_AMIZADE
+                    + "(USER_ORIGEM, USER_DESTINO, ID_ESTADO) " + "VALUES ( '" + emailOrigem.getUser_email() + "'" + ",'"
+                    + emailDestino.getUser_email() + "'" + ",'"
+                    + "1" + "');";
+
+            statement.executeUpdate(insert);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+    }
+
+    /**
+     * Método responsável por verificar na base dados se existe amziades
+     * pendentes para um determinado utilizador
+     *
+     * @param emailLogado email do utilizador ao qual vamos ver se há ou não
+     * pedidos pendentes
+     * @return true caso existam pedidos pendentes, false caso não existam
+     * @throws SQLException
+     */
+    public boolean ifExisteAmizadesPendentes(String emailLogado) throws SQLException {
+        connection.setAutoCommit(false);
+        Pessoa user = null;
+        boolean result = false;
+
+        String SQL = "SELECT * FROM PedidoAmizade WHERE USER_DESTINO  = '" + emailLogado + "'" + "AND ID_ESTADO = 1";
+        connection.commit();
+        Statement stmt = null;
+
+        stmt = connection.createStatement();
+        ResultSet resultado = stmt.executeQuery(SQL);
+
+        if (resultado.next()) {
+            result = true;
+        }
+        stmt.close();
+        return result;
+    }
+
+    /**
+     * Método responsável por verificar se já existe ou não o pedido de amizade
+     *
+     * @param emailOrigem email da pessoa que fez o pedido de amizade
+     * @param emailDestino email da pessoa que recebeu o pedido de amizade
+     * @return true se já existe o pedido, false caso não exista o pedido
+     * @throws SQLException
+     */
+    public boolean ifExisteJaPedido(String emailOrigem, String emailDestino) throws SQLException {
+        connection.setAutoCommit(false);
+        Pessoa user = null;
+        boolean result = false;
+
+        String SQL = "SELECT * FROM PedidoAmizade WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'" + "AND ID_ESTADO = 1";
+        connection.commit();
+        Statement stmt = null;
+
+        /*Executa o sql*/
+        stmt = connection.createStatement();
+        ResultSet resultado = stmt.executeQuery(SQL);
+
+        if (resultado.next()) {
+            result = true;
+        }
+        stmt.close();
+        return result;
+    }
+
+    /**
+     * Método responsável por aceitar o pedido de amizade e inserir a amizade na
+     * base dados, ou seja, responsável por atualizar o estado para 2 na base
+     * dados na tabela Pedido de amizade e inserir a amizade na tabela amizade
+     *
+     * @param emailOrigem email da pessoa que fez o pedido de amizade
+     * @param emailDestino email da pessoa que recebeu o pedido de amizade
+     * @throws SQLException
+     */
+    public void aceitarPedido(String emailOrigem, String emailDestino) throws SQLException {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String update = "UPDATE PedidoAmizade SET ID_ESTADO = 2 WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'";
+            String insert = "INSERT INTO Amizade (USER_EMAIL1, USER_EMAIL2) VALUES ('" + emailOrigem + "'" + ",'" + emailDestino + "')";
+
+            statement.executeUpdate(update);
+            statement.executeUpdate(insert);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+
+    }
+
+    /**
+     * Método responsável por rejeitar o pedido de amizade, ou seja, de
+     * atualizar o estado para 3 na base dados na tabela Pedido de amizade
+     *
+     * @param emailOrigem email da pessoa que fez o pedido de amizade
+     * @param emailDestino email da pessoa que recebeu o pedido de amizade
+     * @throws SQLException
+     */
+    public void rejeitarPedido(String emailOrigem, String emailDestino) throws SQLException {
+        Statement statement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String update = "UPDATE PedidoAmizade SET ID_ESTADO = 3 WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'";
+
+            statement.executeUpdate(update);
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+
+    }
+
+    /**
+     * Método responsável por ir buscar à base dados todos os pedidos pendentes
+     * de um determinado utilizador
+     *
+     * @param emailLogado utilizador ao qual vamos ver os pedidos pendentes
+     * @return numa Unordered List todas os pedidos pendentes na base dados de
+     * um determinado utilizador
+     * @throws SQLException
+     */
+    public ArrayUnorderedList<PedidoAmizade> getPedidosPendentes(String emailLogado) throws SQLException {
+
+        Statement statement = null;
+        ArrayUnorderedList<PedidoAmizade> valor = new ArrayUnorderedList<>();
+        try {
+            connection.setAutoCommit(false);
+
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM PedidoAmizade WHERE USER_DESTINO  = '" + emailLogado + "'" + "AND ID_ESTADO = 1";
+
+            ResultSet r = statement.executeQuery(SQL);
+
+            while (r.next()) {
+                Pessoa a = getPessoa(r.getString("USER_ORIGEM"));
+                Pessoa b = getPessoa(r.getString("USER_DESTINO"));
+                PedidoAmizade tmpPedido = new PedidoAmizade(a, b, r.getInt("ID_ESTADO"));
+                valor.addToRear(tmpPedido);
+
+            }
+
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+
+    }
+
+    //--------------------------------------------------------------ACERCA LOGIN-----------------------------------------------------
     /**
      * Método responsável pela verificação do utilizador na base dados perante o
      * email inserido
