@@ -1,3 +1,4 @@
+
 package LinkedStack;
 import Exceptions.EmptyStackException;
 import interfaces.StackADT;
