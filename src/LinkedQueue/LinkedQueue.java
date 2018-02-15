@@ -26,8 +26,9 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     /**
+     * Método que retorna o número de elementos da queue
      *
-     * @return
+     * @return o número de elementos da queue
      */
     public int getSize() {
         return size;
@@ -35,31 +36,37 @@ public class LinkedQueue<T> implements QueueADT<T> {
 
     /**
      *
-     * @param size
+     * Define o tamanho da queue
+     *
+     * @param size tamanho da queue
      */
     public void setSize(int size) {
         this.size = size;
     }
 
     /**
+     * Método que retorna uma referência para o primeiro elemento
      *
-     * @return
+     * @return referência para o primeiro elemento
      */
     public LinearNode<T> getFirst() {
         return first;
     }
 
-    /**
+     /**
      *
-     * @param first
+     * Define o primeiro elemento
+     *
+     * @param first primeiro elemento
      */
     public void setFirst(LinearNode<T> first) {
         this.first = first;
     }
 
     /**
+     * Método que retorna uma referência para o último elemento
      *
-     * @return
+     * @return referência para o último elemento
      */
     public LinearNode<T> getRear() {
         return rear;
@@ -67,15 +74,18 @@ public class LinkedQueue<T> implements QueueADT<T> {
 
     /**
      *
-     * @param rear
+     * Define o último elemento
+     *
+     * @param rear último elemento
      */
     public void setRear(LinearNode<T> rear) {
         this.rear = rear;
     }
 
     /**
+     * Adiciona um elemento específico à cauda da queue
      *
-     * @param element
+     * @param element elemento a ser adicionado à cauda
      */
     @Override
     public void enqueue(T element) {
@@ -92,8 +102,10 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     /**
+     * Remove um elemento específico à cabeça da queue
      *
-     * @return @throws EmptyCollectionException
+     * @return o elemento removido da cabeça
+     * @throws EmptyCollectionException é lançada se a queue estiver vazia
      */
     @Override
     public T dequeue() throws EmptyCollectionException {
@@ -108,8 +120,10 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     /**
+     * Método que retorna o primeiro elemento da queue
      *
-     * @return @throws EmptyCollectionException
+     * @return o primeiro elemento da queue
+     * @throws EmptyCollectionException é lançada se a queue estiver vazia
      */
     @Override
     public T first() throws EmptyCollectionException {
@@ -121,8 +135,9 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     /**
+     * Método que vê se a queue está ou não vazia
      *
-     * @return
+     * @return true se estiver vazia, false caso não esteja
      */
     @Override
     public boolean isEmpty() {
@@ -134,8 +149,9 @@ public class LinkedQueue<T> implements QueueADT<T> {
     }
 
     /**
+     * Método que retorna o número de elementos da queue
      *
-     * @return
+     * @return o número de elementos da queue
      */
     @Override
     public int size() {

@@ -62,6 +62,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Método que retorna o número de elementos da árvore binária
+     *
      * @return o número de elementos da árvore binária
      */
     @Override
@@ -71,7 +72,8 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      * Método que vê se existe um elemento específico na árvore binária
-     * @param targetElement elemento específico a ser procurado na árvore 
+     *
+     * @param targetElement elemento específico a ser procurado na árvore
      * @return true esse elemento existir na árvore, false se não existir
      */
     @Override
@@ -91,7 +93,8 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
      *
      * @param targetElement elemento a ser encontrado na árvore binária
      * @return uma referência para esse elemento específico
-     * @throws ElementNotFoundException é lançada se não se encontrar esse elemento
+     * @throws ElementNotFoundException é lançada se não se encontrar esse
+     * elemento
      */
     @Override
     public T find(T targetElement) throws ElementNotFoundException {

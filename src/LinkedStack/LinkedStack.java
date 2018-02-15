@@ -16,7 +16,7 @@ public class LinkedStack<T> implements StackADT<T> {
 
     /**
      * Método construtor vazio que permite criar uma nova instância de
-     * {@link LinkedStack} 
+     * {@link LinkedStack}
      */
     public LinkedStack() {
         this.top = null;
@@ -24,8 +24,47 @@ public class LinkedStack<T> implements StackADT<T> {
     }
 
     /**
-     * 
-     * @param element 
+     * Método que retorna uma referência para o elemento do topo
+     *
+     * @return referência para o elemento do topo
+     */
+    public LinearNode getTop() {
+        return top;
+    }
+
+     /**
+     *
+     * Define o elemento do topo
+     *
+     * @param top elemento do topo
+     */
+    public void setTop(LinearNode top) {
+        this.top = top;
+    }
+
+    /**
+     * Método que retorna o número de elementos da stack
+     *
+     * @return o número de elementos da stack
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     *
+     * Define o tamanho da queue
+     *
+     * @param size tamanho da queue
+     */
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    /**
+     * Adiciona um elemento específico ao topo da stack
+     *
+     * @param element elemento a ser adicionado
      */
     @Override
     public void push(T element) {
@@ -36,9 +75,10 @@ public class LinkedStack<T> implements StackADT<T> {
     }
 
     /**
-     * 
-     * @return
-     * @throws EmptyCollectionException 
+     * Remove um elemento do topo da stack
+     *
+     * @return o elemento removido do top da stack
+     * @throws EmptyCollectionException é lançada se a stack estiver vazia
      */
     @Override
     public T pop() throws EmptyCollectionException {
@@ -53,9 +93,10 @@ public class LinkedStack<T> implements StackADT<T> {
     }
 
     /**
-     * 
-     * @return
-     * @throws EmptyCollectionException 
+     * Método que retorna a referência do elemento que está no topo da stack
+     *
+     * @return a referência do elemento que está no topo da stack
+     * @throws EmptyCollectionException é lançada se a stack estiver vazia
      */
     @Override
     public T peek() throws EmptyCollectionException {
@@ -67,8 +108,9 @@ public class LinkedStack<T> implements StackADT<T> {
     }
 
     /**
-     * 
-     * @return 
+     * Método que vê se a stack está ou não vazia
+     *
+     * @return true se estiver vazia, false caso não esteja
      */
     @Override
     public boolean isEmpty() {
@@ -80,8 +122,9 @@ public class LinkedStack<T> implements StackADT<T> {
     }
 
     /**
-     * 
-     * @return 
+     * Método que retorna o número de elementos da stack
+     *
+     * @return o número de elementos da stack
      */
     @Override
     public int size() {
@@ -89,8 +132,9 @@ public class LinkedStack<T> implements StackADT<T> {
     }
 
     /**
-     * 
-     * @return 
+     * Método que retorna uma representação da stack
+     *
+     * @return uma representação da stack
      */
     @Override
     public String toString() {
