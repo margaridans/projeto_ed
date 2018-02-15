@@ -16,7 +16,8 @@ public class LinkedQueue<T> implements QueueADT<T> {
     private LinearNode<T> rear;
 
     /**
-     * Cria uma LinkedQueue vazia
+     * Método construtor vazio que permite criar uma nova instância de
+     * {@link LinkedQueue}
      */
     public LinkedQueue() {
         this.size = 0;
@@ -24,30 +25,58 @@ public class LinkedQueue<T> implements QueueADT<T> {
         this.rear = null;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     *
+     * @param size
+     */
     public void setSize(int size) {
         this.size = size;
     }
 
+    /**
+     *
+     * @return
+     */
     public LinearNode<T> getFirst() {
         return first;
     }
 
+    /**
+     *
+     * @param first
+     */
     public void setFirst(LinearNode<T> first) {
         this.first = first;
     }
 
+    /**
+     *
+     * @return
+     */
     public LinearNode<T> getRear() {
         return rear;
     }
 
+    /**
+     *
+     * @param rear
+     */
     public void setRear(LinearNode<T> rear) {
         this.rear = rear;
     }
 
+    /**
+     *
+     * @param element
+     */
     @Override
     public void enqueue(T element) {
         LinearNode<T> newNode = new LinearNode<>(element);
@@ -62,6 +91,10 @@ public class LinkedQueue<T> implements QueueADT<T> {
         ++(this.size);
     }
 
+    /**
+     *
+     * @return @throws EmptyCollectionException
+     */
     @Override
     public T dequeue() throws EmptyCollectionException {
         if (isEmpty()) {
@@ -74,6 +107,10 @@ public class LinkedQueue<T> implements QueueADT<T> {
         }
     }
 
+    /**
+     *
+     * @return @throws EmptyCollectionException
+     */
     @Override
     public T first() throws EmptyCollectionException {
         if (isEmpty()) {
@@ -83,6 +120,10 @@ public class LinkedQueue<T> implements QueueADT<T> {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public boolean isEmpty() {
         return this.size == 0;
@@ -92,6 +133,10 @@ public class LinkedQueue<T> implements QueueADT<T> {
         return false;*/
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int size() {
         return this.size;

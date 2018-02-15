@@ -1,8 +1,6 @@
 package LinkedHeap;
 
 /**
- * BinaryTreenode representa um nó numa árvore binária com um filho à esquerda e
- * à direita.
  *
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
@@ -15,8 +13,8 @@ public class BinaryTreeNode<T> {
     protected BinaryTreeNode<T> right;
 
     /**
-     *
-     * Cria um novo nó da árvore com os dados especificados
+     * Método construtor que permite criar uma nova instância de
+     * {@link BinaryTreeNode} com os dados específicos
      *
      * @param element o elemento que se tornará parte do novo nó da árvore
      */
@@ -27,7 +25,7 @@ public class BinaryTreeNode<T> {
     }
 
     /**
-     * Retorna o número de filhos não nulos deste nó. 
+     * Retorna o número de filhos não nulos deste nó.
      *
      * @return o número inteiro de filhos não nulos desse nó
      */

@@ -19,7 +19,7 @@ public class Projeto_ed {
 
     public Projeto_ed() {
         connection = new SqlConnection();
-        new Login();
+        Login login = new Login();
     }
 
   
@@ -28,7 +28,7 @@ public class Projeto_ed {
      */
     public static void main(String[] args) {
 
-        new Projeto_ed();
+        Projeto_ed projeto_ed = new Projeto_ed();
     }
 
 }

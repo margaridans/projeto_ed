@@ -15,7 +15,7 @@ public class ArrayIterator<T> implements Iterator<T> {
 
     /**
      *
-     * Método construtor que permite que você crie uma nova instância do
+     * Método construtor que permite criar uma nova instância de
      * {@link ArrayIterator}
      *
      * @param elements arrayList
@@ -27,11 +27,19 @@ public class ArrayIterator<T> implements Iterator<T> {
         this.current = 0;
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public boolean hasNext() {
         return (current < size);
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public T next() {
         return elements[current++];

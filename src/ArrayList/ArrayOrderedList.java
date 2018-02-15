@@ -14,14 +14,18 @@ public class ArrayOrderedList<T> extends ArrayList<T> implements OrderedListADT<
     private ArrayIterator<T> iterator;
 
     /**
-     * Cria uma lista vazia usando a capacidade padrão
+     *
+     * Método construtor vazio que permite criar uma nova instância de
+     * {@link ArrayOrderedList} usando a capacidade padrão
+     *
      */
     public ArrayOrderedList() {
         super();
     }
 
     /**
-     * Cria uma lista vazia usando a capacidade específica
+     * Método construtor que permite criar uma nova instância de
+     * {@link ArrayOrderedList} usando a capacidade específica
      *
      * @param initialCapacity capacidade inicial do array
      */

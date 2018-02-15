@@ -13,7 +13,8 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
     public HeapNode<T> lastNode;
 
     /**
-     * Cria uma LinkedHeap vazia
+     * Método construtor vazio que permite criar uma nova instância de
+     * {@link LinkedHeap}
      */
     public LinkedHeap() {
         super();
@@ -60,7 +61,7 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
     @Override
     public T removeMin() throws EmptyCollectionException {
         if (isEmpty()) {
-            throw new EmptyCollectionException("Empty Heap");
+            throw new EmptyCollectionException("Heap Vazia");
         }
 
         T minElement = root.element;
@@ -95,7 +96,7 @@ public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
     @Override
     public T findMin() throws EmptyCollectionException {
         if (isEmpty()) {
-            throw new EmptyCollectionException("Empty Heap");
+            throw new EmptyCollectionException("Heap vazia");
         }
         return root.element;
     }

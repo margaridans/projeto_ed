@@ -19,7 +19,9 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
     protected BinaryTreeNode<T> root; //Referência para o root
 
     /**
-     * Criar uma árvore binária vazia
+     * Método construtor vazio que permite criar uma nova instância de
+     * {@link LinkedBinaryTree}
+     *
      */
     public LinkedBinaryTree() {
         this.count = 0;
@@ -28,30 +30,50 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
     /**
      *
-     * Cria uma árvore binária com o elemento especificado a ser a sua raiz.
+     * Método construtor que permite criar uma nova instância de
+     * {@link ArrayIterator} usando o elemento especificado para ser a sua raíz
      *
-     * @param element o elemento que se tornará a raiz tree
+     * @param element o elemento que se tornará a raiz da árvore
      */
     public LinkedBinaryTree(T element) {
         this.count = 1;
         this.root = new BinaryTreeNode<>(element);
     }
 
+    /**
+     * Método que retorna uma referência para o elemento da raíz
+     *
+     * @return uma referência para a raíz
+     */
     @Override
     public T getRoot() {
         return (T) this.root;
     }
 
+    /**
+     * Método que vê se a árvore binária está vazia ou não
+     *
+     * @return true se estiver vazia, false se não estiver vazia
+     */
     @Override
     public boolean isEmpty() {
         return (this.count == 0);
     }
 
+    /**
+     * Método que retorna o número de elementos da árvore binária
+     * @return o número de elementos da árvore binária
+     */
     @Override
     public int size() {
         return this.count;
     }
 
+    /**
+     * Método que vê se existe um elemento específico na árvore binária
+     * @param targetElement elemento específico a ser procurado na árvore 
+     * @return true esse elemento existir na árvore, false se não existir
+     */
     @Override
     public boolean contains(T targetElement) {
         boolean found = false;
@@ -64,6 +86,13 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
         return found;
     }
 
+    /**
+     * Método que tenta encontrar um elemento específico na árvore binária.
+     *
+     * @param targetElement elemento a ser encontrado na árvore binária
+     * @return uma referência para esse elemento específico
+     * @throws ElementNotFoundException é lançada se não se encontrar esse elemento
+     */
     @Override
     public T find(T targetElement) throws ElementNotFoundException {
         BinaryTreeNode<T> current = findAgain(targetElement, root);

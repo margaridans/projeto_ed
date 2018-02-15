@@ -6,17 +6,16 @@ package Exceptions;
  */
 public class ElementNotFoundException extends Exception {
 
-    /**
-     *
-     * Cria uma nova instância de ElementNotFoundException sem mensagem
-     * detalhada.
+  /**
+     * Método construtor vazio que permite criar uma nova instância de
+     * {@link ElementNotFoundException} sem mensagem detalhada
      */
     public ElementNotFoundException() {
     }
 
     /**
-     * Constrói uma instância de ElementNotFoundException com a mensagem
-     * detalhada especificada
+     * Método construtor que permite criar uma nova instância de
+     * {@link ElementNotFoundException} com uma mensagem espec]ifica detalhada
      *
      * @param msg mensagem detalhada
      */

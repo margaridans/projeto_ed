@@ -12,7 +12,8 @@ public class LinearNode<T> {
     private T element;// elemento armazenado no nó
 
     /**
-     * Cria um nó vazio
+     * Método construtor vazio que permite criar uma nova instância de
+     * {@link LinearNode}
      */
     public LinearNode() {
         this.next = null;

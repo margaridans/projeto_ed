@@ -16,12 +16,13 @@ public class ArrayList<T> implements ListADT<T> {
     private final int DEFAULT_CAPACITY = 100; //tamanho especifico do array
     private int first; //cabeça
     protected int last; //cauda
-    private int counter; 
+    private int counter;
     protected T[] list; //array do tipo T
 
     /**
+     * Método construtor vazio que permite criar uma nova instância de
+     * {@link ArrayList} usando a capacidade do padrão
      *
-     * Cria uma lista vazia usando a capacidade padrão
      */
     public ArrayList() {
         this.first = 0;
@@ -31,7 +32,8 @@ public class ArrayList<T> implements ListADT<T> {
     }
 
     /**
-     * Cria uma lista vazia usando a capacidade específica
+     * Método construtor que permite criar uma nova instância de
+     * {@link ArrayList} usando a capacidade específica
      *
      * @param initialCapacity capacidade inicial do array
      */
@@ -42,6 +44,12 @@ public class ArrayList<T> implements ListADT<T> {
         this.list = (T[]) new Object[initialCapacity];
     }
 
+    /**
+     * Remove o primeiro elemeno do arrayList
+     *
+     * @return o primeiro elemento do arrayList
+     * @throws EmptyCollectionException é lançada se o arrayList estiver vazio.
+     */
     @Override
     public T removeFirst() throws EmptyCollectionException {
         T result;
@@ -60,6 +68,12 @@ public class ArrayList<T> implements ListADT<T> {
         return result;
     }
 
+    /**
+     * Remove o último elemento deste ArrayList
+     *
+     * @return o último elemento do arrayList
+     * @throws EmptyCollectionException é lançada se o arrayList estiver vazio.
+     */
     @Override
     public T removeLast() throws EmptyCollectionException {
         T result;
@@ -74,6 +88,15 @@ public class ArrayList<T> implements ListADT<T> {
         return result;
     }
 
+    /**
+     * Remove um elemento específico do arrayList
+     *
+     * @param element específico a ser removido desse arrayList
+     * @return o elemento removido
+     * @throws EmptyCollectionException é lançada se o arrayList estiver vazio.
+     * @throws ElementNotFoundException é lançada se o elemento não for
+     * encontrado.
+     */
     @Override
     public T remove(T element) throws EmptyCollectionException, ElementNotFoundException {
         T result;
@@ -91,6 +114,12 @@ public class ArrayList<T> implements ListADT<T> {
         return result;
     }
 
+    /**
+     * Método que retorna uma referência para o primeiro elemento do arrayList
+     *
+     * @return uma referência para o primeiro elemento do arrayList
+     * @throws EmptyCollectionException é lançada se o arrayList estiver vazio.
+     */
     @Override
     public T first() throws EmptyCollectionException {
         if (isEmpty()) {
@@ -100,6 +129,12 @@ public class ArrayList<T> implements ListADT<T> {
         }
     }
 
+    /**
+     * Método que retorna uma referência para o último elemento do arrayList
+     *
+     * @return uma referência para o último elemento do arrayList
+     * @throws EmptyCollectionException é lançada se o arrayList estiver vazio.
+     */
     @Override
     public T last() throws EmptyCollectionException {
         if (isEmpty()) {
@@ -109,6 +144,12 @@ public class ArrayList<T> implements ListADT<T> {
         }
     }
 
+    /**
+     * Método que vê se o arrayList contêm o elemento especificado
+     *
+     * @param target alvo/elemento que está a ser procurado no arrayList
+     * @return true se o arrayList contem esse elemento, false se não contem
+     */
     @Override
     public boolean contains(T target) {
         boolean contain = false;
@@ -127,11 +168,20 @@ public class ArrayList<T> implements ListADT<T> {
         return contain;
     }
 
+    /**
+     * Método que vê se o arrayList está vazio ou não
+     *
+     * @return true se estiver vazio e falso caso não esteja vazio
+     */
     @Override
     public boolean isEmpty() {
         return (this.last == 0);
     }
 
+    /**
+     * Método que retorna o número de elementos do arrayList
+     * @return número de elementos do arrayList
+     */
     @Override
     public int size() {
         int count = 0;
@@ -144,6 +194,10 @@ public class ArrayList<T> implements ListADT<T> {
         return count;
     }
 
+    /**
+     * Método que retorna um iterador para os elementos do arrayList
+     * @return um iterador para os elementos do arrayList
+     */
     @Override
     public Iterator<T> iterator() {
         ArrayIterator<T> iterator = new ArrayIterator(this.list, this.last);

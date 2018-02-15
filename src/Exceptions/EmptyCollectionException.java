@@ -7,16 +7,15 @@ package Exceptions;
 public class EmptyCollectionException extends Exception {
 
     /**
-     *
-     * Cria uma nova instância de EmptyCollectionException sem mensagem
-     * detalhada.
+     * Método construtor vazio que permite criar uma nova instância de
+     * {@link EmptyCollectionException} sem mensagem detalhada
      */
     public EmptyCollectionException() {
     }
 
     /**
-     * Constrói uma instância de EmptyCollectionException com a mensagem
-     * detalhada especificada
+     * Método construtor que permite criar uma nova instância de
+     * {@link ArrayUnorderedList} com uma mensagem espec]ifica detalhada
      *
      * @param msg mensagem detalhada
      */
