@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classes.Enumeracoes;
+package Enumeracoes;
 
 /**
  * Esta enumeração enumera os tipos de mensagens, este tipo pode ser: Pública

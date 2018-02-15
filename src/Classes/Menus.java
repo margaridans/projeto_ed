@@ -6,7 +6,7 @@
 package Classes;
 
 import ArrayList.ArrayOrderedList;
-import Classes.Enumeracoes.TipoMensagem;
+import Enumeracoes.TipoMensagem;
 import Database.SqlConnection;
 import ArrayList.ArrayUnorderedList;
 import Exceptions.EmptyCollectionException;
@@ -284,6 +284,7 @@ public class Menus {
                                 Edge tmpE = this.grafoPessoas.testEdge(logado, pessoaEscolhida);
                                 if (tmpE != null) {
                                     System.out.println("Já tem amizade com este utilizador");
+                                    menuPessoa(pessoaEscolhida, user_logado);
                                 } else {
                                     Boolean existe = this.grafoPessoas.verificarTipoAmizadePossivel(logado, pessoaEscolhida);
                                     if (existe) {
@@ -700,6 +701,7 @@ public class Menus {
                             Edge tmpE = this.grafoPessoas.testEdge(logado, pessoaEscolhida);
                             if (tmpE != null) {
                                 System.out.println("Já tem amizade com este utilizador");
+                                menuPessoa(pessoaEscolhida, utilizador);
                             } else {
                                 Boolean existe = this.grafoPessoas.verificarTipoAmizadePossivel(logado, pessoaEscolhida);
                                 if (existe) {
