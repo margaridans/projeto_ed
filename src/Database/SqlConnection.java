@@ -337,7 +337,7 @@ public class SqlConnection {
         Pessoa user = null;
         boolean result = false;
 
-        String SQL = "SELECT * FROM PedidoAmizade WHERE USER_ORIGEM  = '" + emailDestino + "'" + "AND USER_DESTINO  = '" + emailDestino + "'" + "AND ID_ESTADO = 1";
+        String SQL = "SELECT * FROM PedidoAmizade WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'" + "AND ID_ESTADO = 1";
         connection.commit();
 
         /*Executa o sql*/
@@ -430,10 +430,6 @@ public class SqlConnection {
 
             }
 
-            /*if (!hasPessoa) {
-                System.out.println("Não existem pessoas");
-                valor = null;
-            }*/
             connection.commit();
             statement.close();
 
