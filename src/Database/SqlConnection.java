@@ -431,9 +431,9 @@ public final class SqlConnection {
      * @return numa Unordered List todas as pessoas presentes na base dados
      * excepto o utilizador que é enviado na string
      */
-    public ArrayUnorderedList<Pessoa> getAllPessoas(String myEmail) {
+    public ArrayOrderedList<Pessoa> getAllPessoas(String myEmail) {
         Statement statement = null;
-        ArrayUnorderedList<Pessoa> valor = new ArrayUnorderedList<>();
+        ArrayOrderedList<Pessoa> valor = new ArrayOrderedList<>();
         try {
             connection.setAutoCommit(false);
 
@@ -446,7 +446,7 @@ public final class SqlConnection {
             while (r.next()) {
                 //   hasPessoa = true;
                 Pessoa tmpPessoa = new Pessoa(r.getString("USER_EMAIL"), r.getString("USER_NOME"), null, r.getInt("NR_CREDITOS"));
-                valor.addToRear(tmpPessoa);
+                valor.add(tmpPessoa);
 
             }
 

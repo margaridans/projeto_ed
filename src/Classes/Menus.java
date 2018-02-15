@@ -237,7 +237,7 @@ public class Menus {
 
                 //VER UTILIZADORES    
                 case "3":
-                    ArrayUnorderedList<Pessoa> pessoa = new ArrayUnorderedList<>();
+                    ArrayOrderedList<Pessoa> pessoa = new ArrayOrderedList<>();
                     pessoa = sql.getAllPessoas(user_logado); //Vai buscar as pessoas todas
 
                     //Se houver pessoas 
@@ -853,7 +853,7 @@ public class Menus {
      * @return pessoa escolhida
      * @throws IOException
      */
-    private Pessoa escolherUser(ArrayUnorderedList<Pessoa> pessoa) throws IOException {
+    private Pessoa escolherUser(ArrayOrderedList<Pessoa> pessoa) throws IOException {
         it = (ArrayIterator) pessoa.iterator();
         Integer counter = 0;
         String escolhaUser = in.readLine();
@@ -886,7 +886,7 @@ public class Menus {
      * @param pessoa coleção de pessoas que vamos percorrer e consequentemente
      * imprimir
      */
-    private void printAllUsers(ArrayUnorderedList<Pessoa> pessoa) {
+    private void printAllUsers(ArrayOrderedList<Pessoa> pessoa) {
 
         Integer counter = 0;
         it = (ArrayIterator) pessoa.iterator();

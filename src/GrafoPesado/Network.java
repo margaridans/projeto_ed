@@ -56,7 +56,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      */
     private void addPessoasToVertex() {
         SqlConnection con = projeto_ed.Projeto_ed.connection;
-        ArrayUnorderedList<Pessoa> p = new ArrayUnorderedList<>();
+        ArrayOrderedList<Pessoa> p = new ArrayOrderedList<>();
         p = con.getAllPessoas("");
         Iterator it = p.iterator();
         while (it.hasNext()) {
