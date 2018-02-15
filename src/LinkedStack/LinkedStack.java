@@ -15,7 +15,7 @@ public class LinkedStack<T> implements StackADT <T> {
     private int size;
 
     /**
-     * Create a empty stack
+     * Cria uma LinkedStack vazia
      */
     public LinkedStack () {
         this.top = null;
