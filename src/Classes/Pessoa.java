@@ -124,19 +124,21 @@ public class Pessoa implements Comparable<Pessoa> {
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * Método utilizado para comparar user_nome de duas Pessoa. Usamos o equals para garantir que
+     * dois objetos do mesmo tipo, com o mesmo conteúdo, possam ser considerados iguais
+     * 
+     * @param obj 
+     * @return user_nome comparados iguais
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj) /*mesma instância*/ {
             return true;
         }
-        if (obj == null) {
+        if (obj == null) /*objeto null sempre igual a false*/ {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass()) /*são de classes diferentes*/ {
             return false;
         }
         final Pessoa other = (Pessoa) obj;
