@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Classes;
 
 import ArrayList.ArrayOrderedList;
@@ -555,7 +551,7 @@ public class Menus {
                         System.err.println("Opção inválida selecione apenas um número válido: ");
                         menuPrincipal(user_logado); //Volta para o menu principal
                         escolha = in.readLine();
-                        terminarSwitch=false;
+                        terminarSwitch = false;
                         break;
                 }
             }
@@ -893,15 +889,13 @@ public class Menus {
             p = (Pessoa) it.next();
         }
 
-        if (escolhaUser.equals("0")) {
-            System.out.println(".... vai para o menu principal ....");
-            menuPrincipal(utilizador_logado);
-            terminarSwitch = true;
-        }
-
         terminarSwitch = false;
         while (terminarSwitch == false) {
-            if (escolhaUser.equals(counter.toString())) {
+            if (escolhaUser.equals("0")) {
+                System.out.println(".... vai para o menu principal ....");
+                menuPrincipal(utilizador_logado);
+                terminarSwitch = true;
+            } else if (escolhaUser.equals(counter.toString())) {
                 System.out.println("Escolheu o utilizador " + p.getUser_nome());
                 terminarSwitch = true;
                 return p;
@@ -910,6 +904,7 @@ public class Menus {
                 escolhaUser = in.readLine();
                 terminarSwitch = false;
             }
+
         }
 
         return null;

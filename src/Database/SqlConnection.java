@@ -660,6 +660,14 @@ public final class SqlConnection {
 
     }
 
+    /**
+     * Método responsável por ver o tipo de mensagem (Pública/Privada) através
+     * do id do tipo de mensagem (1/2)
+     *
+     * @param idTipo id do tipo de mensagem ao qual pretendemos ver o tipo de
+     * mensagem em string
+     * @return o tipo de mensagem em string (Pública/Privada)
+     */
     public String verTipoMensagemByIdTipo(Integer idTipo) {
         Statement statement = null;
         String valor = null;
