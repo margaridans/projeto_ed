@@ -9,40 +9,44 @@ import LinkedStack.LinkedStack;
 
 /**
  * @param <T> T element
- * 
+ *
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
  */
-public class Graph <T> implements GraphADT<T> {
+public class Graph<T> implements GraphADT<T> {
 
     protected final int DEFAULT_CAPACITY = 10;
     protected int numVertices; // Número de vértices num grafo 
     protected boolean[][] adjMatrix; // matriz de adjacências
     protected T[] vertices; // valores dos vértices
 
-     /**
-     * Método construtor que permite a criação de uma instância de
-     * {@link Graph} vazia
+    /**
+     * Método construtor vazio que permite a criação de uma instância de
+     * {@link Graph}
      */
     public Graph() {
         this.numVertices = 0;
         this.adjMatrix = new boolean[200][200];
         this.vertices = (T[]) new Object[200];
     }
-    
-    
-  
 
+    /**
+     *
+     * Adiciona um vértice a este grafo, associando o objeto ao vértice.
+     *
+     * @param vertex1 - primeiro vértice a ser adicionado
+     * @param vertex2 - segundo vértice a ser adicionado
+     */
     @Override
     public void addEdge(T vertex1, T vertex2) {
         addEdge(getIndex(vertex1), getIndex(vertex2));
     }
 
     /**
-     * Inserts an edge between two vertices of the graph.
+     * Insere uma ligação entre dois vértices do grafo.
      *
-     * @param index1 the first index
-     * @param index2 the second index
+     * @param index1 primeiro indice
+     * @param index2 segundo indice
      */
     public void addEdge(int index1, int index2) {
         if (indexIsValid(index1) && indexIsValid(index2)) {
@@ -52,20 +56,20 @@ public class Graph <T> implements GraphADT<T> {
     }
 
     /**
-     * Returns true if given index is valid.
+     * Retorna verdadeiro se o índice recebido for válido
      *
-     * @param index the indes specified
-     * @return true or false
+     * @param index índice específico
+     * @return true se for verdadeiro, false não for verdadeiro
      */
     protected boolean indexIsValid(int index) {
         return ((index < this.numVertices) && (index >= 0));
     }
 
     /**
-     * Returns the index value of the first occurrence of the vertex.
+     * Retorna o valor do índice da primeira ocorrência do vértice.
      *
-     * @param vertex Vertex of the graph
-     * @return -1 if the key is not found
+     * @param vertex - vértice do grafo
+     * @return -1 se a chave não for encontrada
      */
     protected int getIndex(T vertex) {
         for (int i = 0; i < this.numVertices; ++i) {
@@ -77,10 +81,11 @@ public class Graph <T> implements GraphADT<T> {
     }
 
     /**
-     * Adds a vertex to the graph, expanding the capacity of the graph if
-     * necessary. It also associates an object with the vertex.
      *
-     * @param vertex the vertex to add to the graph
+     * Adiciona um vértice ao grafo, expandindo a capacidade do mesmo, se
+     * necessário. Também associa um objeto ao vértice.
+     *
+     * @param vertex vértice a ser adicionado ao grafo
      */
     @Override
     public void addVertex(T vertex) {
@@ -98,8 +103,8 @@ public class Graph <T> implements GraphADT<T> {
     }
 
     /**
-     * Creates new arrays to store the contents of the graph with twice
-     * capacity.
+     * Cria novos arrays para armazenar o conteúdo do grafo com duas vezes mais
+     * a capacidade do anterior.
      */
     protected void expandCapacity() {
         T[] largerVertices = (T[]) new Object[vertices.length * 2];
@@ -115,6 +120,12 @@ public class Graph <T> implements GraphADT<T> {
         this.adjMatrix = largerAdjMatrix;
     }
 
+    /**
+     *
+     * Remove um único vértice com o valor fornecido a partir deste grafo
+     *
+     * @param vertex - vértice a ser removido do grafo
+     */
     @Override
     public void removeVertex(T vertex) {
         for (int i = 0; i < this.numVertices; ++i) {
@@ -126,10 +137,10 @@ public class Graph <T> implements GraphADT<T> {
     }
 
     /**
-     * Removes a vertex at the given index from the graph. Note that this mays
-     * affect the values of other vertices.
      *
-     * @param index
+     * Remove um vértice no índice dado do grafo.
+     *
+     * @param index - index do vértice a ser removido
      */
     private void removeVertex(int index) {
         if (indexIsValid(index)) {
@@ -153,16 +164,22 @@ public class Graph <T> implements GraphADT<T> {
         }
     }
 
+    /**
+     * Remove uma ligação entre dois vértices do grafo
+     *
+     * @param vertex1 - primeiro vértice
+     * @param vertex2 - segundo vértice
+     */
     @Override
     public void removeEdge(T vertex1, T vertex2) {
         removeEdge(getIndex(vertex1), getIndex(vertex2));
     }
 
     /**
-     * Removes an Edge between two vertices of graph
+     * Remove uma ligação entre dois vértices do grafo
      *
-     * @param index1 the first index
-     * @param index2 the second index
+     * @param index1 - primeiro indice
+     * @param index2 - segundo indice
      */
     private void removeEdge(int index1, int index2) {
         if (indexIsValid(index1) && indexIsValid(index2)) {
@@ -171,19 +188,26 @@ public class Graph <T> implements GraphADT<T> {
         }
     }
 
+    /**
+     * Retorna um primeiro iterador de largura começando com o vértice dado.
+     *
+     * @param startVertex - vértice inicial
+     * @return um primeiro iterador de profundidade começando no vértice dado
+     * @throws EmptyCollectionException
+     */
     @Override
-    public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException  {
+    public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException {
         return iteratorBFS(getIndex(startVertex));
     }
 
     /**
      * BFS Iterator
      *
-     * @param startIndex start index
-     * @return iterator with list of visited items
-     * @throws EmptyQueueException if an Empty Queue occurs
+     * @param startIndex - índice de inicio
+     * @return iterador com lista de itens visitados
+     * @throws EmptyQueueException é lançada quando a queue está vazia
      */
-    private Iterator<T> iteratorBFS(int startIndex) throws EmptyCollectionException  {
+    private Iterator<T> iteratorBFS(int startIndex) throws EmptyCollectionException {
         Integer x;
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList();
@@ -198,11 +222,8 @@ public class Graph <T> implements GraphADT<T> {
         while (!traversalQueue.isEmpty()) {
             x = traversalQueue.dequeue();
             resultList.addToRear(vertices[x]);
-
-            /**
-             * Find all vertices adjacent to x that have not been visited and
-             * queue them up.
-             */
+            /* Encontra todos os vértices adjacentes a x que não tenham sido 
+            visitados*/
             for (int i = 0; i < this.numVertices; ++i) {
                 if (adjMatrix[x][i] && !visited[i]) {
                     traversalQueue.enqueue(i);
@@ -213,18 +234,26 @@ public class Graph <T> implements GraphADT<T> {
         return resultList.iterator();
     }
 
+    /**
+     * Retorna um primeiro iterador de profundidade começando com o vértice
+     * dado.
+     *
+     * @param startVertex - vértice inicial
+     * @return um primeiro iterador de profundidade começando no vértice dado
+     * @throws EmptyCollectionException
+     */
     @Override
-    public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException  {
+    public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException {
         return iteratorDFS(getIndex(startVertex));
     }
 
     /**
      * DFS Iterator
      *
-     * @param startIndex start index
-     * @return iterator with list of visited items
+     * @param startIndex - índice de inicio
+     * @return iterador com lista de itens visitados
      */
-    private Iterator<T> iteratorDFS(int startIndex) throws EmptyCollectionException  {
+    private Iterator<T> iteratorDFS(int startIndex) throws EmptyCollectionException {
         Integer x;
         boolean found;
         LinkedStack<Integer> traversalStack = new LinkedStack();
@@ -246,11 +275,8 @@ public class Graph <T> implements GraphADT<T> {
         while (!traversalStack.isEmpty()) {
             x = traversalStack.peek();
             found = false;
-
-            /**
-             * Find a vertex adjacent to x that has not been visited and push it
-             * on the stack
-             */
+            /* Encontre um vértice adjacente a x que não tenha sido visitado e 
+            pressione-o na stack*/
             for (int i = 0; (i < this.numVertices) && !found; ++i) {
                 if (this.adjMatrix[x][i] && !visited[i]) {
                     traversalStack.push(i);
@@ -274,9 +300,9 @@ public class Graph <T> implements GraphADT<T> {
     /**
      * Obter um iterador com a lista de locais entre dois vertices
      *
-     * @param startIndex start index
-     * @param targetIndex stop index
-     * @return an iterator
+     * @param startIndex - índice de início
+     * @param targetIndex - índice de paragem
+     * @return um iterador
      */
     private Iterator<T> iteratorShortestPath(int startIndex, int targetIndex) throws EmptyCollectionException {
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList();
@@ -295,12 +321,13 @@ public class Graph <T> implements GraphADT<T> {
     }
 
     /**
-     * Returns an iterator that contains the indices of the vertices that are in
-     * the shortest path between the two given vertices.
      *
-     * @param startIndex start index
-     * @param targetIndex stop index
-     * @return an Iterator
+     * Retorna um iterador que contém os índices dos vértices que estão no
+     * caminho mais curto entre os dois vértices dados.
+     *
+     * @param startIndex - índice de ínicio
+     * @param targetIndex - índice de paragem
+     * @return um iterador
      */
     private Iterator<Integer> iteratorShortestPathIndices(int startIndex, int targetIndex) throws EmptyCollectionException {
         int index = startIndex;
@@ -326,10 +353,8 @@ public class Graph <T> implements GraphADT<T> {
         while (!traversalQueue.isEmpty() && (index != targetIndex)) {
             index = (traversalQueue.dequeue());
 
-            /**
-             * Update the pathLength for each unvisited vertex adjacent to the
-             * vertex at the current index
-             */
+            /* Atualize o comprimento do caminho para cada vértice não visitado 
+            adjacente ao vértice no índice atual */
             for (int i = 0; i < this.numVertices; ++i) {
                 if (this.adjMatrix[index][i] && !visited[i]) {
                     pathLength[i] = pathLength[index] + 1;
@@ -340,7 +365,7 @@ public class Graph <T> implements GraphADT<T> {
             }
         }
 
-        if (index != targetIndex) // Impossible
+        if (index != targetIndex) //Impossível
         {
             return resultList.iterator();
         }
@@ -361,13 +386,22 @@ public class Graph <T> implements GraphADT<T> {
         return resultList.iterator();
     }
 
+    /**
+     * Método que retorna true se o grafo estiver vazio e falso caso contrário
+     * @return true se o grafo estiver vazio
+     */
     @Override
     public boolean isEmpty() {
         return this.numVertices == 0;
     }
 
+    /**
+     * Método que retorna true se o grafo for conexo e falso caso contrário
+     * @return true se o grafo for conexo
+     * @throws EmptyCollectionException
+     */
     @Override
-    public boolean isConnected() throws EmptyCollectionException  {
+    public boolean isConnected() throws EmptyCollectionException {
         if (isEmpty()) {
             return false;
         }
@@ -382,10 +416,13 @@ public class Graph <T> implements GraphADT<T> {
         return (count == this.numVertices);
     }
 
+    /**
+     * Retorna o número de vértices de um grafo
+     * @return um número inteiro de vértices do grafo
+     */
     @Override
     public int size() {
         return this.numVertices;
     }
 
-   
 }
