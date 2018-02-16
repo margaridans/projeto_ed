@@ -262,7 +262,7 @@ public class Menus {
                     }
 
                     System.out.println("");
-                    System.out.print("Para sair clique no -1  -->");
+                    System.out.print("Para sair clique no -1  --> ");
                     String opcaoSair = in.readLine();
 
                     terminarSwitch = false;
@@ -325,6 +325,7 @@ public class Menus {
                                             System.out.println("Uma vez que é um utilizador novo e ainda não têm amizades/ligações com ninguém apenas lhe vai ser cobrado 1 crédito pela amizade.");
                                             nrCreditos = 1.00;
                                         } else {
+                                            System.out.println("");
                                             System.out.println("Não têm um amigo em comum --> assim sendo será um pedido patrocionado.\nIrá pagar " + nrCreditos);
                                         }
                                         System.out.println("Tem a certeza que pretende continuar?\n1- Sim\n2- Não");

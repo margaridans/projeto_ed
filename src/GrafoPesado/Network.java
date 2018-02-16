@@ -92,7 +92,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         int vertex1 = getIndex((T) logada);
         int vertex2 = getIndex((T) perfil);
         Edge testEdge = this.edgeMatrix[vertex1][vertex2];
-
+        testEdge = this.edgeMatrix[vertex2][vertex1];
         return testEdge;
     }
 
@@ -199,7 +199,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     @Override
-    public boolean isConnected() throws EmptyCollectionException  {
+    public boolean isConnected() throws EmptyCollectionException {
 
         if (isEmpty()) {
             return false;
@@ -217,7 +217,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     @Override
-    public double shortestPathWeight(T vertex1, T vertex2) throws  EmptyCollectionException {
+    public double shortestPathWeight(T vertex1, T vertex2) throws EmptyCollectionException {
         double result = 0;
 
         if (!indexIsValid(getIndex(vertex1)) || !indexIsValid(getIndex(vertex2))) {
@@ -442,7 +442,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     @Override
-    public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException  {
+    public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException {
         return iteratorBFS(getIndex(startVertex));
     }
 
@@ -453,7 +453,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @return an iterator.
      * @throws EmptyStackException se a stack estiver vazia
      */
-    private Iterator<T> iteratorBFS(int startIndex) throws EmptyCollectionException  {
+    private Iterator<T> iteratorBFS(int startIndex) throws EmptyCollectionException {
         Integer x;
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();
@@ -490,7 +490,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     @Override
-    public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException  {
+    public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException {
         return iteratorDFS(getIndex(startVertex));
     }
 
@@ -502,7 +502,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @return an iterator.
      * @throws EmptyStackException se a stack estiver vazia
      */
-    private Iterator<T> iteratorDFS(int startIndex) throws EmptyCollectionException  {
+    private Iterator<T> iteratorDFS(int startIndex) throws EmptyCollectionException {
         Integer x;
         LinkedStack<Integer> traversalStack = new LinkedStack<>();
         ArrayUnorderedList<T> resultList = new ArrayUnorderedList<>();
@@ -540,7 +540,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return resultList.iterator();
     }
 
-   
     /**
      * Obter o índice do Edge que tem associado o peso na ligação especificada
      *
