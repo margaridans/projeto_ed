@@ -92,7 +92,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         int vertex1 = getIndex((T) logada);
         int vertex2 = getIndex((T) perfil);
         Edge testEdge = this.edgeMatrix[vertex1][vertex2];
-        testEdge = this.edgeMatrix[vertex2][vertex1];
         return testEdge;
     }
 
