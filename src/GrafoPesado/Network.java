@@ -24,10 +24,10 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
     private double[][] adjcMatrix;
     private Edge[][] edgeMatrix;
-    //private final double COST = 1.5;
 
     /**
-     * Creates an empty Network
+     * Método construtor vazio que permite a criação de uma instância de
+     * {@link Network}
      */
     public Network() {
         numVertices = 0;
@@ -39,6 +39,12 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
     }
 
+    /**
+     * Método responsável por imprimir os vértices/pessoas do grafo excepto a
+     * pessoa logada
+     *
+     * @param logada pessoa logada
+     */
     public void printVertex(Pessoa logada) {
 
         for (int i = 0; i < size(); i++) {
@@ -64,6 +70,10 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         Integer i = this.numVertices;
     }
 
+    /**
+     * Método responsável por carregar as ligações da base de dados, isto é,
+     * todas as amizades que existem na base dados ele adiciona como edge
+     */
     private void addAmizadeToEdge() {
         SqlConnection con = projeto_ed.Projeto_ed.connection;
         ArrayUnorderedList<Amizade> a = new ArrayUnorderedList<>();
@@ -78,10 +88,10 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     /**
-     * Inserir uma ligação entre dois vertice
+     * Insere uma ligação entre dois vértices
      *
-     * @param vertex1 primeiro vertex
-     * @param vertex2 segundo vertex
+     * @param vertex1 - primeiro vértice
+     * @param vertex2 - segundo vértice
      * @param weight peso atribuído na ligação
      */
     @Override
@@ -90,19 +100,26 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     /**
+     * Método responsável por verificar se existe amizade entre duas pessoas
      *
-     * @param logada
-     * @param perfil
-     * @return
+     * @param logada - primeira pessoa
+     * @param perfil - segunda pessoa
+     * @return a ligação caso exista
      */
-    public Edge testEdge(Pessoa logada, Pessoa perfil) {
-        int vertex1 = getIndex((T) logada);
-        int vertex2 = getIndex((T) perfil);
+    public Edge testEdge(Pessoa perfil1, Pessoa perfil2) {
+        int vertex1 = getIndex((T) perfil1);
+        int vertex2 = getIndex((T) perfil2);
         Edge testEdge = this.edgeMatrix[vertex1][vertex2];
         return testEdge;
     }
 
-    public Boolean personExists(String email)  {
+    /**
+     * Método responsável por verificar se uma pessoa existe ou não no grafo
+     *
+     * @param email pessoa que queremos verificar se existe ou não
+     * @return true se existe, false caso contrário
+     */
+    public Boolean personExists(String email) {
 
         for (int i = 0; i < size(); i++) {
             Pessoa currentVertice = (Pessoa) vertices[i];
@@ -115,9 +132,10 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     /**
+     * Método responsável por ir buscar os amigos da pessoa logada
      *
-     * @param logada
-     * @return
+     * @param logada - pessoa que se encontra logada
+     * @return uma OrderedList com todos os amigos da pessoa logada
      */
     public ArrayOrderedList<Pessoa> getAmigos(Pessoa logada) {
         ArrayOrderedList<Pessoa> listamigos = new ArrayOrderedList<>();
@@ -129,7 +147,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
                 } else {
                     listamigos.add(p);
                 }
-
             }
         }
 
@@ -137,12 +154,13 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     /**
+     * Método responsável por verificar se existe amizade entre 2 pessoas
      *
-     * @param perfil1
-     * @param perfil2
-     * @return
+     * @param perfil1 - primeira pessoa
+     * @param perfil2 - segunda pessoa
+     * @return true se existir amizade, false caso contrário
      */
-    public Boolean verificarAmigoDeAmigo(Pessoa perfil1, Pessoa perfil2) {
+    public Boolean verificaAmizade(Pessoa perfil1, Pessoa perfil2) {
         Integer myIndexPessoa = getIndex((T) perfil1);
         Integer myIndexPessoa2 = getIndex((T) perfil2);
         Edge edge = this.edgeMatrix[myIndexPessoa][myIndexPessoa2];
@@ -156,17 +174,20 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
     /**
      *
-     * @param logada
-     * @param perfil
-     * @return
+     * Verifica se é possivel uma amizade normal (com um amigo em comum) entre
+     * duas pessoas
+     *
+     * @param perfil1 - primeira pessoa
+     * @param perfil2 - segunda pessoa
+     * @return true se existe uma amizade normal, retorna false caso não exista
      */
-    public Boolean verificarTipoAmizadePossivel(Pessoa logada, Pessoa perfil) {
-        Integer myIndexPessoa = getIndex((T) logada);
+    public Boolean verificarTipoAmizadePossivel(Pessoa perfil1, Pessoa perfil2) {
+        Integer myIndexPessoa = getIndex((T) perfil1);
         Boolean existe = false;
         for (int i = 0; i < this.numVertices; i++) {
             if (this.edgeMatrix[myIndexPessoa][i] != null) {
                 Edge edge = edgeMatrix[myIndexPessoa][i];
-                existe = verificarAmigoDeAmigo(edge.getPessoa2(), perfil);
+                existe = verificaAmizade(edge.getPessoa2(), perfil2);
                 if (existe) {
                     break;
                 }
@@ -219,6 +240,12 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
     }
 
+    /**
+     * Método que retorna true se o grafo for conexo e falso caso contrário
+     *
+     * @return true se o grafo for conexo
+     * @throws EmptyCollectionException
+     */
     @Override
     public boolean isConnected() throws EmptyCollectionException {
 
@@ -237,6 +264,15 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 
     }
 
+    /**
+     *
+     * Retorna o peso do caminho mais curto nesta rede.
+     *
+     * @param vertex1 - primeiro vértice
+     * @param vertex2 - segundo vértice
+     * @return O peso do caminho mais curto nesta rede
+     * @throws EmptyCollectionException
+     */
     @Override
     public double shortestPathWeight(T vertex1, T vertex2) throws EmptyCollectionException {
         double result = 0;
@@ -425,9 +461,9 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     /**
-     * Remover um vertex
+     * Remove um vertex
      *
-     * @param index índice a remover
+     * @param index índice do vértice a remover
      */
     private void removeVertex(int index) {
         if (indexIsValid(index)) {
@@ -453,6 +489,13 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
     }
 
+    /**
+     *
+     * Remove uma ligação entre dois vértices deste grafo
+     *
+     * @param vertex1 - primeiro vértice
+     * @param vertex2 - segundo vértice
+     */
     @Override
     public void removeEdge(T vertex1, T vertex2) {
         if (indexIsValid(getIndex(vertex1)) && indexIsValid(getIndex(vertex2))) {
@@ -462,6 +505,14 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         }
     }
 
+    /**
+     *
+     * Retorna um primeiro iterador de largura começando com o vértice dado
+     *
+     * @param startVertex - vértice inicial
+     * @return um primeiro iterador de largura começando no vértice dado
+     * @throws EmptyCollectionException
+     */
     @Override
     public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException {
         return iteratorBFS(getIndex(startVertex));
@@ -510,6 +561,15 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return resultList.iterator();
     }
 
+    /**
+     *
+     * Retorna um primeiro iterador de profundidade começando com o vértice
+     * dado.
+     *
+     * @param startVertex - vértice inicial
+     * @return um primeiro iterador de profundidade começando no vértice dado
+     * @throws EmptyCollectionException
+     */
     @Override
     public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException {
         return iteratorDFS(getIndex(startVertex));
