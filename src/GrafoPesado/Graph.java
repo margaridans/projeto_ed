@@ -248,10 +248,12 @@ public class Graph<T> implements GraphADT<T> {
     }
 
     /**
-     * DFS Iterator
+     * Obter um iterador DFS com a pesquisa em profundidade a partir de um
+     * índice
      *
-     * @param startIndex - índice de inicio
-     * @return iterador com lista de itens visitados
+     * @param startIndex índice onde a pesquisa começará
+     * @return um iterador.
+     * @throws EmptyStackException é lançada se a stack estiver vazia
      */
     private Iterator<T> iteratorDFS(int startIndex) throws EmptyCollectionException {
         Integer x;
@@ -292,6 +294,17 @@ public class Graph<T> implements GraphADT<T> {
         return resultList.iterator();
     }
 
+    /**
+     *
+     * Retorna um iterador que contém o caminho mais curto entre os dois
+     * vértices.
+     *
+     * @param startVertex - vértice inicial
+     * @param targetVertex - vértice final
+     * @return um iterador que contém o caminho mais curto entre os dois
+     * vértices
+     * @throws EmptyCollectionException
+     */
     @Override
     public Iterator iteratorShortestPath(T startVertex, T targetVertex) throws EmptyCollectionException {
         return iteratorShortestPath(getIndex(startVertex), getIndex(targetVertex));
@@ -388,6 +401,7 @@ public class Graph<T> implements GraphADT<T> {
 
     /**
      * Método que retorna true se o grafo estiver vazio e falso caso contrário
+     *
      * @return true se o grafo estiver vazio
      */
     @Override
@@ -397,6 +411,7 @@ public class Graph<T> implements GraphADT<T> {
 
     /**
      * Método que retorna true se o grafo for conexo e falso caso contrário
+     *
      * @return true se o grafo for conexo
      * @throws EmptyCollectionException
      */
@@ -418,6 +433,7 @@ public class Graph<T> implements GraphADT<T> {
 
     /**
      * Retorna o número de vértices de um grafo
+     *
      * @return um número inteiro de vértices do grafo
      */
     @Override
