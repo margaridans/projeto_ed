@@ -26,8 +26,8 @@ public class Graph<T> implements GraphADT<T> {
      */
     public Graph() {
         this.numVertices = 0;
-        this.adjMatrix = new boolean[200][200];
-        this.vertices = (T[]) new Object[200];
+        this.adjMatrix = new boolean[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
+        this.vertices = (T[]) new Object[DEFAULT_CAPACITY];
     }
 
     /**
@@ -99,7 +99,7 @@ public class Graph<T> implements GraphADT<T> {
             this.adjMatrix[numVertices][i] = false;
             this.adjMatrix[i][numVertices] = false;
         }
-        ++(this.numVertices);
+        numVertices++;
     }
 
     /**
