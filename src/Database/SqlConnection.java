@@ -660,6 +660,25 @@ public final class SqlConnection {
 
     }
 
+    public String verTipoMensagemByIdTipo(Integer idTipo) {
+        Statement statement = null;
+        String valor = null;
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            String SQL = "SELECT * FROM TipoMensagem WHERE ID_TIPO_MENSAGEM  = '" + idTipo + "'";
+            ResultSet r = statement.executeQuery(SQL);
+            valor = r.getString("TIPO_MENSAGEM");
+            connection.commit();
+            statement.close();
+
+        } catch (SQLException ex) {
+            System.err.print(SqlConnection.class.getName() + ": " + ex.getMessage());
+        }
+        return valor;
+
+    }
+
     //---------------------------------------------------------------COMENTÁRIOS-------------------------------------------------------
     /**
      * Este método é responsável por ir buscar os comentários correspondentes a

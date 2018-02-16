@@ -85,7 +85,7 @@ public class Menus {
                     System.out.println("* * * * * * * * * * * * * * * * * * * * * * *");
                     System.out.println("* O QUE QUER PARTILHAR COM OS SEUS AMIGOS?  *");
                     System.out.println("* * * * * * * * * * * * * * * * * * * * * * *");
-
+                    System.out.println("Se quiser sair clique no 0");
                     //Onde o utilizador vai escrever a mensagem
                     String conteudo = escreverMensagem();
 
@@ -96,6 +96,10 @@ public class Menus {
                             + "Como pretende guardar a sua mensagem? ");
                     int lerTipoMensagem = Integer.parseInt(in.readLine());
 
+                    if (lerTipoMensagem == 0) {
+                        System.out.println(".... vai para o menu principal ....");
+                        menuPrincipal(user_logado);
+                    }
                     Integer IdTipoMensagem = null;
 
                     terminarSwitch = false;
@@ -110,7 +114,7 @@ public class Menus {
                                 terminarSwitch = true;
                                 break;
                             default:
-                                System.out.println("A sua opção não foi válida, escolha apenas 1 - Privada   |     2 - Pública");
+                                System.err.println("A sua opção não foi válida, escolha apenas 1 - Privada   |     2 - Pública");
                                 lerTipoMensagem = Integer.parseInt(in.readLine());
                                 terminarSwitch = false;
                                 break;
@@ -177,7 +181,7 @@ public class Menus {
                                 terminarSwitch = true;
                                 break;
                             default:
-                                System.out.println("Essa opção é inválida. Selecione apenas 1- Sim   |   2- Não");
+                                System.err.println("Essa opção é inválida. Selecione apenas 1- Sim   |   2- Não");
                                 continuarMensagem = in.readLine();
                                 terminarSwitch = false;
                                 break;
@@ -226,7 +230,7 @@ public class Menus {
                                     terminarSwitch = true;
                                     break;
                                 default:
-                                    System.out.println("Essa opção é inválida. Selecione apenas 1- Sim   |   2- Não");
+                                    System.err.println("Essa opção é inválida. Selecione apenas 1- Sim   |   2- Não");
                                     desejaEliminar = in.readLine();
                                     terminarSwitch = false;
                                     break;
@@ -244,6 +248,7 @@ public class Menus {
                     if (pessoa.size() != 0) {
                         printAllUsers(pessoa); //mostra todos os utilizadores
                         Pessoa pEscolhida = escolherUser(pessoa); //guarda a pessoa que foi escolhida
+
                         System.out.println("");
                         menuPessoa(pEscolhida, this.utilizador_logado); //Vai para o menu da pessoa
                         //Se não houver pessoas 
@@ -264,16 +269,18 @@ public class Menus {
                         System.out.println("- " + p.getUser_email());
                     }
                     System.out.println("");
-                    System.out.print("Para sair clique no -1  --> ");
+                    System.out.print("Para sair clique no 0  --> ");
                     String opcaoSair = in.readLine();
 
                     terminarSwitch = false;
                     while (terminarSwitch == false) {
-                        if ("-1".equals(opcaoSair)) {
+                        if ("0".equals(opcaoSair)) {
+                            System.out.println(".... vai para o menu principal ....");
+                            System.out.println("");
                             menuPrincipal(user_logado);
                             terminarSwitch = true;
                         } else {
-                            System.out.println("Opção inválida. Insira -1");
+                            System.err.println("Opção inválida. Insira 0");
                             opcaoSair = in.readLine();
                             terminarSwitch = false;
                         }
@@ -284,27 +291,33 @@ public class Menus {
                 //PEDIDOS DE AMIZADE
                 case "5":
                     Pessoa logado = sql.getPessoa(utilizador_logado);
-                
+
                     String escolha_opcaoPedido = MenuPedidosAmizade();
                     terminarSwitch = false;
                     while (terminarSwitch == false) {
                         switch (escolha_opcaoPedido) {
                             case "1":
                                 Integer creditos = sql.getPessoa(utilizador_logado).getNr_creditos();
+                                System.out.println("Se quiser sair clique no 0");
+                                System.out.println("\n");
                                 this.grafoPessoas.printVertex(logado);
                                 System.out.println("");
 
                                 System.out.println("Indique aqui o EMAIL da pessoa ao qual pretende fazer pedido de amizade: ");
                                 String lerPessoaPedido = in.readLine();
-
+                                if (lerPessoaPedido.equals("0")) {
+                                    System.out.println(".... vai para o menu principal ....");
+                                    menuPrincipal(user_logado);
+                                }
                                 Pessoa pessoaEscolhida = sql.getPessoa(lerPessoaPedido);
                                 String pessoa_origem = utilizador_logado;
 
                                 String pessoa_destino = lerPessoaPedido;
 
-                                
-                                if (grafoPessoas.personExists(lerPessoaPedido) != true) {
-                                    System.err.println("Essa pessoa não existe");
+                                if (grafoPessoas.personExists(lerPessoaPedido) == false) {
+                                    System.out.println("");
+                                    System.out.println("Essa pessoa não existe");
+                                    System.out.println("");
                                     menuPrincipal(utilizador_logado);
                                 } else if (sql.ifExisteJaPedido(pessoa_origem, pessoa_destino) == true) {
                                     System.out.println("Você já fez um pedido a esta pessoa, aguarde que ela lhe responda.");
@@ -359,7 +372,7 @@ public class Menus {
                                                         terminarSwitch = true;
                                                         break;
                                                     default:
-                                                        System.out.println("Opção inválida. Apenas pode escolher 1- Sim     |     2- Não");
+                                                        System.err.println("Opção inválida. Apenas pode escolher 1- Sim     |     2- Não");
                                                         continuarPedidoPago = in.readLine();
                                                         terminarSwitch = false;
                                                         break;
@@ -407,7 +420,7 @@ public class Menus {
                                                 System.out.println("Este pedido foi ignorado mas vai-se manter na lista de espera");
                                                 break;
                                             default:
-                                                System.out.println("Opção inválida!");
+                                                System.err.println("Opção inválida!");
                                                 menuPrincipal(utilizador_logado);
                                                 break;
                                         }
@@ -427,7 +440,7 @@ public class Menus {
                                 terminarSwitch = true;
                                 break;
                             default: //Caso não selecione nenhuma opção
-                                System.out.println("Opção inválida selecione apenas um número válido: ");
+                                System.err.println("Opção inválida selecione apenas um número válido: ");
                                 escolha_opcaoPedido = MenuPedidosAmizade();
                                 terminarSwitch = false;
                                 break;
@@ -495,7 +508,7 @@ public class Menus {
 
                                         default:
                                             System.out.println("");
-                                            System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
+                                            System.err.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
                                             apagarConta = in.readLine();
                                             terminarSwitch = false;
                                             break;
@@ -509,7 +522,7 @@ public class Menus {
 
                             default:
                                 System.out.println("");
-                                System.out.println("Escolha uma opção válida: 1 - Carregar créditos   |    2 - Apagar conta   |    3 - Sair");
+                                System.err.println("Escolha uma opção válida: 1 - Carregar créditos   |    2 - Apagar conta   |    3 - Sair");
                                 opcaoFeita = in.readLine();
                                 terminarSwitch = false;
                                 break;
@@ -633,7 +646,7 @@ public class Menus {
 
                                 default://Caso escolha uma opção inválida
                                     System.out.println("");
-                                    System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
+                                    System.err.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
                                     pertendeComentar = in.readLine();
                                     terminarSwitch = false;
 
@@ -691,7 +704,7 @@ public class Menus {
 
                                 default://Caso escolha uma opção inválida
                                     System.out.println("");
-                                    System.out.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
+                                    System.err.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
                                     pertendeComentar = in.readLine();
                                     terminarSwitch = false;
 
@@ -776,7 +789,7 @@ public class Menus {
                                                 terminarSwitch = true;
                                                 break;
                                             default:
-                                                System.out.println("Opção inválida. Apenas pode escolher 1- Sim     |     2- Não");
+                                                System.err.println("Opção inválida. Apenas pode escolher 1- Sim     |     2- Não");
                                                 continuarPedidoPago = in.readLine();
                                                 terminarSwitch = false;
                                                 break;
@@ -795,7 +808,7 @@ public class Menus {
                             terminarSwitch = true;
                             break;
                         default:
-                            System.out.println("Opção inválida. Selecione apenas 1-Sim    |    2-Não");
+                            System.err.println("Opção inválida. Selecione apenas 1-Sim    |    2-Não");
                             fazerPedido = in.readLine();
                             terminarSwitch = false;
                             break;
@@ -862,12 +875,16 @@ public class Menus {
             counter++;
             p = (Pessoa) it.next();
         }
+
         terminarSwitch = false;
         while (terminarSwitch == false) {
             if (escolhaUser.equals(counter.toString())) {
                 System.out.println("Escolheu o utilizador " + p.getUser_nome());
                 terminarSwitch = true;
                 return p;
+            } else if (escolhaUser.equals("0")) {
+                System.out.println(".... vai para o menu principal ....");
+                //menuPrincipal(utilizador_logado);
             } else {
                 System.out.println("Escolha novamente, esse utilizador não existe.");
                 escolhaUser = in.readLine();
@@ -892,7 +909,9 @@ public class Menus {
         it = (ArrayIterator) pessoa.iterator();
 
         System.out.println();
+        System.out.println("Se pretender sair escreva 0");
         System.out.println("Escolha um utilizador através do seu índice: ");
+
         while (it.hasNext()) {
             counter++;
             Pessoa p = (Pessoa) it.next();
@@ -930,7 +949,7 @@ public class Menus {
                 System.out.println("Escolheu a mensagem " + "'" + mensa.getConteudo_msg() + "'" + " para ser comentada");
                 return mensa;
             } else {
-                System.out.println("Essa opção não é válida , selecione apenas um índice de uma mensagem");
+                System.err.println("Essa opção não é válida , selecione apenas um índice de uma mensagem");
                 escolhaMensagem = in.readLine();
             }
         }
@@ -951,7 +970,7 @@ public class Menus {
                 System.out.println("Escolheu o pedido nº  " + "'" + counter + "'" + " para ser respondido");
                 return pedAmizade;
             } else {
-                System.out.println("Essa opção não é válida , selecione apenas um índice de um pedido");
+                System.err.println("Essa opção não é válida , selecione apenas um índice de um pedido");
                 indicePedido = in.readLine();
             }
         }
@@ -976,10 +995,21 @@ public class Menus {
         while (it.hasNext()) {
             counter++;
             Mensagem mensa = (Mensagem) it.next();
-            if (escolhaMsgEliminada.equals(counter.toString())) {
-                System.out.println("Escolheu a mensagem " + "'" + mensa.getConteudo_msg() + "'" + " para ser eliminada");
-                return mensa;
+
+            terminarSwitch = false;
+
+            while (terminarSwitch == false) {
+                if (escolhaMsgEliminada.equals(counter.toString())) {
+                    System.out.println("Escolheu a mensagem " + "'" + mensa.getConteudo_msg() + "'" + " para ser eliminada");
+                    terminarSwitch = true;
+                    return mensa;
+                } else {
+                    System.err.print("Esse índice não corresponde a nenhuma mensagem. Escreva novamente:");
+                    escolhaMsgEliminada = in.readLine();
+                    terminarSwitch = false;
+                }
             }
+
         }
         return null;
 
@@ -999,6 +1029,10 @@ public class Menus {
         System.out.print("Escreva aqui: ");
         String lerMensagem = in.readLine();
 
+        if (lerMensagem.equals("0")) {
+            System.out.println(".... vai para o menu principal ....");
+            //menuPrincipal(utilizador_logado);
+        }
         String mensagem_conteudo = lerMensagem;
 
         return mensagem_conteudo;
@@ -1015,11 +1049,11 @@ public class Menus {
         Integer counter = 0;
         it = (ArrayIterator) msg.iterator();
         ArrayOrderedList<Comentario> comentario_mensagem;
-
         while (it.hasNext()) {
             counter++;
             Mensagem mens = (Mensagem) it.next();
             System.out.println("Mensagem " + counter + ": " + mens.getConteudo_msg());
+            System.out.println("Tipo Mensagem: " + sql.verTipoMensagemByIdTipo(mens.getTipoMensagem()));
             System.out.println("Publicada em: " + mens.getData_publicacao().toLocaleString());
             System.out.println("");
 
