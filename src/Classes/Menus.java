@@ -283,7 +283,8 @@ public class Menus {
 
                 //PEDIDOS DE AMIZADE
                 case "5":
-                    Pessoa logado = projeto_ed.Projeto_ed.connection.getPessoa(utilizador_logado);
+                    Pessoa logado = sql.getPessoa(utilizador_logado);
+                
                     String escolha_opcaoPedido = MenuPedidosAmizade();
                     terminarSwitch = false;
                     while (terminarSwitch == false) {
@@ -292,21 +293,20 @@ public class Menus {
                                 Integer creditos = sql.getPessoa(utilizador_logado).getNr_creditos();
                                 this.grafoPessoas.printVertex(logado);
                                 System.out.println("");
-                                System.out.println("Indique aqui o nome da pessoa ao qual pretende fazer pedido de amizade: ");
+
+                                System.out.println("Indique aqui o EMAIL da pessoa ao qual pretende fazer pedido de amizade: ");
                                 String lerPessoaPedido = in.readLine();
 
-                              
-                           /* if(lerPessoaPedido.equals(grafoPessoas.getVertex(logado))) {
-                                System.out.println("existe");
-                            } else {
-                                System.out.println("não existe");
-                            }
-*/
                                 Pessoa pessoaEscolhida = sql.getPessoa(lerPessoaPedido);
                                 String pessoa_origem = utilizador_logado;
 
                                 String pessoa_destino = lerPessoaPedido;
-                                if (sql.ifExisteJaPedido(pessoa_origem, pessoa_destino) == true) {
+
+                                
+                                if (grafoPessoas.personExists(lerPessoaPedido) != true) {
+                                    System.err.println("Essa pessoa não existe");
+                                    menuPrincipal(utilizador_logado);
+                                } else if (sql.ifExisteJaPedido(pessoa_origem, pessoa_destino) == true) {
                                     System.out.println("Você já fez um pedido a esta pessoa, aguarde que ela lhe responda.");
                                     menuPessoa(pessoaEscolhida, utilizador_logado);
                                 } else {
@@ -727,7 +727,7 @@ public class Menus {
                                 menuPessoa(pessoaEscolhida, utilizador);
                             }
 
-                            Pessoa logado = projeto_ed.Projeto_ed.connection.getPessoa(utilizador_logado);
+                            Pessoa logado = sql.getPessoa(utilizador_logado);
                             Edge tmpE = this.grafoPessoas.testEdge(logado, pessoaEscolhida);
                             if (tmpE != null) {
                                 System.out.println("Já tem amizade com este utilizador");

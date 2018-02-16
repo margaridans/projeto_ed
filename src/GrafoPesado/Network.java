@@ -43,12 +43,12 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         for (int i = 0; i < size(); i++) {
             Pessoa pessoa = (Pessoa) vertices[i];
             if (!pessoa.equals(logada)) {
-                System.out.println("- " + pessoa.getUser_nome());
+                System.out.println("- " + pessoa.getUser_nome() + " »»»»»» " + pessoa.getUser_email());
             }
         }
     }
 
- 
+   
 
     /**
      * Método para adicionar pessoas a cada vértice, ou seja, o número de
@@ -103,6 +103,19 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return testEdge;
     }
 
+    
+    public boolean personExists(String email){
+    
+    for(int i = 0 ; i < size() ; i++){
+      Pessoa currentVertice = (Pessoa)vertices[i];
+      
+      if(currentVertice.getUser_email().equals(email)){
+        return true;
+      }
+      
+    }
+    return false;
+  }
     /**
      *
      * @param logada
@@ -155,7 +168,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         for (int i = 0; i < this.numVertices; i++) {
             if (this.edgeMatrix[myIndexPessoa][i] != null) {
                 Edge edge = edgeMatrix[myIndexPessoa][i];
-                existe = verificarAmigoDeAmigo(edge.getPessoa1(), perfil);
+                existe = verificarAmigoDeAmigo(edge.getPessoa2(), perfil);
                 if (existe) {
                     break;
                 }

@@ -15,7 +15,7 @@ import LinkedStack.LinkedStack;
  */
 public class Graph<T> implements GraphADT<T> {
 
-    protected final int DEFAULT_CAPACITY = 10;
+    protected final int DEFAULT_CAPACITY = 20;
     protected int numVertices; // Número de vértices num grafo 
     protected boolean[][] adjMatrix; // matriz de adjacências
     protected T[] vertices; // valores dos vértices
