@@ -12,6 +12,7 @@ import java.util.Iterator;
 import LinkedHeap.LinkedHeap;
 import LinkedQueue.LinkedQueue;
 import LinkedStack.LinkedStack;
+import java.sql.SQLException;
 
 /**
  * @param <T> T Element
@@ -47,8 +48,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
             }
         }
     }
-
-   
 
     /**
      * Método para adicionar pessoas a cada vértice, ou seja, o número de
@@ -103,19 +102,18 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return testEdge;
     }
 
-    
-    public boolean personExists(String email){
-    
-    for(int i = 0 ; i < size() ; i++){
-      Pessoa currentVertice = (Pessoa)vertices[i];
-      
-      if(currentVertice.getUser_email().equals(email)){
-        return true;
-      }
-      
+    public Boolean personExists(String email)  {
+
+        for (int i = 0; i < size(); i++) {
+            Pessoa currentVertice = (Pessoa) vertices[i];
+
+            if (currentVertice.getUser_email().equals(email)) {
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
-  }
+
     /**
      *
      * @param logada

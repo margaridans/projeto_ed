@@ -42,7 +42,7 @@ public class Menus {
     ArrayIterator it;
     Boolean terminarSwitch = false;
 
-    //--------------------------------------------MENUS---------------------------------------------------//
+    //---------------------------------------------------------------------MENUS---------------------------------------------------
     /**
      * Método responsável por imprimir o menu principal e por fazer a gestão das
      * escolhas que o utilizador vai fazer
@@ -58,7 +58,7 @@ public class Menus {
         //System.out.println("Existem numero de vertices: " + this.grafoPessoas.size());
         Pessoa pes_logada = sql.getPessoa(user_logado);
 
-        System.out.println("\n \n");
+        System.out.println("\n");
         System.out.println("* * * * * * * * * * * * Menu * * * * * * * * * * * *");
         System.out.println("*                                                  * ");
         System.out.println("*                                                  * ");
@@ -77,470 +77,487 @@ public class Menus {
         String escolha = in.readLine();
 
         if (null != escolha) {
+            terminarSwitch = false;
 
-            switch (escolha) {
-                //ESCREVER MENSAGEM
-                case "1":
-                    System.out.println("\n");
-                    System.out.println("* * * * * * * * * * * * * * * * * * * * * * *");
-                    System.out.println("* O QUE QUER PARTILHAR COM OS SEUS AMIGOS?  *");
-                    System.out.println("* * * * * * * * * * * * * * * * * * * * * * *");
-                    System.out.println("Se quiser sair clique no 0");
-                    //Onde o utilizador vai escrever a mensagem
-                    String conteudo = escreverMensagem();
+            while (terminarSwitch == false) {
+                switch (escolha) {
+                    //ESCREVER MENSAGEM
 
-                    System.out.println("");
-                    System.out.print("A sua mensagem vai ser de que tipo: \n"
-                            + "1 - PÚBLICA: Todos os utilizadores podem ver as suas mensagens publicadas\n"
-                            + "2 - PRIVADA: Apenas os seus amigos podem ver as suas mensagens publicadas\n\n"
-                            + "Como pretende guardar a sua mensagem? ");
-                    int lerTipoMensagem = Integer.parseInt(in.readLine());
-
-                    if (lerTipoMensagem == 0) {
-                        System.out.println(".... vai para o menu principal ....");
-                        menuPrincipal(user_logado);
-                    }
-                    Integer IdTipoMensagem = null;
-
-                    terminarSwitch = false;
-                    while (terminarSwitch == false) {
-                        switch (lerTipoMensagem) {
-                            case 1:
-                                IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PUBLICA.getDescricao());
-                                terminarSwitch = true;
-                                break;
-                            case 2:
-                                IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PRIVADA.getDescricao());
-                                terminarSwitch = true;
-                                break;
-                            default:
-                                System.err.println("A sua opção não foi válida, escolha apenas 1 - Privada   |     2 - Pública");
-                                lerTipoMensagem = Integer.parseInt(in.readLine());
-                                terminarSwitch = false;
-                                break;
-                        }
-                    }
-
-                    System.out.println("\n");
-                    System.out.println("Está prestes a partilhar a sua mensagem com os seus amigos...\n\n"
-                            + "Tem a certeza que pretende continuar?\n"
-                            + "1- Sim\n2- Não ");
-                    String continuarMensagem = in.readLine();
-
-                    terminarSwitch = false;
-                    while (terminarSwitch == false) {
-                        Pessoa logado = projeto_ed.Projeto_ed.connection.getPessoa(utilizador_logado);
-
-                        switch (continuarMensagem) {
-                            case "1": //Se sim pretende continuar
-                                Date data_pub = new Date();
-                                Pessoa pessoa_logada = sql.getPessoa(user_logado); //Vai buscar a pessoa logada
-                                Mensagem msg = new Mensagem(conteudo, data_pub, IdTipoMensagem, pessoa_logada);
-                                sql.inserirMensagem(msg); //Insere a mensagem
-                                System.out.println("");
-                                System.out.println("**********");
-                                System.out.println("*  BOA!! *");
-                                System.out.println("**********");
-                                System.out.print("Mensagem partilhada. Esteja atento agora aos comentários! ");
-
-                                if (IdTipoMensagem == 2) {
-                                    System.out.println("\n");
-                                    System.out.println("Uma vez que a sua mensagem é do tipo privada apenas vai estar vísivel para os seus amigos");
-                                    System.out.println("----- Teste de alcance -----");
-
-                                    Iterator iterator = this.grafoPessoas.getAmigos(logado).iterator();
-                                    System.out.println("As pessoas que vão poder ver esta mensagem: Os teus amigos\n");
-                                    while (iterator.hasNext()) {
-                                        Pessoa p = (Pessoa) iterator.next();
-                                        System.out.println("- " + p.getUser_email());
-                                    }
-
-                                    menuPrincipal(user_logado); //Volta ao menu principal
-                                    break;
-                                } else {
-                                    if (IdTipoMensagem == 1) {
-                                        System.out.println("\n4"
-                                                + "");
-                                        System.out.println("Uma vez que a sua mensagem é do tipo pública vai estar vísivel para toda a gente que se encontrar registada");
-                                        System.out.println("----- Teste de alcance -----");
-                                        System.out.println("As pessoas que vão poder ver esta mensagem: Toda a gente\n");
-
-                                        this.grafoPessoas.printVertex(logado);
-                                        menuPrincipal(user_logado);
-                                    }
-                                }
-                                break;
-
-                            case "2": //Se não pretende continuar
-                                System.out.println("");
-                                System.out.println("*************");
-                                System.out.println("*  OH NÃO!! *");
-                                System.out.println("*************");
-                                System.out.print("A sua mensagem não foi partilhada com os seus amigos!");
-                                menuPrincipal(user_logado); //Volta ao menu principal
-                                terminarSwitch = true;
-                                break;
-                            default:
-                                System.err.println("Essa opção é inválida. Selecione apenas 1- Sim   |   2- Não");
-                                continuarMensagem = in.readLine();
-                                terminarSwitch = false;
-                                break;
-                        }
-                    }
-                    break;
-
-                //GERIR MINHAS MENSAGENS
-                case "2":
-                    ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
-
-                    System.out.println("\n");
-                    System.out.println("************** AS MINHAS MENSAGENS**************");
-                    System.out.println("");
-
-                    msg = sql.getAllMensagens(user_logado); //vai buscar todas as minhas mensagens
-
-                    if (msg.size() == 0) {
-                        System.out.println("Não tem mensagens");
-                        menuPrincipal(user_logado);
-                    } else {
-                        printMsg(msg);  //imprime todas as minhas mensagens
+                    case "1":
+                        System.out.println("\n");
+                        System.out.println("* * * * * * * * * * * * * * * * * * * * * * *");
+                        System.out.println("* O QUE QUER PARTILHAR COM OS SEUS AMIGOS?  *");
+                        System.out.println("* * * * * * * * * * * * * * * * * * * * * * *");
+                        System.out.println("Se quiser sair clique no 0");
+                        //Onde o utilizador vai escrever a mensagem
+                        String conteudo = escreverMensagem();
 
                         System.out.println("");
-                        System.out.println("Deseja eliminar alguma mensagem?\n1-Sim\n2-Não");
-                        String desejaEliminar = in.readLine();
+                        System.out.print("A sua mensagem vai ser de que tipo: \n"
+                                + "1 - PÚBLICA: Todos os utilizadores podem ver as suas mensagens publicadas\n"
+                                + "2 - PRIVADA: Apenas os seus amigos podem ver as suas mensagens publicadas\n\n"
+                                + "Como pretende guardar a sua mensagem? ");
+                        int lerTipoMensagem = Integer.parseInt(in.readLine());
+
+                        if (lerTipoMensagem == 0) {
+                            System.out.println(".... vai para o menu principal ....");
+                            menuPrincipal(user_logado);
+                        }
+                        Integer IdTipoMensagem = null;
 
                         terminarSwitch = false;
                         while (terminarSwitch == false) {
-                            switch (desejaEliminar) {
-                                case "1": //Se desejar eliminar
-                                    System.out.print("Qual a mensagem que pretende eliminar? Indique o seu índice: ");
-                                    Mensagem msg_eliminada = escolherMsgEliminada(msg); //Escolha da mensagem que vai ser eliminada
-                                    Integer idMensagem = sql.verIdMensagem(msg_eliminada.getConteudo_msg());
-                                    sql.apagarMensagem(idMensagem); //Apaga a mensagem
-                                    System.out.println("");
-                                    System.out.println("Com pena nossa, a sua mensagem foi eliminada.");
-                                    menuPrincipal(user_logado); //Volta ao menu principal
+                            switch (lerTipoMensagem) {
+                                case 1:
+                                    IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PUBLICA.getDescricao());
                                     terminarSwitch = true;
                                     break;
+                                case 2:
+                                    IdTipoMensagem = sql.verTipoMensagem(TipoMensagem.PRIVADA.getDescricao());
+                                    terminarSwitch = true;
+                                    break;
+                                default:
+                                    System.err.println("A sua opção não foi válida, escolha apenas 1 - Privada   |     2 - Pública");
+                                    lerTipoMensagem = Integer.parseInt(in.readLine());
+                                    terminarSwitch = false;
+                                    break;
+                            }
+                        }
 
-                                case "2": //Se não desejar eliminar
+                        System.out.println("\n");
+                        System.out.println("Está prestes a partilhar a sua mensagem com os seus amigos...\n\n"
+                                + "Tem a certeza que pretende continuar?\n"
+                                + "1- Sim\n2- Não ");
+                        String continuarMensagem = in.readLine();
+
+                        terminarSwitch = false;
+                        while (terminarSwitch == false) {
+                            Pessoa logado = projeto_ed.Projeto_ed.connection.getPessoa(utilizador_logado);
+
+                            switch (continuarMensagem) {
+                                case "1": //Se sim pretende continuar
+                                    Date data_pub = new Date();
+                                    Pessoa pessoa_logada = sql.getPessoa(user_logado); //Vai buscar a pessoa logada
+                                    Mensagem msg = new Mensagem(conteudo, data_pub, IdTipoMensagem, pessoa_logada);
+                                    sql.inserirMensagem(msg); //Insere a mensagem
                                     System.out.println("");
-                                    System.out.println("Ainda bem que não quis eliminar as suas mensagens!");
+                                    System.out.println("**********");
+                                    System.out.println("*  BOA!! *");
+                                    System.out.println("**********");
+                                    System.out.print("Mensagem partilhada. Esteja atento agora aos comentários! ");
+
+                                    if (IdTipoMensagem == 2) {
+                                        System.out.println("\n");
+                                        System.out.println("Uma vez que a sua mensagem é do tipo privada apenas vai estar vísivel para os seus amigos");
+                                        System.out.println("----- Teste de alcance -----");
+
+                                        Iterator iterator = this.grafoPessoas.getAmigos(logado).iterator();
+                                        System.out.println("As pessoas que vão poder ver esta mensagem: Os teus amigos\n");
+                                        while (iterator.hasNext()) {
+                                            Pessoa p = (Pessoa) iterator.next();
+                                            System.out.println("- " + p.getUser_email());
+                                        }
+
+                                        menuPrincipal(user_logado); //Volta ao menu principal
+                                        break;
+                                    } else {
+                                        if (IdTipoMensagem == 1) {
+                                            System.out.println("\n4"
+                                                    + "");
+                                            System.out.println("Uma vez que a sua mensagem é do tipo pública vai estar vísivel para toda a gente que se encontrar registada");
+                                            System.out.println("----- Teste de alcance -----");
+                                            System.out.println("As pessoas que vão poder ver esta mensagem: Toda a gente\n");
+
+                                            this.grafoPessoas.printVertex(logado);
+                                            menuPrincipal(user_logado);
+                                        }
+                                    }
+                                    break;
+
+                                case "2": //Se não pretende continuar
+                                    System.out.println("");
+                                    System.out.println("*************");
+                                    System.out.println("*  OH NÃO!! *");
+                                    System.out.println("*************");
+                                    System.out.print("A sua mensagem não foi partilhada com os seus amigos!");
                                     menuPrincipal(user_logado); //Volta ao menu principal
                                     terminarSwitch = true;
                                     break;
                                 default:
                                     System.err.println("Essa opção é inválida. Selecione apenas 1- Sim   |   2- Não");
-                                    desejaEliminar = in.readLine();
+                                    continuarMensagem = in.readLine();
                                     terminarSwitch = false;
                                     break;
                             }
                         }
-                    }
-                    break;
+                        terminarSwitch = true;
+                        break;
 
-                //VER UTILIZADORES    
-                case "3":
-                    ArrayOrderedList<Pessoa> pessoa = new ArrayOrderedList<>();
-                    pessoa = sql.getAllPessoas(user_logado); //Vai buscar as pessoas todas
+                    //GERIR MINHAS MENSAGENS
+                    case "2":
+                        ArrayOrderedList<Mensagem> msg = new ArrayOrderedList<>();
 
-                    //Se houver pessoas 
-                    if (pessoa.size() != 0) {
-                        printAllUsers(pessoa); //mostra todos os utilizadores
-                        Pessoa pEscolhida = escolherUser(pessoa); //guarda a pessoa que foi escolhida
-
+                        System.out.println("\n");
+                        System.out.println("************** AS MINHAS MENSAGENS**************");
                         System.out.println("");
-                        menuPessoa(pEscolhida, this.utilizador_logado); //Vai para o menu da pessoa
-                        //Se não houver pessoas 
-                    } else {
-                        System.out.println("");
-                        System.out.println("Não existem utilizadores");
-                        menuPrincipal(user_logado); //Volta ao menu principal
-                    }
-                    break;
 
-                case "4":
-                    System.out.println("");
-                    System.out.println("*********** OS MEUS AMIGOS **********");
+                        msg = sql.getAllMensagens(user_logado); //vai buscar todas as minhas mensagens
 
-                    Iterator iterator = this.grafoPessoas.getAmigos(pes_logada).iterator();
-                    while (iterator.hasNext()) {
-                        Pessoa p = (Pessoa) iterator.next();
-                        System.out.println("- " + p.getUser_email());
-                    }
-                    System.out.println("");
-                    System.out.print("Para sair clique no 0  --> ");
-                    String opcaoSair = in.readLine();
-
-                    terminarSwitch = false;
-                    while (terminarSwitch == false) {
-                        if ("0".equals(opcaoSair)) {
-                            System.out.println(".... vai para o menu principal ....");
-                            System.out.println("");
+                        if (msg.size() == 0) {
+                            System.out.println("Não tem mensagens");
                             menuPrincipal(user_logado);
-                            terminarSwitch = true;
                         } else {
-                            System.err.println("Opção inválida. Insira 0");
-                            opcaoSair = in.readLine();
+                            printMsg(msg);  //imprime todas as minhas mensagens
+
+                            System.out.println("");
+                            System.out.println("Deseja eliminar alguma mensagem?\n1-Sim\n2-Não");
+                            String desejaEliminar = in.readLine();
+
                             terminarSwitch = false;
-                        }
-                    }
+                            while (terminarSwitch == false) {
+                                switch (desejaEliminar) {
+                                    case "1": //Se desejar eliminar
+                                        System.out.print("Qual a mensagem que pretende eliminar? Indique o seu índice: ");
+                                        Mensagem msg_eliminada = escolherMsgEliminada(msg); //Escolha da mensagem que vai ser eliminada
+                                        Integer idMensagem = sql.verIdMensagem(msg_eliminada.getConteudo_msg());
+                                        sql.apagarMensagem(idMensagem); //Apaga a mensagem
+                                        System.out.println("");
+                                        System.out.println("Com pena nossa, a sua mensagem foi eliminada.");
+                                        menuPrincipal(user_logado); //Volta ao menu principal
+                                        terminarSwitch = true;
+                                        break;
 
-                    break;
-
-                //PEDIDOS DE AMIZADE
-                case "5":
-                    Pessoa logado = sql.getPessoa(utilizador_logado);
-
-                    String escolha_opcaoPedido = MenuPedidosAmizade();
-                    terminarSwitch = false;
-                    while (terminarSwitch == false) {
-                        switch (escolha_opcaoPedido) {
-                            case "1":
-                                Integer creditos = sql.getPessoa(utilizador_logado).getNr_creditos();
-                                System.out.println("Se quiser sair clique no 0");
-                                System.out.println("\n");
-                                this.grafoPessoas.printVertex(logado);
-                                System.out.println("");
-
-                                System.out.println("Indique aqui o EMAIL da pessoa ao qual pretende fazer pedido de amizade: ");
-                                String lerPessoaPedido = in.readLine();
-                                if (lerPessoaPedido.equals("0")) {
-                                    System.out.println(".... vai para o menu principal ....");
-                                    menuPrincipal(user_logado);
+                                    case "2": //Se não desejar eliminar
+                                        System.out.println("");
+                                        System.out.println("Ainda bem que não quis eliminar as suas mensagens!");
+                                        menuPrincipal(user_logado); //Volta ao menu principal
+                                        terminarSwitch = true;
+                                        break;
+                                    default:
+                                        System.err.println("Essa opção é inválida. Selecione apenas 1- Sim   |   2- Não");
+                                        desejaEliminar = in.readLine();
+                                        terminarSwitch = false;
+                                        break;
                                 }
-                                Pessoa pessoaEscolhida = sql.getPessoa(lerPessoaPedido);
-                                String pessoa_origem = utilizador_logado;
+                            }
+                        }
+                        terminarSwitch = true;
+                        break;
 
-                                String pessoa_destino = lerPessoaPedido;
+                    //VER UTILIZADORES    
+                    case "3":
+                        ArrayOrderedList<Pessoa> pessoa = new ArrayOrderedList<>();
+                        pessoa = sql.getAllPessoas(user_logado); //Vai buscar as pessoas todas
 
-                                if (grafoPessoas.personExists(lerPessoaPedido) == false) {
+                        //Se houver pessoas 
+                        if (pessoa.size() != 0) {
+                            printAllUsers(pessoa); //mostra todos os utilizadores
+                            Pessoa pEscolhida = escolherUser(pessoa); //guarda a pessoa que foi escolhida
+
+                            System.out.println("");
+                            menuPessoa(pEscolhida, this.utilizador_logado); //Vai para o menu da pessoa
+                            //Se não houver pessoas 
+                        } else {
+                            System.out.println("");
+                            System.out.println("Não existem utilizadores");
+                            menuPrincipal(user_logado); //Volta ao menu principal
+                        }
+                        terminarSwitch = true;
+                        break;
+
+                    case "4":
+                        System.out.println("");
+                        System.out.println("*********** OS MEUS AMIGOS **********");
+
+                        Iterator iterator = this.grafoPessoas.getAmigos(pes_logada).iterator();
+                        while (iterator.hasNext()) {
+                            Pessoa p = (Pessoa) iterator.next();
+                            System.out.println("- " + p.getUser_email());
+                        }
+                        System.out.println("");
+                        System.out.print("Para sair clique no 0  --> ");
+                        String opcaoSair = in.readLine();
+
+                        terminarSwitch = false;
+                        while (terminarSwitch == false) {
+                            if ("0".equals(opcaoSair)) {
+                                System.out.println(".... vai para o menu principal ....");
+                                System.out.println("");
+                                menuPrincipal(user_logado);
+                                terminarSwitch = true;
+                            } else {
+                                System.err.println("Opção inválida. Insira 0");
+                                opcaoSair = in.readLine();
+                                terminarSwitch = false;
+                            }
+                        }
+                        terminarSwitch = true;
+                        break;
+
+                    //PEDIDOS DE AMIZADE
+                    case "5":
+                        Pessoa logado = sql.getPessoa(utilizador_logado);
+
+                        String escolha_opcaoPedido = MenuPedidosAmizade();
+                        terminarSwitch = false;
+                        while (terminarSwitch == false) {
+                            switch (escolha_opcaoPedido) {
+                                case "1":
+                                    Integer creditos = sql.getPessoa(utilizador_logado).getNr_creditos();
+                                    System.out.println("Se quiser sair clique no 0");
+                                    System.out.println("\n");
+                                    this.grafoPessoas.printVertex(logado);
                                     System.out.println("");
-                                    System.out.println("Essa pessoa não existe");
-                                    System.out.println("");
-                                    menuPrincipal(utilizador_logado);
-                                } else if (sql.ifExisteJaPedido(pessoa_origem, pessoa_destino) == true) {
-                                    System.out.println("Você já fez um pedido a esta pessoa, aguarde que ela lhe responda.");
-                                    menuPessoa(pessoaEscolhida, utilizador_logado);
-                                } else {
-                                    Edge tmpE = this.grafoPessoas.testEdge(logado, pessoaEscolhida);
-                                    if (tmpE != null) {
-                                        System.out.println("Já tem amizade com este utilizador");
-                                        menuPessoa(pessoaEscolhida, user_logado);
+
+                                    System.out.println("Indique aqui o EMAIL da pessoa ao qual pretende fazer pedido de amizade: ");
+                                    String lerPessoaPedido = in.readLine();
+                                    if (lerPessoaPedido.equals("0")) {
+                                        System.out.println(".... vai para o menu principal ....");
+                                        menuPrincipal(user_logado);
+                                    }
+                                    Pessoa pessoaEscolhida = sql.getPessoa(lerPessoaPedido);
+                                    String pessoa_origem = utilizador_logado;
+
+                                    String pessoa_destino = lerPessoaPedido;
+
+                                    if (!grafoPessoas.personExists(lerPessoaPedido)) {
+                                        System.out.println("");
+                                        System.out.println("Essa pessoa não existe");
+                                        System.out.println("");
+                                        menuPrincipal(utilizador_logado);
+                                    } else if (sql.ifExisteJaPedido(pessoa_origem, pessoa_destino) == true) {
+                                        System.out.println("Você já fez um pedido a esta pessoa, aguarde que ela lhe responda.");
+                                        menuPessoa(pessoaEscolhida, utilizador_logado);
                                     } else {
-                                        Boolean existe = this.grafoPessoas.verificarTipoAmizadePossivel(logado, pessoaEscolhida);
-                                        if (existe) {
-                                            System.out.println("Têm um amigo em comum --> assim sendo será um pedido normal");
-                                            sql.fazerPedidoAmizade(logado, pessoaEscolhida);
-                                            System.out.println("O seu pedido foi efetuado com sucesso. Aguarde pela resposta");
-                                            menuPrincipal(utilizador_logado);
+                                        Edge tmpE = this.grafoPessoas.testEdge(logado, pessoaEscolhida);
+                                        if (tmpE != null) {
+                                            System.out.println("Já tem amizade com este utilizador");
+                                            menuPessoa(pessoaEscolhida, user_logado);
                                         } else {
-                                            double nrCreditos = this.grafoPessoas.shortestPathWeight(logado, pessoaEscolhida);
-                                            if (nrCreditos == 2.147483647E9) {
-                                                System.out.println("\n");
-                                                System.out.println("Uma vez que é um utilizador novo e ainda não têm amizades/ligações com ninguém apenas lhe vai ser cobrado 1 crédito pela amizade.");
-                                                nrCreditos = 1.00;
+                                            Boolean existe = this.grafoPessoas.verificarTipoAmizadePossivel(logado, pessoaEscolhida);
+                                            if (existe) {
+                                                System.out.println("Têm um amigo em comum --> assim sendo será um pedido normal");
+                                                sql.fazerPedidoAmizade(logado, pessoaEscolhida);
+                                                System.out.println("O seu pedido foi efetuado com sucesso. Aguarde pela resposta");
+                                                menuPrincipal(utilizador_logado);
                                             } else {
-                                                System.out.println("");
-                                                System.out.println("Não têm um amigo em comum --> assim sendo será um pedido patrocionado.\nIrá pagar " + nrCreditos);
-                                            }
-                                            System.out.println("Tem a certeza que pretende continuar?\n1- Sim\n2- Não");
-                                            String continuarPedidoPago = in.readLine();
+                                                double nrCreditos = this.grafoPessoas.shortestPathWeight(logado, pessoaEscolhida);
+                                                if (nrCreditos == 2.147483647E9) {
+                                                    System.out.println("\n");
+                                                    System.out.println("Uma vez que é um utilizador novo e ainda não têm amizades/ligações com ninguém apenas lhe vai ser cobrado 1 crédito pela amizade.");
+                                                    nrCreditos = 1.00;
+                                                } else {
+                                                    System.out.println("");
+                                                    System.out.println("Não têm um amigo em comum --> assim sendo será um pedido patrocionado.\nIrá pagar " + nrCreditos);
+                                                }
+                                                System.out.println("Tem a certeza que pretende continuar?\n1- Sim\n2- Não");
+                                                String continuarPedidoPago = in.readLine();
 
-                                            while (terminarSwitch == false) {
-                                                switch (continuarPedidoPago) {
-                                                    case "1":
-                                                        int nrCredRetirados = (int) nrCreditos;
+                                                while (terminarSwitch == false) {
+                                                    switch (continuarPedidoPago) {
+                                                        case "1":
+                                                            int nrCredRetirados = (int) nrCreditos;
 
-                                                        // Caminho mais curto
-                                                        if (nrCredRetirados > creditos) {
-                                                            System.out.println("Infelizmente não tem saldo suficiente. Tente recarregar primeiro");
+                                                            // Caminho mais curto
+                                                            if (nrCredRetirados > creditos) {
+                                                                System.out.println("Infelizmente não tem saldo suficiente. Tente recarregar primeiro");
+                                                                menuPessoa(pessoaEscolhida, utilizador_logado);
+                                                            } else {
+                                                                sql.fazerPedidoAmizade(logado, pessoaEscolhida);
+                                                                Integer meusCreditos = creditos - nrCredRetirados;
+                                                                sql.updateCreditosUser(utilizador_logado, meusCreditos);
+                                                                System.out.println("O pedido de amizade foi feito com sucesso, espere que " + pessoaEscolhida.getUser_nome() + " responda ao seu pedido");
+                                                                menuPessoa(pessoaEscolhida, utilizador_logado);
+                                                            }
+
+                                                            terminarSwitch = true;
+                                                            break;
+
+                                                        case "2":
                                                             menuPessoa(pessoaEscolhida, utilizador_logado);
-                                                        } else {
-                                                            sql.fazerPedidoAmizade(logado, pessoaEscolhida);
-                                                            Integer meusCreditos = creditos - nrCredRetirados;
-                                                            sql.updateCreditosUser(utilizador_logado, meusCreditos);
-                                                            System.out.println("O pedido de amizade foi feito com sucesso, espere que " + pessoaEscolhida.getUser_nome() + " responda ao seu pedido");
-                                                            menuPessoa(pessoaEscolhida, utilizador_logado);
-                                                        }
-
-                                                        terminarSwitch = true;
-                                                        break;
-
-                                                    case "2":
-                                                        menuPessoa(pessoaEscolhida, utilizador_logado);
-                                                        terminarSwitch = true;
-                                                        break;
-                                                    default:
-                                                        System.err.println("Opção inválida. Apenas pode escolher 1- Sim     |     2- Não");
-                                                        continuarPedidoPago = in.readLine();
-                                                        terminarSwitch = false;
-                                                        break;
+                                                            terminarSwitch = true;
+                                                            break;
+                                                        default:
+                                                            System.err.println("Opção inválida. Apenas pode escolher 1- Sim     |     2- Não");
+                                                            continuarPedidoPago = in.readLine();
+                                                            terminarSwitch = false;
+                                                            break;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
 
-                                break;
+                                    break;
 
-                            case "2":
+                                case "2":
 
-                                Boolean hasPedido = sql.ifExisteAmizadesPendentes(user_logado);
-                                Integer counter = 0;
-                                if (hasPedido == true) {
-                                    ArrayUnorderedList<PedidoAmizade> pedidoAmizade = new ArrayUnorderedList<>();
+                                    Boolean hasPedido = sql.ifExisteAmizadesPendentes(user_logado);
+                                    Integer counter = 0;
+                                    if (hasPedido == true) {
+                                        ArrayUnorderedList<PedidoAmizade> pedidoAmizade = new ArrayUnorderedList<>();
 
-                                    pedidoAmizade = sql.getPedidosPendentes(user_logado);
+                                        pedidoAmizade = sql.getPedidosPendentes(user_logado);
 
-                                    it = (ArrayIterator) pedidoAmizade.iterator();
-                                    PedidoAmizade pedido = null;
-                                    System.out.println("Você tem " + pedidoAmizade.size() + " pedido(s) de amizade pendente(s) ");
+                                        it = (ArrayIterator) pedidoAmizade.iterator();
+                                        PedidoAmizade pedido = null;
+                                        System.out.println("Você tem " + pedidoAmizade.size() + " pedido(s) de amizade pendente(s) ");
 
-                                    while (it.hasNext()) {
-                                        pedido = (PedidoAmizade) it.next();
-                                        counter++;
-                                        System.out.println("");
-                                        System.out.print("Pedido nº " + counter + "- " + "Pedido amizade de " + pedido.getUser_origem().getUser_email());
-                                        System.out.println("");
-                                        System.out.println("1 - Aceitar      |      2 - Rejeitar       |    3 - Ignorar");
+                                        while (it.hasNext()) {
+                                            pedido = (PedidoAmizade) it.next();
+                                            counter++;
+                                            System.out.println("");
+                                            System.out.print("Pedido nº " + counter + "- " + "Pedido amizade de " + pedido.getUser_origem().getUser_email());
+                                            System.out.println("");
+                                            System.out.println("1 - Aceitar      |      2 - Rejeitar       |    3 - Ignorar");
 
-                                        String rspostaPedido = in.readLine();
+                                            String rspostaPedido = in.readLine();
 
-                                        switch (rspostaPedido) {
+                                            switch (rspostaPedido) {
+                                                case "1":
+                                                    sql.aceitarPedido(pedido.getUser_origem().getUser_email(), utilizador_logado);
+                                                    System.out.println("Você aceitou o pedido de amizade de " + pedido.getUser_origem().getUser_email() + ".\nAgora já são amigos, já pode ver e partilhar as mensagens privadas");
+                                                    break;
+                                                case "2":
+                                                    sql.rejeitarPedido(pedido.getUser_origem().getUser_email(), utilizador_logado);
+                                                    System.out.println("Você rejeitou o pedido de amizade de " + pedido.getUser_origem().getUser_email());
+                                                    break;
+                                                case "3":
+                                                    System.out.println("Este pedido foi ignorado mas vai-se manter na lista de espera");
+                                                    break;
+                                                default:
+                                                    System.err.println("Opção inválida!");
+                                                    menuPrincipal(utilizador_logado);
+                                                    break;
+                                            }
+                                        }
+
+                                        menuPrincipal(user_logado);
+                                    } else {
+                                        System.out.println("Você não tem pedidos de amizade");
+                                        menuPrincipal(user_logado);
+                                        terminarSwitch = false;
+                                    }
+                                    terminarSwitch = true;
+                                    break;
+
+                                case "3": //Voltar atrás
+                                    menuPrincipal(user_logado);
+                                    terminarSwitch = true;
+                                    break;
+                                default: //Caso não selecione nenhuma opção
+                                    System.err.println("Opção inválida selecione apenas um número válido: ");
+                                    escolha_opcaoPedido = MenuPedidosAmizade();
+                                    terminarSwitch = false;
+                                    break;
+                            }
+                        }
+                        terminarSwitch = true;
+                        break;
+
+                    //DEFINIÇÕES DE CONTA
+                    case "6":
+                        String nome_pessoaLogada = sql.getPessoa(user_logado).getUser_nome(); //nome da pessoa logada
+                        Integer creditos = sql.getPessoa(user_logado).getNr_creditos();
+
+                        System.out.println("");
+                        System.out.println("*********************************");
+                        System.out.println("*       DEFINIÇÕES DE CONTA     *");
+                        System.out.println("*********************************");
+                        System.out.println("");
+
+                        System.out.println("Nome: " + nome_pessoaLogada);
+                        System.out.println("Email: " + user_logado);
+                        System.out.println("Número de créditos: " + creditos);
+                        System.out.println("");
+                        System.out.println("1- Quer carregar os seus créditos?\n2- Quer cancelar sua conta?\n3- Sair");
+                        String opcaoFeita = in.readLine();
+
+                        terminarSwitch = false;
+
+                        while (terminarSwitch == false) {
+                            switch (opcaoFeita) {
+                                case "1":
+                                    System.out.println("Se quiser sair clique no 0");
+                                    System.out.println("Quantos créditos quer carregar?");
+                                    String nrCreditosInseridos = in.readLine();
+
+                                    if (nrCreditosInseridos.equals("0")) {
+                                        System.out.println(".... vai para o menu principal ....");
+                                        menuPrincipal(user_logado);
+                                    }
+                                    int nrCredInseridos = Integer.parseInt(nrCreditosInseridos);
+
+                                    Integer meusCreditos = creditos + nrCredInseridos;
+
+                                    if (nrCredInseridos >= 1 && nrCredInseridos <= 20) {
+                                        sql.updateCreditosUser(user_logado, meusCreditos);
+                                        System.out.println("Os seus créditos foram adicionados com sucesso.\nCréditos atuais: " + meusCreditos);
+                                        menuPrincipal(user_logado);
+                                    } else {
+                                        System.out.println("Só pode adicionar no minimo 1 crédito e no máximo 20");
+                                    }
+                                    terminarSwitch = true;
+                                    break;
+
+                                case "2":
+                                    System.out.println("Tem a certeza que pretende apagar a sua conta?\n1- Sim\n2- Não");
+                                    String apagarConta = in.readLine();
+
+                                    while (terminarSwitch == false) {
+                                        switch (apagarConta) {
                                             case "1":
-                                                sql.aceitarPedido(pedido.getUser_origem().getUser_email(), utilizador_logado);
-                                                System.out.println("Você aceitou o pedido de amizade de " + pedido.getUser_origem().getUser_email() + ".\nAgora já são amigos, já pode ver e partilhar as mensagens privadas");
+                                                sql.apagarPessoa(user_logado); //apaga a conta
+                                                System.out.println("Que pena. Vai fazer falta. Até um dia");
+                                                System.exit(0); //Encerra o programa
+                                                terminarSwitch = true;
                                                 break;
+
                                             case "2":
-                                                sql.rejeitarPedido(pedido.getUser_origem().getUser_email(), utilizador_logado);
-                                                System.out.println("Você rejeitou o pedido de amizade de " + pedido.getUser_origem().getUser_email());
+                                                menuPrincipal(user_logado);
+                                                terminarSwitch = true;
                                                 break;
-                                            case "3":
-                                                System.out.println("Este pedido foi ignorado mas vai-se manter na lista de espera");
-                                                break;
+
                                             default:
-                                                System.err.println("Opção inválida!");
-                                                menuPrincipal(utilizador_logado);
+                                                System.out.println("");
+                                                System.err.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
+                                                apagarConta = in.readLine();
+                                                terminarSwitch = false;
                                                 break;
                                         }
                                     }
 
+                                case "3":
                                     menuPrincipal(user_logado);
-                                } else {
-                                    System.out.println("Você não tem pedidos de amizade");
-                                    menuPrincipal(user_logado);
+                                    terminarSwitch = true;
+                                    break;
+
+                                default:
+                                    System.out.println("");
+                                    System.err.println("Escolha uma opção válida: 1 - Carregar créditos   |    2 - Apagar conta   |    3 - Sair");
+                                    opcaoFeita = in.readLine();
                                     terminarSwitch = false;
-                                }
-                                terminarSwitch = true;
-                                break;
-
-                            case "3": //Voltar atrás
-                                menuPrincipal(user_logado);
-                                terminarSwitch = true;
-                                break;
-                            default: //Caso não selecione nenhuma opção
-                                System.err.println("Opção inválida selecione apenas um número válido: ");
-                                escolha_opcaoPedido = MenuPedidosAmizade();
-                                terminarSwitch = false;
-                                break;
+                                    break;
+                            }
                         }
-                    }
-                    break;
+                        terminarSwitch = true;
+                        break;
 
-                //DEFINIÇÕES DE CONTA
-                case "6":
-                    String nome_pessoaLogada = sql.getPessoa(user_logado).getUser_nome(); //nome da pessoa logada
-                    Integer creditos = sql.getPessoa(user_logado).getNr_creditos();
+                    //TEMINAR SESSÃO
+                    case "7":
+                        System.out.println("A sua sessão foi terminada. Até à próxima");
+                        user_logado = null;
+                        System.exit(0); //Encerra o programa
 
-                    System.out.println("");
-                    System.out.println("*********************************");
-                    System.out.println("*       DEFINIÇÕES DE CONTA     *");
-                    System.out.println("*********************************");
-                    System.out.println("");
-
-                    System.out.println("Nome: " + nome_pessoaLogada);
-                    System.out.println("Email: " + user_logado);
-                    System.out.println("Número de créditos: " + creditos);
-                    System.out.println("");
-                    System.out.println("1- Quer carregar os seus créditos?\n2- Quer cancelar sua conta?\n3- Sair");
-                    String opcaoFeita = in.readLine();
-
-                    terminarSwitch = false;
-
-                    while (terminarSwitch == false) {
-                        switch (opcaoFeita) {
-                            case "1":
-                                System.out.println("Quantos créditos quer carregar?");
-                                String nrCreditosInseridos = in.readLine();
-
-                                int nrCredInseridos = Integer.parseInt(nrCreditosInseridos);
-
-                                Integer meusCreditos = creditos + nrCredInseridos;
-
-                                if (nrCredInseridos >= 1 && nrCredInseridos <= 20) {
-                                    sql.updateCreditosUser(user_logado, meusCreditos);
-                                    System.out.println("Os seus créditos foram adicionados com sucesso.\nCréditos atuais: " + meusCreditos);
-                                    menuPrincipal(user_logado);
-                                } else {
-                                    System.out.println("Só pode adicionar no minimo 1 crédito e no máximo 20");
-                                }
-                                terminarSwitch = true;
-                                break;
-
-                            case "2":
-                                System.out.println("Tem a certeza que pretende apagar a sua conta?\n1- Sim\n2- Não");
-                                String apagarConta = in.readLine();
-
-                                while (terminarSwitch == false) {
-                                    switch (apagarConta) {
-                                        case "1":
-                                            sql.apagarPessoa(user_logado); //apaga a conta
-                                            System.out.println("Que pena. Vai fazer falta. Até um dia");
-                                            System.exit(0); //Encerra o programa
-                                            terminarSwitch = true;
-                                            break;
-
-                                        case "2":
-                                            menuPrincipal(user_logado);
-                                            terminarSwitch = true;
-                                            break;
-
-                                        default:
-                                            System.out.println("");
-                                            System.err.println("Escolha uma opção válida: 1 - Sim   |    2 - Não");
-                                            apagarConta = in.readLine();
-                                            terminarSwitch = false;
-                                            break;
-                                    }
-                                }
-
-                            case "3":
-                                menuPrincipal(user_logado);
-                                terminarSwitch = true;
-                                break;
-
-                            default:
-                                System.out.println("");
-                                System.err.println("Escolha uma opção válida: 1 - Carregar créditos   |    2 - Apagar conta   |    3 - Sair");
-                                opcaoFeita = in.readLine();
-                                terminarSwitch = false;
-                                break;
-                        }
-                    }
-
-                    break;
-
-                //TEMINAR SESSÃO
-                case "7":
-                    System.out.println("A sua sessão foi terminada. Até à próxima");
-                    user_logado = null;
-                    System.exit(0); //Encerra o programa
-
-                    break;
-                default: //Se não escolher nenhuma opção do menu principal
-                    menuPrincipal(user_logado); //Volta para o menu principal
-                    break;
+                        terminarSwitch = true;
+                        break;
+                    default: //Se não escolher nenhuma opção do menu principal
+                        System.err.println("Opção inválida selecione apenas um número válido: ");
+                        menuPrincipal(user_logado); //Volta para o menu principal
+                        escolha = in.readLine();
+                        terminarSwitch=false;
+                        break;
+                }
             }
         }
     }
@@ -851,7 +868,7 @@ public class Menus {
         return escolhaMenuAmizade;
     }
 
-    //--------------------------------------------ACERCA DO UTILIZADOR-------------------------------------------------//
+    //--------------------------------------------..........ACERCA DO UTILIZADOR------------------------------------------------------
     /**
      * Este método é responsável pela seleção do utilizador ao qual pretendemos
      * ver o perfil, através do BufferedReader lê a opção que o utilizador
@@ -866,7 +883,7 @@ public class Menus {
      * @return pessoa escolhida
      * @throws IOException
      */
-    private Pessoa escolherUser(ArrayOrderedList<Pessoa> pessoa) throws IOException {
+    private Pessoa escolherUser(ArrayOrderedList<Pessoa> pessoa) throws IOException, ParseException, SQLException, EmptyCollectionException {
         it = (ArrayIterator) pessoa.iterator();
         Integer counter = 0;
         String escolhaUser = in.readLine();
@@ -876,15 +893,18 @@ public class Menus {
             p = (Pessoa) it.next();
         }
 
+        if (escolhaUser.equals("0")) {
+            System.out.println(".... vai para o menu principal ....");
+            menuPrincipal(utilizador_logado);
+            terminarSwitch = true;
+        }
+
         terminarSwitch = false;
         while (terminarSwitch == false) {
             if (escolhaUser.equals(counter.toString())) {
                 System.out.println("Escolheu o utilizador " + p.getUser_nome());
                 terminarSwitch = true;
                 return p;
-            } else if (escolhaUser.equals("0")) {
-                System.out.println(".... vai para o menu principal ....");
-                //menuPrincipal(utilizador_logado);
             } else {
                 System.out.println("Escolha novamente, esse utilizador não existe.");
                 escolhaUser = in.readLine();
@@ -922,7 +942,7 @@ public class Menus {
 
     }
 
-    //--------------------------------------------ACERCA DAS MENSAGENS-------------------------------------------------//
+    //------------------------------------------------------ACERCA DAS MENSAGENS------------------------------------------------------
     /**
      * Este método é responsável pela seleção da mensagem que pretendemos,
      * através do BufferedReader lê a opção que o utilizador escolheu e através
@@ -951,27 +971,6 @@ public class Menus {
             } else {
                 System.err.println("Essa opção não é válida , selecione apenas um índice de uma mensagem");
                 escolhaMensagem = in.readLine();
-            }
-        }
-        return null;
-
-    }
-
-    private PedidoAmizade escolherPedidoAmizade(ArrayUnorderedList<PedidoAmizade> pedido) throws IOException {
-        String indicePedido = in.readLine();
-
-        it = (ArrayIterator) pedido.iterator();
-        Integer counter = 0;
-
-        while (it.hasNext()) {
-            counter++;
-            PedidoAmizade pedAmizade = (PedidoAmizade) it.next();
-            if (indicePedido.equals(counter.toString())) {
-                System.out.println("Escolheu o pedido nº  " + "'" + counter + "'" + " para ser respondido");
-                return pedAmizade;
-            } else {
-                System.err.println("Essa opção não é válida , selecione apenas um índice de um pedido");
-                indicePedido = in.readLine();
             }
         }
         return null;
@@ -1023,7 +1022,7 @@ public class Menus {
      * @return o conteúdo da mensagem do utilizador
      * @throws IOException
      */
-    public String escreverMensagem() throws IOException {
+    public String escreverMensagem() throws IOException, ParseException, SQLException, EmptyCollectionException {
 
         System.out.println("");
         System.out.print("Escreva aqui: ");
@@ -1031,7 +1030,7 @@ public class Menus {
 
         if (lerMensagem.equals("0")) {
             System.out.println(".... vai para o menu principal ....");
-            //menuPrincipal(utilizador_logado);
+            menuPrincipal(utilizador_logado);
         }
         String mensagem_conteudo = lerMensagem;
 
@@ -1076,7 +1075,7 @@ public class Menus {
 
     }
 
-    //--------------------------------------------ACERCA DOS COMENTÁRIOS-------------------------------------------------//
+    //----------------------------------------------------ACERCA DOS COMENTÁRIOS-----------------------------------------------------
     /**
      * Método resposável por imprimir os comentários
      *
@@ -1099,4 +1098,25 @@ public class Menus {
 
     }
 
+    //---------------------------------------------ACERCA DOS PEDIDOS DE AMIZADE-----------------------------------------------------
+    private PedidoAmizade escolherPedidoAmizade(ArrayUnorderedList<PedidoAmizade> pedido) throws IOException {
+        String indicePedido = in.readLine();
+
+        it = (ArrayIterator) pedido.iterator();
+        Integer counter = 0;
+
+        while (it.hasNext()) {
+            counter++;
+            PedidoAmizade pedAmizade = (PedidoAmizade) it.next();
+            if (indicePedido.equals(counter.toString())) {
+                System.out.println("Escolheu o pedido nº  " + "'" + counter + "'" + " para ser respondido");
+                return pedAmizade;
+            } else {
+                System.err.println("Essa opção não é válida , selecione apenas um índice de um pedido");
+                indicePedido = in.readLine();
+            }
+        }
+        return null;
+
+    }
 }
