@@ -43,10 +43,12 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         for (int i = 0; i < size(); i++) {
             Pessoa pessoa = (Pessoa) vertices[i];
             if (!pessoa.equals(logada)) {
-                System.out.println("- " + pessoa.getUser_email());
+                System.out.println("- " + pessoa.getUser_nome());
             }
         }
     }
+
+ 
 
     /**
      * Método para adicionar pessoas a cada vértice, ou seja, o número de
@@ -88,6 +90,12 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         addEdge(getIndex(vertex1), getIndex(vertex2), weight);
     }
 
+    /**
+     *
+     * @param logada
+     * @param perfil
+     * @return
+     */
     public Edge testEdge(Pessoa logada, Pessoa perfil) {
         int vertex1 = getIndex((T) logada);
         int vertex2 = getIndex((T) perfil);
@@ -95,6 +103,11 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return testEdge;
     }
 
+    /**
+     *
+     * @param logada
+     * @return
+     */
     public ArrayOrderedList<Pessoa> getAmigos(Pessoa logada) {
         ArrayOrderedList<Pessoa> listamigos = new ArrayOrderedList<>();
         for (int i = 0; i < this.numVertices; i++) {
@@ -112,20 +125,12 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return listamigos;
     }
 
-    public boolean ifAmigos(Pessoa logada) {
-
-        ArrayOrderedList<Pessoa> listamigos = new ArrayOrderedList<>();
-        for (int i = 0; i < this.numVertices; i++) {
-            if (this.edgeMatrix[getIndex((T) logada)][i] != null) {
-                Pessoa p = this.edgeMatrix[getIndex((T) logada)][i].getPessoa2();
-                return p.equals(logada);
-
-            }
-        }
-
-        return true;
-    }
-
+    /**
+     *
+     * @param perfil1
+     * @param perfil2
+     * @return
+     */
     public Boolean verificarAmigoDeAmigo(Pessoa perfil1, Pessoa perfil2) {
         Integer myIndexPessoa = getIndex((T) perfil1);
         Integer myIndexPessoa2 = getIndex((T) perfil2);
@@ -138,13 +143,19 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         return edge != null;
     }
 
+    /**
+     *
+     * @param logada
+     * @param perfil
+     * @return
+     */
     public Boolean verificarTipoAmizadePossivel(Pessoa logada, Pessoa perfil) {
         Integer myIndexPessoa = getIndex((T) logada);
         Boolean existe = false;
         for (int i = 0; i < this.numVertices; i++) {
             if (this.edgeMatrix[myIndexPessoa][i] != null) {
                 Edge edge = edgeMatrix[myIndexPessoa][i];
-                existe = verificarAmigoDeAmigo(edge.getPessoa2(), perfil);
+                existe = verificarAmigoDeAmigo(edge.getPessoa1(), perfil);
                 if (existe) {
                     break;
                 }

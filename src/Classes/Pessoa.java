@@ -160,11 +160,20 @@ public class Pessoa implements Comparable<Pessoa> {
     public int compareTo(Pessoa pessoa) {
         if (this.user_nome.equals(pessoa.getUser_nome())) {
             return 0;
-        } else if (this.user_nome.compareTo(pessoa.getUser_nome()) == 1) {
+        } else if (this.user_nome.compareTo(pessoa.getUser_nome())==1) {
             return 1;
         } else {
             return -1;
         }
+        
+        /*if (myDateMiliSec > otherDateMiliSec) {
+            return -1;
+        } else if (myDateMiliSec < otherDateMiliSec) {
+            return 1;
+
+        } else {
+            return 0;
+        }*/
     }
 
 }
