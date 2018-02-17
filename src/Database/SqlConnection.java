@@ -864,7 +864,7 @@ public final class SqlConnection {
         Pessoa user = null;
         boolean result = false;
 
-        String SQL = "SELECT * FROM PedidoAmizade WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'" + "AND ID_ESTADO = 1";
+        String SQL = "SELECT * FROM PedidoAmizade WHERE USER_ORIGEM  = '" + emailOrigem + "'" + "AND USER_DESTINO  = '" + emailDestino + "'" + "AND ID_ESTADO = 1 OR  USER_ORIGEM  = '" + emailDestino + "'" + "AND USER_DESTINO  = '" + emailOrigem + "'" + "AND ID_ESTADO = 1";
         connection.commit();
         Statement stmt = null;
 
