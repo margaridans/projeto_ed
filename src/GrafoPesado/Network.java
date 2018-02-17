@@ -55,6 +55,27 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     /**
+     * Método responsável por imprimir os vértices/pessoas do grafo excepto a
+     * pessoa logada
+     *
+     * @param logada pessoa logada
+     */
+    public void printUsers(Pessoa logada) {
+        Integer counter = 0;
+        for (int i = 0; i < size(); i++) {
+            Pessoa pessoa = (Pessoa) vertices[i];
+            counter++;
+            if (!pessoa.equals(logada)) {
+                System.out.println(counter + "- " + pessoa.getUser_email());
+            
+        
+    
+
+            }
+        }
+    }
+
+    /**
      * Método para adicionar pessoas a cada vértice, ou seja, o número de
      * pessoas na base dados vai ser igual ao número de vértices
      */
@@ -243,8 +264,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * Método que retorna true se o grafo for conexo e falso caso contrário
      *
      * @return true se o grafo for conexo
-     * @throws EmptyCollectionException if an empty collection
-     * exception occurs
+     * @throws EmptyCollectionException if an empty collection exception occurs
      */
     @Override
     public boolean isConnected() throws EmptyCollectionException {
@@ -271,8 +291,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @param vertex1 - primeiro vértice
      * @param vertex2 - segundo vértice
      * @return O peso do caminho mais curto nesta rede
-     * @throws EmptyCollectionException if an empty collection
-     * exception occurs
+     * @throws EmptyCollectionException if an empty collection exception occurs
      */
     @Override
     public double shortestPathWeight(T vertex1, T vertex2) throws EmptyCollectionException {
@@ -511,8 +530,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      *
      * @param startVertex - vértice inicial
      * @return um primeiro iterador de largura começando no vértice dado
-     * @throws EmptyCollectionException if an empty collection
-     * exception occurs
+     * @throws EmptyCollectionException if an empty collection exception occurs
      */
     @Override
     public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException {
@@ -569,8 +587,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      *
      * @param startVertex - vértice inicial
      * @return um primeiro iterador de profundidade começando no vértice dado
-     * @throws EmptyCollectionException if an empty collection
-     * exception occurs
+     * @throws EmptyCollectionException if an empty collection exception occurs
      */
     @Override
     public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException {

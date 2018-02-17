@@ -244,8 +244,10 @@ public class Menus {
 
                         //Se houver pessoas 
                         if (pessoa.size() != 0) {
-                            printAllUsers(pessoa); //mostra todos os utilizadores
-                            Pessoa pEscolhida = escolherUser(pessoa); //guarda a pessoa que foi escolhida
+                           // printAllUsers(pessoa); //mostra todos os utilizadores
+                           grafoPessoas.printUsers(pes_logada);
+                           
+                           Pessoa pEscolhida = escolherUser(pessoa); //guarda a pessoa que foi escolhida
 
                             System.out.println("");
                             menuPessoa(pEscolhida, this.utilizador_logado); //Vai para o menu da pessoa
