@@ -350,7 +350,7 @@ public class Menus {
                                                 case "1":
                                                     sql.aceitarPedido(pedido.getUser_origem().getUser_email(), utilizador_logado);
                                                     System.out.println("Você aceitou o pedido de amizade de " + pedido.getUser_origem().getUser_email() + ".\nAgora já são amigos, já pode ver e partilhar as mensagens privadas");
-                                                   
+
                                                     break;
                                                 case "2":
                                                     sql.rejeitarPedido(pedido.getUser_origem().getUser_email(), utilizador_logado);
@@ -970,6 +970,15 @@ public class Menus {
     }
 
     //---------------------------------------------ACERCA DOS PEDIDOS DE AMIZADE-----------------------------------------------------
+    /**
+     * Método responsável por escolher uma amizade para responder
+     * (aceitar/recusar/ignorar)
+     *
+     * @param pedido coleção de pedidos que vai ser percorrida para ver qual o
+     * utilizador vai escolher
+     * @return o pedido de amizade escolhido
+     * @throws IOException
+     */
     private PedidoAmizade escolherPedidoAmizade(ArrayUnorderedList<PedidoAmizade> pedido) throws IOException {
         String indicePedido = in.readLine();
 
