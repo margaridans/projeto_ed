@@ -244,10 +244,10 @@ public class Menus {
 
                         //Se houver pessoas 
                         if (pessoa.size() != 0) {
-                           // printAllUsers(pessoa); //mostra todos os utilizadores
-                           grafoPessoas.printUsers(pes_logada);
-                           
-                           Pessoa pEscolhida = escolherUser(pessoa); //guarda a pessoa que foi escolhida
+                            // printAllUsers(pessoa); //mostra todos os utilizadores
+                            grafoPessoas.printUsers(pes_logada);
+
+                            Pessoa pEscolhida = escolherUser(pessoa); //guarda a pessoa que foi escolhida
 
                             System.out.println("");
                             menuPessoa(pEscolhida, this.utilizador_logado); //Vai para o menu da pessoa
@@ -762,27 +762,24 @@ public class Menus {
         Integer counter = 0;
         String escolhaUser = in.readLine();
         Pessoa p = null;
+
         while (it.hasNext() && !counter.toString().equals(escolhaUser)) {
             counter++;
             p = (Pessoa) it.next();
         }
 
-        terminarSwitch = false;
-        while (terminarSwitch == false) {
-            if (escolhaUser.equals("0")) {
-                System.out.println(".... vai para o menu principal ....");
-                menuPrincipal(utilizador_logado);
-                terminarSwitch = true;
-            } else if (escolhaUser.equals(counter.toString())) {
-                System.out.println("Escolheu o utilizador " + p.getUser_nome());
-                terminarSwitch = true;
-                return p;
-            } else {
-                System.out.println("Escolha novamente, esse utilizador não existe.");
-                escolhaUser = in.readLine();
-                terminarSwitch = false;
-            }
+        if (escolhaUser.equals("0")) {
+            System.out.println(".... vai para o menu principal ....");
+            menuPrincipal(utilizador_logado);
+        }
 
+        if (escolhaUser.equals(counter.toString())) {
+            System.out.println("Escolheu o utilizador " + p.getUser_nome());
+            return p;
+        }
+        if (!escolhaUser.equals(counter.toString())) {
+            System.err.println("Escolha novamente, esse utilizador não existe.");
+            menuPrincipal(utilizador_logado);
         }
 
         return null;
@@ -1018,8 +1015,7 @@ public class Menus {
      * dados ou outros erros
      * @throws IOException
      * @throws ParseException
-     * @throws EmptyCollectionException if an empty collection
-     * exception occurs
+     * @throws EmptyCollectionException if an empty collection exception occurs
      */
     public void fazerPedido(Pessoa pessoaEscolhida, String utilizador) throws SQLException, IOException, ParseException, EmptyCollectionException {
         this.utilizador_logado = utilizador;
@@ -1030,7 +1026,7 @@ public class Menus {
         String pessoa_destino = pessoaEscolhida.getUser_email();
 
         if (sql.ifExisteJaPedido(pessoa_origem, pessoa_destino) == true) {
-            System.out.println("Já existe um pedido de amizade entre vocês os dois, verifiquem a vossa gestão de pedidos.");
+            System.out.println("Você já fez um pedido a esta pessoa, aguarde que ela lhe responda.");
             menuPessoa(pessoaEscolhida, utilizador_logado);
         } else {
             Edge tmpE = this.grafoPessoas.testEdge(pes_logada, pessoaEscolhida);

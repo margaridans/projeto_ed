@@ -7,7 +7,6 @@ import Database.SqlConnection;
 import ArrayList.ArrayUnorderedList;
 import Classes.Amizade;
 import Exceptions.EmptyCollectionException;
-import Iterator.ArrayIterator;
 import interfaces.NetworkADT;
 import java.util.Iterator;
 import LinkedHeap.LinkedHeap;
@@ -75,7 +74,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
                 System.out.println(counter + "- " + pessoa.getUser_email());
             }
         }
-        System.out.println("Qual o utilizador que pretende escolher? ");
+        System.out.print("Qual o utilizador que pretende escolher? ");
 
     }
 
@@ -207,12 +206,13 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      */
     public Boolean verificarTipoAmizadePossivel(Pessoa perfil1, Pessoa perfil2) {
         Integer myIndexPessoa = getIndex((T) perfil1);
-        Boolean existe = false;
+        Boolean existe = false, existe1 = false;
         for (int i = 0; i < this.numVertices; i++) {
             if (this.edgeMatrix[myIndexPessoa][i] != null) {
                 Edge edge = edgeMatrix[myIndexPessoa][i];
                 existe = verificaAmizade(edge.getPessoa1(), perfil2);
-                if (existe) {
+                existe1 = verificaAmizade(perfil2, edge.getPessoa1());
+                if (existe || existe1) {
                     break;
                 }
             }
