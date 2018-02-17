@@ -350,6 +350,7 @@ public class Menus {
                                                 case "1":
                                                     sql.aceitarPedido(pedido.getUser_origem().getUser_email(), utilizador_logado);
                                                     System.out.println("Você aceitou o pedido de amizade de " + pedido.getUser_origem().getUser_email() + ".\nAgora já são amigos, já pode ver e partilhar as mensagens privadas");
+                                                   
                                                     break;
                                                 case "2":
                                                     sql.rejeitarPedido(pedido.getUser_origem().getUser_email(), utilizador_logado);
@@ -990,6 +991,18 @@ public class Menus {
 
     }
 
+    /**
+     * Método responsável por fazer um pedido de amizade de uma pessoa para
+     * outra fazendo as devidas verificações: se já existe o pedido, se já
+     * existe amizade, se vai ser uma amizade normal ou patrocionado
+     *
+     * @param pessoaEscolhida - pessoa escolhida para fazer o pedido
+     * @param utilizador - utilizador logado
+     * @throws SQLException
+     * @throws IOException
+     * @throws ParseException
+     * @throws EmptyCollectionException
+     */
     public void fazerPedido(Pessoa pessoaEscolhida, String utilizador) throws SQLException, IOException, ParseException, EmptyCollectionException {
         this.utilizador_logado = utilizador;
         Pessoa pes_logada = sql.getPessoa(utilizador_logado);
