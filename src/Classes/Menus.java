@@ -1030,7 +1030,7 @@ public class Menus {
         String pessoa_destino = pessoaEscolhida.getUser_email();
 
         if (sql.ifExisteJaPedido(pessoa_origem, pessoa_destino) == true) {
-            System.out.println("Você já fez um pedido a esta pessoa, aguarde que ela lhe responda.");
+            System.out.println("Já existe um pedido de amizade entre vocês os dois, verifiquem a vossa gestão de pedidos.");
             menuPessoa(pessoaEscolhida, utilizador_logado);
         } else {
             Edge tmpE = this.grafoPessoas.testEdge(pes_logada, pessoaEscolhida);

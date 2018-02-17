@@ -7,6 +7,7 @@ import Database.SqlConnection;
 import ArrayList.ArrayUnorderedList;
 import Classes.Amizade;
 import Exceptions.EmptyCollectionException;
+import Iterator.ArrayIterator;
 import interfaces.NetworkADT;
 import java.util.Iterator;
 import LinkedHeap.LinkedHeap;
@@ -62,6 +63,10 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      */
     public void printUsers(Pessoa logada) {
         Integer counter = 0;
+
+        System.out.println();
+        System.out.println("Se pretender sair escreva 0");
+        System.out.println("Escolha um utilizador através do seu índice: ");
         for (int i = 0; i < size(); i++) {
             Pessoa pessoa = (Pessoa) vertices[i];
 
@@ -70,6 +75,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
                 System.out.println(counter + "- " + pessoa.getUser_email());
             }
         }
+        System.out.println("Qual o utilizador que pretende escolher? ");
+
     }
 
     /**
