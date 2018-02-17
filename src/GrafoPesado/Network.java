@@ -64,13 +64,10 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         Integer counter = 0;
         for (int i = 0; i < size(); i++) {
             Pessoa pessoa = (Pessoa) vertices[i];
-            counter++;
-            if (!pessoa.equals(logada)) {
-                System.out.println(counter + "- " + pessoa.getUser_email());
-            
-        
-    
 
+            if (!pessoa.equals(logada)) {
+                counter++;
+                System.out.println(counter + "- " + pessoa.getUser_email());
             }
         }
     }
