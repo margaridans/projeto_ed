@@ -1035,7 +1035,8 @@ public class Menus {
                 menuPessoa(pessoaEscolhida, utilizador_logado);
             } else {
                 Boolean existe = this.grafoPessoas.verificarTipoAmizadePossivel(pes_logada, pessoaEscolhida);
-                if (existe) {
+                Boolean existe2 = this.grafoPessoas.verificarTipoAmizadePossivel(pessoaEscolhida,pes_logada);
+                if (existe==true || existe2 ==true) {
                     System.out.println("Têm um amigo em comum --> assim sendo será um pedido normal");
                     sql.fazerPedidoAmizade(pes_logada, pessoaEscolhida);
                     System.out.println("O seu pedido foi efetuado com sucesso. Aguarde pela resposta");
