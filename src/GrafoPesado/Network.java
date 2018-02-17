@@ -12,7 +12,6 @@ import java.util.Iterator;
 import LinkedHeap.LinkedHeap;
 import LinkedQueue.LinkedQueue;
 import LinkedStack.LinkedStack;
-import java.sql.SQLException;
 
 /**
  * @param <T> T Element
@@ -102,8 +101,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
     /**
      * Método responsável por verificar se existe amizade entre duas pessoas
      *
-     * @param logada - primeira pessoa
-     * @param perfil - segunda pessoa
+     * @param perfil1 - primeira pessoa
+     * @param perfil2 - segunda pessoa
      * @return a ligação caso exista
      */
     public Edge testEdge(Pessoa perfil1, Pessoa perfil2) {
@@ -187,7 +186,7 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
         for (int i = 0; i < this.numVertices; i++) {
             if (this.edgeMatrix[myIndexPessoa][i] != null) {
                 Edge edge = edgeMatrix[myIndexPessoa][i];
-                existe = verificaAmizade(edge.getPessoa2(), perfil2);
+                existe = verificaAmizade(edge.getPessoa1(), perfil2);
                 if (existe) {
                     break;
                 }
@@ -334,7 +333,6 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
      * @return Iterador que permite identificar o perurso entre dois locais
      * @throws EmptyCollectionException exceção lançada no caso da coleção estar
      * vazia
-     * @throws EmptyStackException exceção lançada no caso da Queue estar vazia
      */
     public Iterator<Integer> iteratorShortestPath(int startIndex, int targetIndex) throws EmptyCollectionException {
         int index;
