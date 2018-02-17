@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
- * @param <T>
+ * @param <T> T Element
  */
 public class ArrayIterator<T> implements Iterator<T> {
 

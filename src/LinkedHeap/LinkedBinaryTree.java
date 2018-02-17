@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
- * @param <T>
+ * @param <T> T Element
  */
 public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
 
@@ -33,7 +33,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T> {
     /**
      *
      * Método construtor que permite criar uma nova instância de
-     * {@link ArrayIterator} usando o elemento especificado para ser a sua raíz
+     * {@link LinkedBinaryTree} usando o elemento especificado para ser a sua raíz
      *
      * @param element o elemento que se tornará a raiz da árvore
      */

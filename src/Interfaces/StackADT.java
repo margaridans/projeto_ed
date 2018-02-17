@@ -6,7 +6,7 @@ import Exceptions.EmptyCollectionException;
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
- * @param <T>
+ * @param <T> T Element
  */
 public interface StackADT<T> {
 
@@ -21,7 +21,8 @@ public interface StackADT<T> {
      * Removes and returns the top element from this stack.
      *
      * @return T element removed from the top of the stack
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public T pop()  throws EmptyCollectionException;
 
@@ -29,7 +30,8 @@ public interface StackADT<T> {
      * Returns without removing the top element of this stack.
      *
      * @return T element on top of the stack
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public T peek()  throws EmptyCollectionException;
 

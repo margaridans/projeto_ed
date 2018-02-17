@@ -5,7 +5,7 @@ import Exceptions.EmptyCollectionException;
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
- * @param <T>
+ * @param <T> T Element
  */
 public interface HeapADT<T> extends BinaryTreeADT<T> {
 
@@ -20,7 +20,8 @@ public interface HeapADT<T> extends BinaryTreeADT<T> {
      * Removes element with the lowest value from this heap.
      *
      * @return the element with the lowest value from this heap
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public T removeMin() throws EmptyCollectionException;
 

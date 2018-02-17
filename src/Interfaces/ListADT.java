@@ -7,7 +7,7 @@ import java.util.Iterator;
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
- * @param <T>
+ * @param <T> T Element
  */
 public interface ListADT<T> extends Iterable<T> {
 
@@ -15,7 +15,8 @@ public interface ListADT<T> extends Iterable<T> {
      * Removes and returns the first element from this list.
      *
      * @return the first element from this list
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public T removeFirst() throws EmptyCollectionException;
 
@@ -23,7 +24,8 @@ public interface ListADT<T> extends Iterable<T> {
      * Removes and returns the last element from this list.
      *
      * @return the last element from this list
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public T removeLast() throws EmptyCollectionException;
 
@@ -31,9 +33,11 @@ public interface ListADT<T> extends Iterable<T> {
      * Removes and returns the specified element from this list.
      *
      * @param element the element to be removed from the list
-     * @return 
-     * @throws Exceptions.EmptyCollectionException 
-     * @throws Exceptions.ElementNotFoundException 
+     * @return The element removed from this arrayList
+     * @throws Exceptions.EmptyCollectionException  if an empty collection
+     * exception occurs
+     * @throws Exceptions.ElementNotFoundException if an empty collection
+     * exception occurs
      */
     public T remove(T element) throws EmptyCollectionException, ElementNotFoundException;
 
@@ -41,7 +45,8 @@ public interface ListADT<T> extends Iterable<T> {
      * Returns a reference to the first element in this list.
      *
      * @return a reference to the first element in this list
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public T first() throws EmptyCollectionException;
 
@@ -49,7 +54,8 @@ public interface ListADT<T> extends Iterable<T> {
      * Returns a reference to the last element in this list.
      *
      * @return a reference to the last element in this list
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public T last() throws EmptyCollectionException;
 

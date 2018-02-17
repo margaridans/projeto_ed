@@ -15,7 +15,7 @@ public class EmptyCollectionException extends Exception {
 
     /**
      * Método construtor que permite criar uma nova instância de
-     * {@link ArrayUnorderedList} com uma mensagem espec]ifica detalhada
+     * {@link EmptyCollectionException} com uma mensagem específica detalhada
      *
      * @param msg mensagem detalhada
      */

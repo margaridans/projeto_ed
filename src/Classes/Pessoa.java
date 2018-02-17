@@ -112,10 +112,6 @@ public class Pessoa implements Comparable<Pessoa> {
         this.nr_creditos = nr_creditos;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -124,10 +120,11 @@ public class Pessoa implements Comparable<Pessoa> {
     }
 
     /**
-     * Método utilizado para comparar user_nome de duas Pessoa. Usamos o equals para garantir que
-     * dois objetos do mesmo tipo, com o mesmo conteúdo, possam ser considerados iguais
-     * 
-     * @param obj 
+     * Método utilizado para comparar user_nome de duas Pessoa. Usamos o equals
+     * para garantir que dois objetos do mesmo tipo, com o mesmo conteúdo,
+     * possam ser considerados iguais
+     *
+     * @param obj - objeto a ser comparado
      * @return user_nome comparados iguais
      */
     @Override
@@ -162,7 +159,7 @@ public class Pessoa implements Comparable<Pessoa> {
     public int compareTo(Pessoa pessoa) {
         if (this.user_nome.equals(pessoa.getUser_nome())) {
             return 0;
-        } else if (this.user_nome.compareTo(pessoa.getUser_nome())>0) {
+        } else if (this.user_nome.compareTo(pessoa.getUser_nome()) > 0) {
             return 1;
         } else {
             return -1;

@@ -733,7 +733,8 @@ public final class SqlConnection {
      * @param id_mensagem id da mensagem que se pretente ver se há comentários
      * @return true se houver comentários para aquela mensagem ou false caso não
      * haja
-     * @throws SQLException
+     * @throws SQLException fornece informações sobre um erro de acesso à base
+     * dados ou outros erros.
      */
     public boolean ifExisteComentariosMensagem(Integer id_mensagem) throws SQLException {
         connection.setAutoCommit(false);
@@ -827,7 +828,8 @@ public final class SqlConnection {
      * @param emailLogado email do utilizador ao qual vamos ver se há ou não
      * pedidos pendentes
      * @return true caso existam pedidos pendentes, false caso não existam
-     * @throws SQLException
+     * @throws SQLException fornece informações sobre um erro de acesso à base
+     * dados ou outros erros.
      */
     public boolean ifExisteAmizadesPendentes(String emailLogado) throws SQLException {
         connection.setAutoCommit(false);
@@ -854,7 +856,8 @@ public final class SqlConnection {
      * @param emailOrigem email da pessoa que fez o pedido de amizade
      * @param emailDestino email da pessoa que recebeu o pedido de amizade
      * @return true se já existe o pedido, false caso não exista o pedido
-     * @throws SQLException
+     * @throws SQLException fornece informações sobre um erro de acesso à base
+     * dados ou outros erros.
      */
     public boolean ifExisteJaPedido(String emailOrigem, String emailDestino) throws SQLException {
         connection.setAutoCommit(false);
@@ -883,9 +886,8 @@ public final class SqlConnection {
      *
      * @param emailOrigem email da pessoa que fez o pedido de amizade
      * @param emailDestino email da pessoa que recebeu o pedido de amizade
-     * @throws SQLException
      */
-    public void aceitarPedido(String emailOrigem, String emailDestino) throws SQLException {
+    public void aceitarPedido(String emailOrigem, String emailDestino)  {
         Statement statement = null;
 
         try {
@@ -912,9 +914,8 @@ public final class SqlConnection {
      *
      * @param emailOrigem email da pessoa que fez o pedido de amizade
      * @param emailDestino email da pessoa que recebeu o pedido de amizade
-     * @throws SQLException
      */
-    public void rejeitarPedido(String emailOrigem, String emailDestino) throws SQLException {
+    public void rejeitarPedido(String emailOrigem, String emailDestino)  {
         Statement statement = null;
 
         try {
@@ -940,9 +941,8 @@ public final class SqlConnection {
      * @param emailLogado utilizador ao qual vamos ver os pedidos pendentes
      * @return numa Unordered List todas os pedidos pendentes na base dados de
      * um determinado utilizador
-     * @throws SQLException
      */
-    public ArrayUnorderedList<PedidoAmizade> getPedidosPendentes(String emailLogado) throws SQLException {
+    public ArrayUnorderedList<PedidoAmizade> getPedidosPendentes(String emailLogado)  {
 
         Statement statement = null;
         ArrayUnorderedList<PedidoAmizade> valor = new ArrayUnorderedList<>();

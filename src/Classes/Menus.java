@@ -45,7 +45,8 @@ public class Menus {
      * @throws IOException
      * @throws ParseException
      * @throws SQLException
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public void menuPrincipal(String user_logado) throws IOException, ParseException, SQLException, EmptyCollectionException {
         this.utilizador_logado = user_logado;
@@ -505,8 +506,10 @@ public class Menus {
      * @param utilizador - utilizador logado
      * @throws IOException
      * @throws java.text.ParseException
-     * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyCollectionException
+     * @throws java.sql.SQLException fornece informações sobre um erro de acesso
+     * à base dados ou outros erros
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public void menuPessoa(Pessoa pessoaEscolhida, String utilizador) throws IOException, ParseException, SQLException, EmptyCollectionException {
         String nomePessoa = pessoaEscolhida.getUser_nome();
@@ -890,8 +893,10 @@ public class Menus {
      * @return o conteúdo da mensagem do utilizador
      * @throws IOException
      * @throws java.text.ParseException
-     * @throws java.sql.SQLException
-     * @throws Exceptions.EmptyCollectionException
+     * @throws java.sql.SQLException fornece informações sobre um erro de acesso
+     * à base dados ou outros erros
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public String escreverMensagem() throws IOException, ParseException, SQLException, EmptyCollectionException {
 
@@ -1007,10 +1012,12 @@ public class Menus {
      *
      * @param pessoaEscolhida - pessoa escolhida para fazer o pedido
      * @param utilizador - utilizador logado
-     * @throws SQLException
+     * @throws SQLException fornece informações sobre um erro de acesso à base
+     * dados ou outros erros
      * @throws IOException
      * @throws ParseException
-     * @throws EmptyCollectionException
+     * @throws EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public void fazerPedido(Pessoa pessoaEscolhida, String utilizador) throws SQLException, IOException, ParseException, EmptyCollectionException {
         this.utilizador_logado = utilizador;

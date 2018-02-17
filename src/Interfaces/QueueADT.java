@@ -6,7 +6,7 @@ import Exceptions.EmptyCollectionException;
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
- * @param <T>
+ * @param <T> T Element
  */
 public interface QueueADT<T> {
 
@@ -21,7 +21,8 @@ public interface QueueADT<T> {
      * Removes and returns the element at the front of this queue.
      *
      * @return the element at the front of this queue
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public T dequeue()  throws EmptyCollectionException;
 
@@ -29,7 +30,8 @@ public interface QueueADT<T> {
      * Returns without removing the element at the front of this queue.
      *
      * @return the first element in this queue
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public T first()  throws EmptyCollectionException;
 

@@ -193,7 +193,8 @@ public class Graph<T> implements GraphADT<T> {
      *
      * @param startVertex - vértice inicial
      * @return um primeiro iterador de profundidade começando no vértice dado
-     * @throws EmptyCollectionException
+     * @throws EmptyCollectionException if an empty collection
+     * exception occurs
      */
     @Override
     public Iterator iteratorBFS(T startVertex) throws EmptyCollectionException {
@@ -240,7 +241,8 @@ public class Graph<T> implements GraphADT<T> {
      *
      * @param startVertex - vértice inicial
      * @return um primeiro iterador de profundidade começando no vértice dado
-     * @throws EmptyCollectionException
+     * @throws EmptyCollectionException if an empty collection
+     * exception occurs
      */
     @Override
     public Iterator iteratorDFS(T startVertex) throws EmptyCollectionException {
@@ -303,7 +305,8 @@ public class Graph<T> implements GraphADT<T> {
      * @param targetVertex - vértice final
      * @return um iterador que contém o caminho mais curto entre os dois
      * vértices
-     * @throws EmptyCollectionException
+     * @throws EmptyCollectionException if an empty collection
+     * exception occurs
      */
     @Override
     public Iterator iteratorShortestPath(T startVertex, T targetVertex) throws EmptyCollectionException {
@@ -413,7 +416,8 @@ public class Graph<T> implements GraphADT<T> {
      * Método que retorna true se o grafo for conexo e falso caso contrário
      *
      * @return true se o grafo for conexo
-     * @throws EmptyCollectionException
+     * @throws EmptyCollectionException if an empty collection
+     * exception occurs
      */
     @Override
     public boolean isConnected() throws EmptyCollectionException {

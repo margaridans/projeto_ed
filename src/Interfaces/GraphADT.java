@@ -6,7 +6,7 @@ import java.util.Iterator;
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
- * @param <T>
+ * @param <T> T Element
  */
 public interface GraphADT<T> {
 
@@ -45,7 +45,8 @@ public interface GraphADT<T> {
      *
      * @param startVertex the starting vertex
      * @return a breadth first iterator beginning at the given vertex
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public Iterator iteratorBFS(T startVertex)  throws EmptyCollectionException;
 
@@ -54,7 +55,8 @@ public interface GraphADT<T> {
      *
      * @param startVertex the starting vertex
      * @return a depth first iterator starting at the given vertex
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public Iterator iteratorDFS(T startVertex)  throws EmptyCollectionException;
 
@@ -66,7 +68,8 @@ public interface GraphADT<T> {
      * @param targetVertex the ending vertex
      * @return an iterator that contains the shortest path between the two
      * vertices
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public Iterator iteratorShortestPath(T startVertex, T targetVertex)  throws EmptyCollectionException;
 
@@ -81,7 +84,8 @@ public interface GraphADT<T> {
      * Returns true if this graph is connected, false otherwise.
      *
      * @return true if this graph is connected
-     * @throws Exceptions.EmptyCollectionException
+     * @throws Exceptions.EmptyCollectionException if an empty collection
+     * exception occurs
      */
     public boolean isConnected()  throws EmptyCollectionException;
 

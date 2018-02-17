@@ -1,13 +1,12 @@
 package interfaces;
 
-
 import Exceptions.ElementNotFoundException;
 import java.util.Iterator;
 
 /**
  * @author Margarida Sousa - 8140092
  * @author Marisa Machado - 8140186
- * @param <T>
+ * @param <T> T Element
  */
 public interface BinaryTreeADT<T> {
 
@@ -47,7 +46,8 @@ public interface BinaryTreeADT<T> {
      *
      * @param targetElement the element being sought in the tree
      * @return a reference to the specified element
-     * @throws Exceptions.ElementNotFoundException
+     * @throws Exceptions.ElementNotFoundException if an empty collection
+     * exception occurs
      */
     public T find(T targetElement) throws ElementNotFoundException;
 
@@ -87,7 +87,9 @@ public interface BinaryTreeADT<T> {
      * Performs a levelorder traversal on the binary tree, using a queue.
      *
      * @return an iterator over the elements of this binary tree
-     * @throws Exceptions.ElementNotFoundException
+     * @throws Exceptions.ElementNotFoundException if an empty collection
+     * exception occurs
+     *
      */
     public Iterator<T> iteratorLevelOrder() throws ElementNotFoundException;
 
